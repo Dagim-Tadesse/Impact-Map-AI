@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "name": "awash_01_pilot_region",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "region_id": "awash_01",
+        "name": "Awash River Basin Pilot Region",
+        "basin": "Awash",
+        "country": "Ethiopia"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [39.5, 8.5],
+            [41.2, 8.5],
+            [41.2, 10.2],
+            [39.5, 10.2],
+            [39.5, 8.5]
+          ]
+        ]
+      }
+    }
+  ]
+}

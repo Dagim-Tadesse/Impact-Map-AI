@@ -1,0 +1,14 @@
+facility_id,name,level_guess,source,quality_flag,lon,lat
+fac_00001,Unnamed Health Facility,clinic,osm,ok,39.91655,8.86884
+fac_00002,Unnamed Health Facility,hospital,osm,ok,39.91166,10.01785
+fac_00003,Unnamed Health Facility,hospital,osm,ok,39.90397,10.00756
+fac_00004,ደብረ ብርሀን ሪፈራል ሆስፒታል,hospital,osm,ok,39.5351,9.67858
+fac_00005,Unnamed Health Facility,hospital,osm,ok,39.66016,10.11991
+fac_00006,Unnamed Health Facility,hospital,osm,ok,39.65482,10.11602
+fac_00007,Metehara Health Center,hospital,osm,ok,39.92638,8.9067
+fac_00008,Awash Sebat General Hospital,hospital,curated_regional,ok,40.1654,8.9882
+fac_00009,Awash Arba Health Center,health_center,curated_regional,ok,40.158,9.145
+fac_00010,Gedamaytu Health Center,health_center,curated_regional,long_snap,40.315,9.385
+fac_00011,Doho Rural Clinic,clinic,curated_regional,long_snap,40.025,9.215
+fac_00012,Amibara Primary Hospital,hospital,curated_regional,long_snap,40.211,9.352
+fac_00013,Melka Sedi Health Center,health_center,curated_regional,ok,40.134,9.245
