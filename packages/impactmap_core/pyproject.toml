@@ -9,7 +9,7 @@ description = "Pure Python graph engine, schemas, and feature transformations fo
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "numpy>=1.26.0,<2.0.0",
+    "numpy>=1.26.0",
     "scipy>=1.13.0",
     "lightgbm>=4.3.0",
     "pydantic>=2.7.0"
