@@ -1,0 +1,1314 @@
+openapi: 3.1.0
+info:
+  title: ImpactMap AI API
+  version: 0.1.0
+  description: >
+    API contract for ImpactMap AI: decision-support system for flood-driven
+    road disruption and health facility access loss in Ethiopia.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+security: []
+servers:
+  - url: /
+    description: Current deployment or mock server
+
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - time
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2026-10-23T08:30:00Z'
+
+  /meta:
+    get:
+      summary: Active versions, region info, catalog summary, and limits
+      operationId: getMeta
+      responses:
+        '200':
+          description: Metadata object
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - versions
+                  - region_id
+                  - limits
+                  - assumptions
+                properties:
+                  versions:
+                    $ref: '#/components/schemas/Versions'
+                  region_id:
+                    type: string
+                    example: pilot_01
+                  limits:
+                    type: object
+                    required:
+                      - max_days
+                      - max_rain_mm
+                      - max_samples
+                    properties:
+                      max_days:
+                        type: integer
+                        example: 10
+                      max_rain_mm:
+                        type: number
+                        example: 400.0
+                      max_samples:
+                        type: integer
+                        example: 500
+                  assumptions:
+                    $ref: '#/components/schemas/Assumptions'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /regions:
+    get:
+      summary: Supported regions with bounding box
+      operationId: getRegions
+      responses:
+        '200':
+          description: List of regions
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegionInfo'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /hazards:
+    get:
+      summary: Supported hazards with evidence level and label rung
+      operationId: getHazards
+      responses:
+        '200':
+          description: List of hazards
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HazardInfo'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /scenarios/library:
+    get:
+      summary: Curated library of named scenarios (manual and replay)
+      operationId: getScenarioLibrary
+      responses:
+        '200':
+          description: Library scenarios
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LibraryScenario'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /scenarios:
+    post:
+      summary: Create and run a scenario
+      description: Returns 200 immediately if cached; 202 with queued Job if uncached.
+      operationId: createScenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Scenario'
+      responses:
+        '200':
+          description: Cached scenario execution finished
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '202':
+          description: Scenario queued for processing
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '429':
+          $ref: '#/components/responses/Error429'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /jobs/{job_id}:
+    get:
+      summary: Poll status of an async job
+      operationId: getJob
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 3f2a9c1e-5b7d-4e8a-9c21-7d4e5f6a8b90
+      responses:
+        '200':
+          description: Job status response
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /results/{cache_key}:
+    get:
+      summary: Get full scenario results summary
+      operationId: getResultSummary
+      parameters:
+        - name: cache_key
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+            example: a1b2c3d4e5f60718293a4b5c6d7e8f90
+      responses:
+        '200':
+          description: Scenario result summary
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultSummary'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /results/{cache_key}/segments:
+    get:
+      summary: Get columnar road segment probabilities for map painting
+      operationId: getResultSegments
+      parameters:
+        - name: cache_key
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+            example: a1b2c3d4e5f60718293a4b5c6d7e8f90
+      responses:
+        '200':
+          description: Columnar segment probabilities
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentsColumnar'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /segments/{segment_id}/explain:
+    get:
+      summary: Feature contribution explanation for a road segment
+      operationId: explainSegment
+      parameters:
+        - name: segment_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 18452
+        - name: cache_key
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+      responses:
+        '200':
+          description: Segment explanation
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentExplain'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /facilities/{facility_id}/explain:
+    get:
+      summary: Facility isolation explanation, route lift and alternative route
+      operationId: explainFacility
+      parameters:
+        - name: facility_id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^fac_[0-9]{5}$'
+            example: fac_00017
+        - name: cache_key
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+      responses:
+        '200':
+          description: Facility explanation
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityExplain'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /whatif:
+    post:
+      summary: Trigger what-if analysis on an existing result
+      operationId: runWhatIf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhatIfRequest'
+      responses:
+        '200':
+          description: Cached what-if result ready
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '202':
+          description: What-if analysis queued
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /compare:
+    get:
+      summary: Compare two finished result summaries
+      operationId: compareResults
+      parameters:
+        - name: a
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+        - name: b
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{32}$'
+      responses:
+        '200':
+          description: Comparison delta response
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompareResponse'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /backtests:
+    get:
+      summary: Historical flood backtests with predicted versus observed metrics
+      operationId: getBacktests
+      responses:
+        '200':
+          description: List of backtests
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BacktestItem'
+        '500':
+          $ref: '#/components/responses/Error500'
+
+  /model-card:
+    get:
+      summary: Model card details, training configuration, and key metrics
+      operationId: getModelCard
+      responses:
+        '200':
+          description: Model card content
+          headers:
+            x-request-id:
+              $ref: '#/components/headers/XRequestId'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - title
+                  - version
+                  - hazard
+                  - evidence_level
+                  - metrics
+                  - limitations
+                  - content_markdown
+                properties:
+                  title:
+                    type: string
+                    example: ImpactMap Flood Exposure LightGBM Model
+                  version:
+                    type: string
+                    example: m20261026a
+                  hazard:
+                    $ref: '#/components/schemas/HazardEnum'
+                  evidence_level:
+                    $ref: '#/components/schemas/EvidenceLevelEnum'
+                  metrics:
+                    type: object
+                  limitations:
+                    type: array
+                    items:
+                      type: string
+                  content_markdown:
+                    type: string
+        '500':
+          $ref: '#/components/responses/Error500'
+
+components:
+  headers:
+    XRequestId:
+      schema:
+        type: string
+      description: Traceable request identifier
+
+  responses:
+    Error400:
+      description: Validation error
+      headers:
+        x-request-id:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Error404:
+      description: Resource not found
+      headers:
+        x-request-id:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Error429:
+      description: Rate limited
+      headers:
+        x-request-id:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Error500:
+      description: Internal server error
+      headers:
+        x-request-id:
+          $ref: '#/components/headers/XRequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    HazardEnum:
+      type: string
+      enum: [flood, landslide]
+
+    EvidenceLevelEnum:
+      type: string
+      enum: [validated, limited, heuristic]
+
+    FailureModeEnum:
+      type: string
+      enum: [independent, correlated]
+
+    SpatialTypeEnum:
+      type: string
+      enum: [uniform, gradient, cell]
+
+    StormShapeEnum:
+      type: string
+      enum: [even, front_loaded, mid_peak, back_loaded]
+
+    WetnessEnum:
+      type: string
+      enum: [dry, normal, wet]
+
+    JobStatusEnum:
+      type: string
+      enum: [queued, running, done, failed]
+
+    FacilityLevelEnum:
+      type: string
+      enum: [hospital, health_center, clinic]
+
+    RoadClassEnum:
+      type: string
+      enum: [motorway, trunk, primary, secondary, tertiary, unclassified, residential, track, other]
+
+    QualityFlagEnum:
+      type: string
+      enum: [ok, low_road_density, long_snap, weak_source]
+
+    LayerModeEnum:
+      type: string
+      enum: [exposure, closure]
+
+    ErrorCodeEnum:
+      type: string
+      enum:
+        - VALIDATION_ERROR
+        - NOT_FOUND
+        - JOB_FAILED
+        - JOB_TIMEOUT
+        - RATE_LIMITED
+        - VERSION_MISMATCH
+        - INTERNAL_ERROR
+
+    Versions:
+      type: object
+      required:
+        - model
+        - data
+        - engine
+      properties:
+        model:
+          type: string
+          example: m20261026a
+        data:
+          type: string
+          example: d20261025a
+        engine:
+          type: string
+          example: 0.1.0
+        app:
+          type: string
+          example: 9fa31c2
+
+    SpatialConfig:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/SpatialTypeEnum'
+        direction_deg:
+          type: number
+          minimum: 0
+          maximum: 359
+          description: Required when type is gradient
+        ratio:
+          type: number
+          minimum: 0.2
+          maximum: 1.0
+          description: Required when type is gradient
+        center:
+          type: array
+          items:
+            type: number
+          minItems: 2
+          maxItems: 2
+          description: '[lon, lat] center when type is cell'
+        radius_km:
+          type: number
+          minimum: 5
+          maximum: 200
+          description: Radius when type is cell
+
+    Scenario:
+      type: object
+      required:
+        - hazard
+        - region_id
+        - start_date
+        - daily_rain_mm
+        - antecedent_30d_mm
+        - spatial
+      properties:
+        hazard:
+          $ref: '#/components/schemas/HazardEnum'
+        region_id:
+          type: string
+          example: pilot_01
+        start_date:
+          type: string
+          format: date
+          example: '2026-10-25'
+        daily_rain_mm:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            type: number
+            minimum: 0
+            maximum: 400
+        antecedent_30d_mm:
+          type: number
+          minimum: 0
+          maximum: 600
+          example: 120.0
+        spatial:
+          $ref: '#/components/schemas/SpatialConfig'
+        closure_factor:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          default: 1.0
+        failure_mode:
+          $ref: '#/components/schemas/FailureModeEnum'
+          default: independent
+        n_samples:
+          type: integer
+          minimum: 50
+          maximum: 500
+          default: 200
+        seed:
+          type: integer
+          default: 42
+        forced_closed:
+          type: array
+          items:
+            type: integer
+          default: []
+        forced_open:
+          type: array
+          items:
+            type: integer
+          default: []
+
+    ErrorDetail:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCodeEnum'
+        message:
+          type: string
+        field:
+          type: [string, 'null']
+        request_id:
+          type: [string, 'null']
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+
+    Job:
+      type: object
+      required:
+        - job_id
+        - status
+        - cache_key
+        - submitted_at
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/JobStatusEnum'
+        cache_key:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        submitted_at:
+          type: string
+          format: date-time
+        started_at:
+          type: [string, 'null']
+          format: date-time
+        finished_at:
+          type: [string, 'null']
+          format: date-time
+        result_url:
+          type: [string, 'null']
+        error:
+          anyOf:
+            - $ref: '#/components/schemas/ErrorDetail'
+            - type: 'null'
+
+    PercentileStats:
+      type: object
+      required:
+        - mean
+        - p10
+        - p90
+      properties:
+        mean:
+          type: number
+        p10:
+          type: number
+        p90:
+          type: number
+
+    RegionTotals:
+      type: object
+      required:
+        - people_cut_off
+        - people_degraded
+        - facilities_isolated_expected
+      properties:
+        people_cut_off:
+          $ref: '#/components/schemas/PercentileStats'
+        people_degraded:
+          $ref: '#/components/schemas/PercentileStats'
+        facilities_isolated_expected:
+          type: number
+
+    AltRoute:
+      type: object
+      required:
+        - minutes
+        - segment_ids
+      properties:
+        minutes:
+          type: number
+        segment_ids:
+          type: array
+          items:
+            type: integer
+        geometry:
+          type: [object, 'null']
+          description: GeoJSON LineString coordinates [[lon, lat], ...]
+
+    FacilityImpact:
+      type: object
+      required:
+        - facility_id
+        - name
+        - level
+        - p_isolation
+        - p10
+        - p90
+        - people_affected_est
+        - poor_baseline_access
+        - rank
+        - snap_distance_m
+        - source
+        - quality_flag
+      properties:
+        facility_id:
+          type: string
+          pattern: '^fac_[0-9]{5}$'
+        name:
+          type: string
+        level:
+          $ref: '#/components/schemas/FacilityLevelEnum'
+        p_isolation:
+          type: number
+          minimum: 0
+          maximum: 1
+        p10:
+          type: number
+        p90:
+          type: number
+        people_affected_est:
+          type: integer
+        baseline_minutes:
+          type: [number, 'null']
+        poor_baseline_access:
+          type: boolean
+        alt_route:
+          anyOf:
+            - $ref: '#/components/schemas/AltRoute'
+            - type: 'null'
+        rank:
+          type: integer
+        rank_delta:
+          type: [integer, 'null']
+        snap_distance_m:
+          type: integer
+        source:
+          type: string
+        quality_flag:
+          $ref: '#/components/schemas/QualityFlagEnum'
+
+    CommunityImpact:
+      type: object
+      required:
+        - community_id
+        - people_est
+        - p_cut_off
+        - p_degraded
+        - poor_baseline_access
+        - snap_distance_m
+        - quality_flag
+      properties:
+        community_id:
+          type: string
+          pattern: '^com_[0-9]{5}$'
+        name:
+          type: [string, 'null']
+        people_est:
+          type: integer
+        p_cut_off:
+          type: number
+          minimum: 0
+          maximum: 1
+        p_degraded:
+          type: number
+          minimum: 0
+          maximum: 1
+        expected_minutes:
+          type: [number, 'null']
+        baseline_minutes:
+          type: [number, 'null']
+        poor_baseline_access:
+          type: boolean
+        snap_distance_m:
+          type: integer
+        quality_flag:
+          $ref: '#/components/schemas/QualityFlagEnum'
+
+    Assumptions:
+      type: object
+      required:
+        - speeds_kmh
+        - closure_factor
+        - degraded_ratio
+        - poor_baseline_minutes
+        - failure_mode
+      properties:
+        speeds_kmh:
+          type: object
+          additionalProperties:
+            type: number
+        closure_factor:
+          type: number
+        degraded_ratio:
+          type: number
+        poor_baseline_minutes:
+          type: number
+        failure_mode:
+          $ref: '#/components/schemas/FailureModeEnum'
+
+    ResultSummary:
+      type: object
+      required:
+        - cache_key
+        - versions
+        - hazard
+        - evidence_level
+        - scenario
+        - computed_at
+        - region_totals
+        - ranking
+        - top_communities
+        - assumptions
+      properties:
+        cache_key:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        versions:
+          $ref: '#/components/schemas/Versions'
+        hazard:
+          $ref: '#/components/schemas/HazardEnum'
+        evidence_level:
+          $ref: '#/components/schemas/EvidenceLevelEnum'
+        scenario:
+          $ref: '#/components/schemas/Scenario'
+        base_cache_key:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        computed_at:
+          type: string
+          format: date-time
+        region_totals:
+          $ref: '#/components/schemas/RegionTotals'
+        ranking:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilityImpact'
+        top_communities:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunityImpact'
+        assumptions:
+          $ref: '#/components/schemas/Assumptions'
+
+    SegmentsColumnar:
+      type: object
+      required:
+        - cache_key
+        - n_total
+        - sparse_threshold
+        - segment_ids
+        - exposure_prob
+        - closure_prob
+      properties:
+        cache_key:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        n_total:
+          type: integer
+        sparse_threshold:
+          type: number
+          default: 0.005
+        segment_ids:
+          type: array
+          items:
+            type: integer
+        exposure_prob:
+          type: array
+          items:
+            type: number
+        closure_prob:
+          type: array
+          items:
+            type: number
+
+    FeatureContribution:
+      type: object
+      required:
+        - feature
+        - label
+        - contribution
+      properties:
+        feature:
+          type: string
+        label:
+          type: string
+        contribution:
+          type: number
+
+    SegmentExplain:
+      type: object
+      required:
+        - segment_id
+        - road_class
+        - length_m
+        - exposure_prob
+        - closure_prob
+        - quality_flag
+        - top_reasons
+      properties:
+        segment_id:
+          type: integer
+        name:
+          type: [string, 'null']
+        road_class:
+          $ref: '#/components/schemas/RoadClassEnum'
+        length_m:
+          type: integer
+        exposure_prob:
+          type: number
+        closure_prob:
+          type: number
+        quality_flag:
+          $ref: '#/components/schemas/QualityFlagEnum'
+        top_reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeatureContribution'
+
+    FacilityLiftReason:
+      type: object
+      required:
+        - segment_id
+        - lift
+        - closure_prob
+        - text
+      properties:
+        segment_id:
+          type: integer
+        lift:
+          type: number
+        closure_prob:
+          type: number
+        text:
+          type: string
+
+    FacilityExplain:
+      type: object
+      required:
+        - facility_id
+        - rank
+        - p_isolation
+        - why
+        - sentences
+      properties:
+        facility_id:
+          type: string
+          pattern: '^fac_[0-9]{5}$'
+        rank:
+          type: integer
+        rank_delta:
+          type: [integer, 'null']
+        p_isolation:
+          type: number
+        why:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/FacilityLiftReason'
+        alt_route:
+          anyOf:
+            - $ref: '#/components/schemas/AltRoute'
+            - type: 'null'
+        sentences:
+          type: array
+          items:
+            type: string
+
+    WhatIfRequest:
+      type: object
+      required:
+        - base_cache_key
+      properties:
+        base_cache_key:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        forced_closed:
+          type: array
+          items:
+            type: integer
+          default: []
+        forced_open:
+          type: array
+          items:
+            type: integer
+          default: []
+
+    RankChangeItem:
+      type: object
+      required:
+        - facility_id
+        - rank_a
+        - rank_b
+      properties:
+        facility_id:
+          type: string
+        rank_a:
+          type: integer
+        rank_b:
+          type: integer
+
+    CompareResponse:
+      type: object
+      required:
+        - a
+        - b
+        - region_totals_a
+        - region_totals_b
+        - people_cut_off_delta
+        - rank_changes
+      properties:
+        a:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        b:
+          type: string
+          pattern: '^[a-f0-9]{32}$'
+        region_totals_a:
+          $ref: '#/components/schemas/RegionTotals'
+        region_totals_b:
+          $ref: '#/components/schemas/RegionTotals'
+        people_cut_off_delta:
+          type: number
+        rank_changes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RankChangeItem'
+
+    RegionInfo:
+      type: object
+      required:
+        - region_id
+        - name
+        - bbox
+      properties:
+        region_id:
+          type: string
+        name:
+          type: string
+        bbox:
+          type: array
+          items:
+            type: number
+          minItems: 4
+          maxItems: 4
+          description: '[min_lon, min_lat, max_lon, max_lat]'
+
+    HazardInfo:
+      type: object
+      required:
+        - hazard
+        - evidence_level
+        - label_rung
+        - enabled
+      properties:
+        hazard:
+          $ref: '#/components/schemas/HazardEnum'
+        evidence_level:
+          $ref: '#/components/schemas/EvidenceLevelEnum'
+        label_rung:
+          type: string
+          example: L0
+        enabled:
+          type: boolean
+
+    LibraryScenario:
+      type: object
+      required:
+        - slug
+        - title
+        - description
+        - badge
+        - demo
+        - scenario
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        badge:
+          type: string
+          enum: [Replay, Manual]
+        demo:
+          type: boolean
+        scenario:
+          $ref: '#/components/schemas/Scenario'
+
+    BacktestItem:
+      type: object
+      required:
+        - event_id
+        - name
+        - dates
+        - observed_extent_url
+        - metrics
+      properties:
+        event_id:
+          type: string
+        name:
+          type: string
+        dates:
+          type: string
+        observed_extent_url:
+          type: string
+        metrics:
+          type: object
+
+    MetricWithCI:
+      type: object
+      required:
+        - mean
+        - ci_low
+        - ci_high
+      properties:
+        mean:
+          type: number
+        ci_low:
+          type: number
+        ci_high:
+          type: number
+
+    EvaluationModelMetrics:
+      type: object
+      required:
+        - pr_auc
+        - roc_auc
+        - brier
+      properties:
+        pr_auc:
+          $ref: '#/components/schemas/MetricWithCI'
+        roc_auc:
+          $ref: '#/components/schemas/MetricWithCI'
+        brier:
+          $ref: '#/components/schemas/MetricWithCI'
+        recall_at_precision:
+          $ref: '#/components/schemas/MetricWithCI'
+
+    EvidenceFile:
+      type: object
+      required:
+        - evidence_level
+        - label_rung
+        - n_events
+        - events
+        - metrics
+        - end_to_end
+        - limitations
+        - versions
+      properties:
+        evidence_level:
+          $ref: '#/components/schemas/EvidenceLevelEnum'
+        label_rung:
+          type: string
+          enum: [L0, L1, L2, L3]
+        n_events:
+          type: integer
+        events:
+          type: array
+          items:
+            type: object
+        metrics:
+          type: object
+          properties:
+            model:
+              $ref: '#/components/schemas/EvaluationModelMetrics'
+            b0:
+              $ref: '#/components/schemas/EvaluationModelMetrics'
+            b1:
+              $ref: '#/components/schemas/EvaluationModelMetrics'
+            b2:
+              $ref: '#/components/schemas/EvaluationModelMetrics'
+        end_to_end:
+          type: object
+          properties:
+            auc:
+              type: number
+            spearman:
+              type: number
+            baseline_auc:
+              type: number
+            baseline_spearman:
+              type: number
+        limitations:
+          type: array
+          items:
+            type: string
+        versions:
+          $ref: '#/components/schemas/Versions'
+
+    FeatureFlags:
+      type: object
+      required:
+        - correlated_mode
+        - landslide
+        - forecast
+        - accounts
+      properties:
+        correlated_mode:
+          type: boolean
+        landslide:
+          type: boolean
+        forecast:
+          type: boolean
+        accounts:
+          type: boolean
+
+    RuntimeConfig:
+      type: object
+      required:
+        - api_base_url
+        - data_base_url
+        - region_id
+        - data_version
+        - model_version
+        - app_version
+        - features
+      properties:
+        api_base_url:
+          type: string
+        data_base_url:
+          type: string
+        region_id:
+          type: string
+        data_version:
+          type: string
+        model_version:
+          type: string
+        app_version:
+          type: string
+        features:
+          $ref: '#/components/schemas/FeatureFlags'

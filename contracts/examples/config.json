@@ -1,0 +1,14 @@
+{
+  "api_base_url": "https://api.example.com",
+  "data_base_url": "https://cdn.example.com/data",
+  "region_id": "pilot_01",
+  "data_version": "d20261025a",
+  "model_version": "m20261026a",
+  "app_version": "9fa31c2",
+  "features": {
+    "correlated_mode": false,
+    "landslide": false,
+    "forecast": false,
+    "accounts": false
+  }
+}

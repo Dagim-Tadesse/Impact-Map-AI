@@ -1,0 +1,100 @@
+{
+  "evidence_level": "validated",
+  "label_rung": "L0",
+  "n_events": 6,
+  "events": [
+    {
+      "event_id": "eth_flood_2020_awash",
+      "name": "Awash Basin Flood 2020",
+      "dates": "2020-08-15 to 2020-09-05",
+      "country": "Ethiopia",
+      "source": "CEMS Rapid Mapping EMSR458",
+      "split": "test"
+    },
+    {
+      "event_id": "eth_flood_2019_somali",
+      "name": "Shabelle River Overflow 2019",
+      "dates": "2019-10-20 to 2019-11-10",
+      "country": "Ethiopia",
+      "source": "UNOSAT",
+      "split": "train"
+    },
+    {
+      "event_id": "eth_flood_2016_afar",
+      "name": "Afar Flash Flood 2016",
+      "dates": "2016-04-10 to 2016-04-22",
+      "country": "Ethiopia",
+      "source": "Global Flood Database",
+      "split": "train"
+    },
+    {
+      "event_id": "eth_flood_2015_gambella",
+      "name": "Baro-Akobo Basin Inundation 2015",
+      "dates": "2015-09-01 to 2015-09-20",
+      "country": "Ethiopia",
+      "source": "Global Flood Database",
+      "split": "train"
+    },
+    {
+      "event_id": "ken_flood_2018_tana",
+      "name": "Regional Cross-Border Storm 2018",
+      "dates": "2018-04-05 to 2018-04-28",
+      "country": "Kenya",
+      "source": "CEMS Rapid Mapping EMSR280",
+      "split": "train"
+    },
+    {
+      "event_id": "som_flood_2020_genale",
+      "name": "Genale-Dawa Event 2020",
+      "dates": "2020-05-01 to 2020-05-18",
+      "country": "Somalia",
+      "source": "UNOSAT",
+      "split": "train"
+    }
+  ],
+  "metrics": {
+    "model": {
+      "pr_auc": {"mean": 0.7240, "ci_low": 0.6510, "ci_high": 0.7930},
+      "roc_auc": {"mean": 0.8850, "ci_low": 0.8320, "ci_high": 0.9310},
+      "brier": {"mean": 0.0890, "ci_low": 0.0680, "ci_high": 0.1140},
+      "recall_at_precision": {"mean": 0.6150, "ci_low": 0.5200, "ci_high": 0.7020}
+    },
+    "b0": {
+      "pr_auc": {"mean": 0.4820, "ci_low": 0.4100, "ci_high": 0.5560},
+      "roc_auc": {"mean": 0.7100, "ci_low": 0.6400, "ci_high": 0.7720},
+      "brier": {"mean": 0.1650, "ci_low": 0.1380, "ci_high": 0.1980},
+      "recall_at_precision": {"mean": 0.2800, "ci_low": 0.1950, "ci_high": 0.3700}
+    },
+    "b1": {
+      "pr_auc": {"mean": 0.5890, "ci_low": 0.5120, "ci_high": 0.6610},
+      "roc_auc": {"mean": 0.7950, "ci_low": 0.7300, "ci_high": 0.8520},
+      "brier": {"mean": 0.1280, "ci_low": 0.1020, "ci_high": 0.1580},
+      "recall_at_precision": {"mean": 0.4200, "ci_low": 0.3300, "ci_high": 0.5100}
+    },
+    "b2": {
+      "pr_auc": {"mean": 0.4510, "ci_low": 0.3800, "ci_high": 0.5200},
+      "roc_auc": {"mean": 0.6850, "ci_low": 0.6150, "ci_high": 0.7500},
+      "brier": {"mean": 0.1820, "ci_low": 0.1500, "ci_high": 0.2150},
+      "recall_at_precision": {"mean": 0.2400, "ci_low": 0.1600, "ci_high": 0.3200}
+    }
+  },
+  "end_to_end": {
+    "auc": 0.8420,
+    "spearman": 0.7850,
+    "baseline_auc": 0.6310,
+    "baseline_spearman": 0.5120
+  },
+  "limitations": [
+    "Exposure is evaluated against satellite flood delineations, which reflect water presence rather than physical road washouts or structural impassability.",
+    "Satellite imagery resolution (250m to 30m) is coarser than narrow rural road rights-of-way.",
+    "Daily rainfall products (CHIRPS ~5.5km) do not capture localized cloudburst convective cells.",
+    "Culverts, small drainage ditches, and recent embankment repairs are unrepresented in digital elevation models.",
+    "Road closures in simulation are currently sampled independently, underestimating spatial co-failure of contiguous corridors."
+  ],
+  "versions": {
+    "model": "m20261026a",
+    "data": "d20261025a",
+    "engine": "0.1.0",
+    "app": "9fa31c2"
+  }
+}
