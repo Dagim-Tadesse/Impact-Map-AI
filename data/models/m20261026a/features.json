@@ -1,0 +1,32 @@
+{
+  "features": [
+    "elev_mean",
+    "slope_mean",
+    "hand_min",
+    "hand_mean",
+    "twi_mean",
+    "dist_river_min",
+    "log_flow_acc_max",
+    "peak_1d",
+    "peak_3d",
+    "peak_7d",
+    "event_total",
+    "antecedent_30d",
+    "clim_ratio"
+  ],
+  "monotone_constraints": [
+    0,
+    0,
+    -1,
+    -1,
+    1,
+    -1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ]
+}

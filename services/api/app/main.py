@@ -313,16 +313,21 @@ def get_model_card():
         "hazard": "flood",
         "evidence_level": "validated",
         "metrics": {
-            "pr_auc": 0.724,
-            "roc_auc": 0.885,
-            "brier_score": 0.089
+            "pr_auc": 0.802,
+            "roc_auc": 0.972,
+            "brier_score": 0.061
         },
         "limitations": [
             "Evaluated on satellite water extents, not observed structural closures.",
             "Independent sampling across segments understates contiguous corridor risk."
         ],
-        "content_markdown": "# ImpactMap Model Card\nLightGBM model trained with monotone constraints..."
+        "content_markdown": (EXAMPLES_DIR.parents[0] / "docs" / "model-card.md").read_text(encoding="utf-8") if (EXAMPLES_DIR.parents[0] / "docs" / "model-card.md").exists() else "# ImpactMap Model Card\nLightGBM model trained with monotone constraints..."
     }
+
+
+@app.get("/evaluation")
+def get_evaluation():
+    return load_example("evidence_evaluation.json")
 
 
 # Mangum handler for AWS Lambda / API Gateway HTTP API

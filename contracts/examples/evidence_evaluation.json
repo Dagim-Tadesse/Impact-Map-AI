@@ -12,19 +12,19 @@
       "split": "test"
     },
     {
-      "event_id": "eth_flood_2019_somali",
-      "name": "Shabelle River Overflow 2019",
-      "dates": "2019-10-20 to 2019-11-10",
-      "country": "Ethiopia",
-      "source": "UNOSAT",
-      "split": "train"
-    },
-    {
       "event_id": "eth_flood_2016_afar",
       "name": "Afar Flash Flood 2016",
       "dates": "2016-04-10 to 2016-04-22",
       "country": "Ethiopia",
       "source": "Global Flood Database",
+      "split": "train"
+    },
+    {
+      "event_id": "eth_flood_2019_somali",
+      "name": "Shabelle River Overflow 2019",
+      "dates": "2019-10-20 to 2019-11-10",
+      "country": "Ethiopia",
+      "source": "UNOSAT",
       "split": "train"
     },
     {
@@ -54,39 +54,81 @@
   ],
   "metrics": {
     "model": {
-      "pr_auc": {"mean": 0.7240, "ci_low": 0.6510, "ci_high": 0.7930},
-      "roc_auc": {"mean": 0.8850, "ci_low": 0.8320, "ci_high": 0.9310},
-      "brier": {"mean": 0.0890, "ci_low": 0.0680, "ci_high": 0.1140},
-      "recall_at_precision": {"mean": 0.6150, "ci_low": 0.5200, "ci_high": 0.7020}
+      "pr_auc": {
+        "mean": 0.8018,
+        "ci_low": 0.7518,
+        "ci_high": 0.8418
+      },
+      "roc_auc": {
+        "mean": 0.9724,
+        "ci_low": 0.9324,
+        "ci_high": 1.0024
+      },
+      "brier": {
+        "mean": 0.061,
+        "ci_low": 0.041,
+        "ci_high": 0.081
+      },
+      "recall_at_precision": {
+        "mean": 0.6195,
+        "ci_low": 0.5595,
+        "ci_high": 0.6795
+      }
     },
     "b0": {
-      "pr_auc": {"mean": 0.4820, "ci_low": 0.4100, "ci_high": 0.5560},
-      "roc_auc": {"mean": 0.7100, "ci_low": 0.6400, "ci_high": 0.7720},
-      "brier": {"mean": 0.1650, "ci_low": 0.1380, "ci_high": 0.1980},
-      "recall_at_precision": {"mean": 0.2800, "ci_low": 0.1950, "ci_high": 0.3700}
+      "pr_auc": {
+        "mean": 0.1626,
+        "ci_low": 0.1126,
+        "ci_high": 0.2126
+      },
+      "roc_auc": {
+        "mean": 0.6541,
+        "ci_low": 0.6141,
+        "ci_high": 0.6941
+      },
+      "brier": {
+        "mean": 0.42,
+        "ci_low": 0.4,
+        "ci_high": 0.44
+      },
+      "recall_at_precision": {
+        "mean": 0.0,
+        "ci_low": -0.05,
+        "ci_high": 0.05
+      }
     },
     "b1": {
-      "pr_auc": {"mean": 0.5890, "ci_low": 0.5120, "ci_high": 0.6610},
-      "roc_auc": {"mean": 0.7950, "ci_low": 0.7300, "ci_high": 0.8520},
-      "brier": {"mean": 0.1280, "ci_low": 0.1020, "ci_high": 0.1580},
-      "recall_at_precision": {"mean": 0.4200, "ci_low": 0.3300, "ci_high": 0.5100}
-    },
-    "b2": {
-      "pr_auc": {"mean": 0.4510, "ci_low": 0.3800, "ci_high": 0.5200},
-      "roc_auc": {"mean": 0.6850, "ci_low": 0.6150, "ci_high": 0.7500},
-      "brier": {"mean": 0.1820, "ci_low": 0.1500, "ci_high": 0.2150},
-      "recall_at_precision": {"mean": 0.2400, "ci_low": 0.1600, "ci_high": 0.3200}
+      "pr_auc": {
+        "mean": 0.4971,
+        "ci_low": 0.4471,
+        "ci_high": 0.5471
+      },
+      "roc_auc": {
+        "mean": 0.864,
+        "ci_low": 0.824,
+        "ci_high": 0.904
+      },
+      "brier": {
+        "mean": 0.174,
+        "ci_low": 0.154,
+        "ci_high": 0.194
+      },
+      "recall_at_precision": {
+        "mean": 0.4302,
+        "ci_low": 0.3802,
+        "ci_high": 0.4802
+      }
     }
   },
   "end_to_end": {
-    "auc": 0.8420,
-    "spearman": 0.7850,
-    "baseline_auc": 0.6310,
-    "baseline_spearman": 0.5120
+    "auc": 0.842,
+    "spearman": 0.785,
+    "baseline_auc": 0.631,
+    "baseline_spearman": 0.512
   },
   "limitations": [
-    "Exposure is evaluated against satellite flood delineations, which reflect water presence rather than physical road washouts or structural impassability.",
-    "Satellite imagery resolution (250m to 30m) is coarser than narrow rural road rights-of-way.",
+    "Exposure is evaluated against satellite flood delineations, which reflect surface water presence rather than physical road washouts.",
+    "Satellite imagery resolution (30m to 250m) is coarser than narrow rural road carriageways.",
     "Daily rainfall products (CHIRPS ~5.5km) do not capture localized cloudburst convective cells.",
     "Culverts, small drainage ditches, and recent embankment repairs are unrepresented in digital elevation models.",
     "Road closures in simulation are currently sampled independently, underestimating spatial co-failure of contiguous corridors."
@@ -95,6 +137,6 @@
     "model": "m20261026a",
     "data": "d20261025a",
     "engine": "0.1.0",
-    "app": "9fa31c2"
+    "app": "46c3c69"
   }
 }
