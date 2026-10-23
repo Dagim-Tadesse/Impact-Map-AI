@@ -1,0 +1,18 @@
+# CODEOWNERS for ImpactMap AI
+# Ownership rules per Team Work Division v1.0
+
+/infra/ @Dagim-Tadesse
+/services/ @Dagim-Tadesse
+/packages/ @Dagim-Tadesse
+/pipeline/ @Dagim-Tadesse
+/ml/ @Dagim-Tadesse
+/contracts/ @Dagim-Tadesse
+/.github/workflows/ @Dagim-Tadesse
+
+/web/ @ANON_GH
+/web/src/content/ @YAGI_GH
+/tests/e2e/ @ANON_GH
+
+/docs/data-catalog.csv @YAGI_GH
+/docs/glossary.md @YAGI_GH
+/docs/testing/ @YAGI_GH

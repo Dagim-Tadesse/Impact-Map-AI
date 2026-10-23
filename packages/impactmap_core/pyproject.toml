@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "impactmap-core"
+version = "0.1.0"
+description = "Pure Python graph engine, schemas, and feature transformations for ImpactMap AI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26.0,<2.0.0",
+    "scipy>=1.13.0",
+    "lightgbm>=4.3.0",
+    "pydantic>=2.7.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
