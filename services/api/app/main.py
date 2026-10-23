@@ -14,6 +14,7 @@ from mangum import Mangum
 
 from impactmap_core.hashing import make_cache_key
 from impactmap_core.schemas import Scenario, WhatIfRequest
+from services.api.app import db
 
 # Configure structured logging
 logger = logging.getLogger("impactmap.api")
@@ -136,7 +137,7 @@ def get_meta():
 def get_regions():
     return [
         {
-            "region_id": "pilot_01",
+            "region_id": "awash_01",
             "name": "Awash River Basin Pilot",
             "bbox": [39.5, 8.5, 41.2, 10.2]
         }
@@ -201,30 +202,59 @@ def get_scenarios_library():
 
 
 @app.post("/scenarios")
-def create_scenario(scenario: Scenario):
-    job = load_example("job_done.json")
+async def create_scenario(scenario: Scenario):
+    job_id = str(uuid.uuid4())
     cache_key = make_cache_key(scenario.model_dump(), "m20261026a", "d20261025a", "0.1.0")
-    job["cache_key"] = cache_key
-    job["result_url"] = f"/data/results/{cache_key}/"
-    return job
+
+    # Check cache in Supabase / memory
+    cached = await db.get_cached_result(cache_key)
+    if cached:
+        return await db.create_job(job_id, cache_key, scenario.model_dump(), status="done")
+
+    # If not yet in cache, seed with realistic result example and cache it
+    example_summary = load_example("result_summary.json")
+    example_summary["cache_key"] = cache_key
+    example_summary["scenario"] = scenario.model_dump()
+    example_segments = load_example("segments_columnar.json")
+    example_segments["cache_key"] = cache_key
+
+    await db.save_cached_result(cache_key, example_summary, example_segments)
+    return await db.create_job(job_id, cache_key, scenario.model_dump(), status="done")
 
 
 @app.get("/jobs/{job_id}")
-def get_job(job_id: str):
-    job = load_example("job_done.json")
-    job["job_id"] = job_id
-    return job
+async def get_job(job_id: str):
+    job = await db.get_job(job_id)
+    if job:
+        return job
+    # Fallback to example
+    ex = load_example("job_done.json")
+    ex["job_id"] = job_id
+    return ex
 
 
 @app.get("/results/{cache_key}")
-def get_result_summary(cache_key: str):
+async def get_result_summary(cache_key: str):
+    cached = await db.get_cached_result(cache_key)
+    if cached:
+        return cached
     res = load_example("result_summary.json")
     res["cache_key"] = cache_key
     return res
 
 
 @app.get("/results/{cache_key}/segments")
-def get_result_segments(cache_key: str):
+async def get_result_segments(cache_key: str):
+    cached = await db.get_cached_result(cache_key)
+    if cached and cached.get("segments"):
+        return {
+            "cache_key": cache_key,
+            "n_total": len(cached["segments"].get("segment_ids", [])),
+            "sparse_threshold": 0.005,
+            "segment_ids": cached["segments"].get("segment_ids", []),
+            "exposure_prob": cached["segments"].get("exposure_prob", []),
+            "closure_prob": cached["segments"].get("closure_prob", [])
+        }
     seg = load_example("segments_columnar.json")
     seg["cache_key"] = cache_key
     return seg
