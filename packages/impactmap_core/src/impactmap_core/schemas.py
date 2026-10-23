@@ -214,3 +214,25 @@ class SegmentsColumnar(BaseModel):
     segment_ids: List[int]
     exposure_prob: List[float]
     closure_prob: List[float]
+
+
+class WhatIfRequest(BaseModel):
+    base_cache_key: str
+    forced_closed: List[int] = Field(default_factory=list)
+    forced_open: List[int] = Field(default_factory=list)
+
+
+class RankChangeItem(BaseModel):
+    facility_id: str
+    rank_a: int
+    rank_b: int
+
+
+class CompareResponse(BaseModel):
+    a: str
+    b: str
+    region_totals_a: RegionTotals
+    region_totals_b: RegionTotals
+    people_cut_off_delta: float
+    rank_changes: List[RankChangeItem]
+
