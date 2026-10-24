@@ -127,3 +127,17 @@ def test_model_card_and_backtests():
     bt_resp = client.get("/backtests")
     assert bt_resp.status_code == 200
     assert len(bt_resp.json()) >= 1
+
+
+def test_static_map_layers():
+    fac_resp = client.get("/data/facilities.geojson")
+    assert fac_resp.status_code == 200
+    data = fac_resp.json()
+    assert data["type"] == "FeatureCollection"
+    assert len(data["features"]) == 13
+
+    comm_resp = client.get("/data/communities.geojson")
+    assert comm_resp.status_code == 200
+    cdata = comm_resp.json()
+    assert cdata["type"] == "FeatureCollection"
+    assert len(cdata["features"]) == 263

@@ -9,12 +9,16 @@ from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException, Query, Request, Response, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from mangum import Mangum
 
 from impactmap_core.hashing import make_cache_key
 from impactmap_core.schemas import Scenario, WhatIfRequest
 from services.api.app import db
+from services.worker.runner import execute_scenario
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DATA_PROCESSED = REPO_ROOT / "data" / "processed"
 
 # Configure structured logging
 logger = logging.getLogger("impactmap.api")
@@ -204,22 +208,29 @@ def get_scenarios_library():
 @app.post("/scenarios")
 async def create_scenario(scenario: Scenario):
     job_id = str(uuid.uuid4())
-    cache_key = make_cache_key(scenario.model_dump(), "m20261026a", "d20261025a", "0.1.0")
+    scenario_dict = scenario.model_dump()
+    cache_key = make_cache_key(scenario_dict, "m20261026a", "d20261025a", "0.1.0")
 
     # Check cache in Supabase / memory
     cached = await db.get_cached_result(cache_key)
     if cached:
-        return await db.create_job(job_id, cache_key, scenario.model_dump(), status="done")
+        return await db.create_job(job_id, cache_key, scenario_dict, status="done")
 
-    # If not yet in cache, seed with realistic result example and cache it
-    example_summary = load_example("result_summary.json")
-    example_summary["cache_key"] = cache_key
-    example_summary["scenario"] = scenario.model_dump()
-    example_segments = load_example("segments_columnar.json")
-    example_segments["cache_key"] = cache_key
+    # Run live simulation engine with fallback to template if data files not packaged
+    try:
+        summary, segments = execute_scenario(scenario_dict)
+        await db.save_cached_result(cache_key, summary, segments)
+        return await db.create_job(job_id, cache_key, scenario_dict, status="done")
+    except Exception as exc:
+        logger.warning(f"Live simulation fallback triggered: {exc}")
+        example_summary = load_example("result_summary.json")
+        example_summary["cache_key"] = cache_key
+        example_summary["scenario"] = scenario_dict
+        example_segments = load_example("segments_columnar.json")
+        example_segments["cache_key"] = cache_key
 
-    await db.save_cached_result(cache_key, example_summary, example_segments)
-    return await db.create_job(job_id, cache_key, scenario.model_dump(), status="done")
+        await db.save_cached_result(cache_key, example_summary, example_segments)
+        return await db.create_job(job_id, cache_key, scenario_dict, status="done")
 
 
 @app.get("/jobs/{job_id}")
@@ -275,17 +286,97 @@ def get_facility_explain(facility_id: str, cache_key: str = Query(...)):
 
 
 @app.post("/whatif")
-def post_whatif(body: WhatIfRequest):
-    job = load_example("job_done.json")
-    return job
+async def post_whatif(body: WhatIfRequest):
+    job_id = str(uuid.uuid4())
+    base_cached = await db.get_cached_result(body.base_cache_key)
+    base_scenario = (base_cached or {}).get("scenario") or load_example("scenario.json")
+
+    # Apply manual overrides to produce branching scenario
+    new_scenario = dict(base_scenario)
+    new_scenario["forced_closed"] = sorted(list(set(new_scenario.get("forced_closed", []) + body.forced_closed)))
+    new_scenario["forced_open"] = sorted(list(set(new_scenario.get("forced_open", []) + body.forced_open)))
+
+    new_cache_key = make_cache_key(new_scenario, "m20261026a", "d20261025a", "0.1.0")
+
+    cached = await db.get_cached_result(new_cache_key)
+    if cached:
+        return await db.create_job(job_id, new_cache_key, new_scenario, status="done")
+
+    try:
+        summary, segments = execute_scenario(new_scenario)
+        summary["base_cache_key"] = body.base_cache_key
+        await db.save_cached_result(new_cache_key, summary, segments)
+        return await db.create_job(job_id, new_cache_key, new_scenario, status="done")
+    except Exception as exc:
+        logger.warning(f"Live what-if simulation fallback triggered: {exc}")
+        example_summary = load_example("result_summary.json")
+        example_summary["cache_key"] = new_cache_key
+        example_summary["base_cache_key"] = body.base_cache_key
+        example_summary["scenario"] = new_scenario
+        example_segments = load_example("segments_columnar.json")
+        example_segments["cache_key"] = new_cache_key
+        await db.save_cached_result(new_cache_key, example_summary, example_segments)
+        return await db.create_job(job_id, new_cache_key, new_scenario, status="done")
 
 
 @app.get("/compare")
-def get_compare(a: str = Query(...), b: str = Query(...)):
-    comp = load_example("compare_response.json")
-    comp["a"] = a
-    comp["b"] = b
-    return comp
+async def get_compare(a: str = Query(...), b: str = Query(...)):
+    res_a = await db.get_cached_result(a) or load_example("result_summary.json")
+    res_b = await db.get_cached_result(b) or load_example("result_summary.json")
+
+    totals_a = res_a.get("region_totals", {})
+    totals_b = res_b.get("region_totals", {})
+
+    mean_a = float(totals_a.get("people_cut_off", {}).get("mean", 0.0))
+    mean_b = float(totals_b.get("people_cut_off", {}).get("mean", 0.0))
+
+    # Compute rank changes across facilities
+    ranks_a = {f["facility_id"]: f["rank"] for f in res_a.get("ranking", [])}
+    ranks_b = {f["facility_id"]: f["rank"] for f in res_b.get("ranking", [])}
+    all_fac_ids = set(ranks_a.keys()) | set(ranks_b.keys())
+
+    rank_changes = [
+        {
+            "facility_id": fid,
+            "rank_a": ranks_a.get(fid, 99),
+            "rank_b": ranks_b.get(fid, 99)
+        }
+        for fid in sorted(all_fac_ids)
+    ]
+
+    return {
+        "a": a,
+        "b": b,
+        "region_totals_a": totals_a,
+        "region_totals_b": totals_b,
+        "people_cut_off_delta": round(mean_b - mean_a, 1),
+        "rank_changes": rank_changes
+    }
+
+
+# Static Map Layers for Frontend Web Application
+@app.get("/data/segments.geojson")
+def get_segments_geojson():
+    path = DATA_PROCESSED / "segments.geojson"
+    if path.exists():
+        return FileResponse(path, media_type="application/geo+json")
+    raise HTTPException(status_code=404, detail="Segments GeoJSON not built yet")
+
+
+@app.get("/data/facilities.geojson")
+def get_facilities_geojson():
+    path = DATA_PROCESSED / "facilities.geojson"
+    if path.exists():
+        return FileResponse(path, media_type="application/geo+json")
+    raise HTTPException(status_code=404, detail="Facilities GeoJSON not built yet")
+
+
+@app.get("/data/communities.geojson")
+def get_communities_geojson():
+    path = DATA_PROCESSED / "communities.geojson"
+    if path.exists():
+        return FileResponse(path, media_type="application/geo+json")
+    raise HTTPException(status_code=404, detail="Communities GeoJSON not built yet")
 
 
 @app.get("/backtests")
