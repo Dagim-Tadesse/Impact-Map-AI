@@ -1,0 +1,14 @@
+{
+  "api_base_url": "https://impactmap-api.onrender.com",
+  "data_base_url": "https://impactmap-api.onrender.com/data",
+  "region_id": "awash_01",
+  "data_version": "d20261025a",
+  "model_version": "m20261026a",
+  "app_version": "f35a798",
+  "features": {
+    "correlated_mode": false,
+    "landslide": false,
+    "forecast": false,
+    "accounts": false
+  }
+}
