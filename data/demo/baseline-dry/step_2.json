@@ -1,0 +1,10 @@
+{
+  "step": 2,
+  "day_label": "Day 2",
+  "rain_cumulative_mm": 0.0,
+  "cache_key": "5acb816e7a2118b33d3a35184cc24b1c",
+  "summary_url": "/demo/baseline-dry/step_2_summary.json",
+  "segments_url": "/demo/baseline-dry/step_2_segments.json",
+  "narration": "Day 2: Dry baseline conditions. Zero flood-driven road closures across the basin.",
+  "changes": []
+}

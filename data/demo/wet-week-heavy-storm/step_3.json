@@ -1,0 +1,10 @@
+{
+  "step": 3,
+  "day_label": "Day 3",
+  "rain_cumulative_mm": 175.0,
+  "cache_key": "21ea691fb8b73e63f0f9bd3051158382",
+  "summary_url": "/demo/wet-week-heavy-storm/step_3_summary.json",
+  "segments_url": "/demo/wet-week-heavy-storm/step_3_segments.json",
+  "narration": "Day 3: 175.0 mm cumulative rainfall. 2 facilities face severe isolation; 587,824 people isolated from referral hospitals.",
+  "changes": []
+}

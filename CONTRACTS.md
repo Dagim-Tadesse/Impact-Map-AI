@@ -279,3 +279,63 @@ All request bodies and responses are JSON. All responses carry the `x-request-id
 | `IMPACTMAP_ALLOWED_ORIGIN` | api | Origin allowed by CORS (e.g. `http://localhost:5173` or CloudFront URL) |
 | `LOG_LEVEL` | all | `INFO` by default |
 | `VITE_USE_MOCKS` | web (dev) | Set to `true` to use MSW mock handlers |
+
+---
+
+## C3.8 Demo Cascade Files (Task D9.4)
+
+Pre-computed multi-day simulation cascade files allowing instant stage demo playback without live computation delays.
+
+### Index File (`/demo/index.json` or `data/demo/index.json`)
+Lists all pre-computed stage demonstration scenarios.
+```json
+{
+  "demos": [
+    {
+      "slug": "awash-2020-replay",
+      "title": "Awash Basin 2020 Replay",
+      "description": "Historical replay of the devastating August 2020 Awash river overflow.",
+      "n_steps": 4,
+      "scenario": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2020-08-20",
+        "daily_rain_mm": [25.0, 48.0, 36.5, 12.0],
+        "antecedent_30d_mm": 120.0,
+        "spatial": {"type": "uniform"},
+        "closure_factor": 1.0,
+        "failure_mode": "independent",
+        "n_samples": 100,
+        "seed": 42,
+        "forced_closed": [],
+        "forced_open": []
+      }
+    }
+  ]
+}
+```
+
+### Cascade Step File (`/demo/{slug}/step_{N}.json` or `data/demo/{slug}/step_{N}.json`)
+Contains metadata, cumulative precipitation, narration, and top facility rank shifts for day $N$.
+```json
+{
+  "step": 3,
+  "day_label": "Day 3",
+  "rain_cumulative_mm": 109.5,
+  "cache_key": "785c2307eb353f898ffbefbb638c98ff",
+  "summary_url": "/demo/awash-2020-replay/step_3_summary.json",
+  "segments_url": "/demo/awash-2020-replay/step_3_segments.json",
+  "narration": "Day 3: 109.5 mm cumulative rainfall. Road network intact with minor drainage ponding (90,046 people with travel delays).",
+  "changes": [
+    {
+      "facility_id": "fac_00008",
+      "rank_before": 1,
+      "rank_after": 1
+    }
+  ]
+}
+```
+Each step also includes companion full results:
+- `step_{N}_summary.json`: Complete `ResultSummary` object
+- `step_{N}_segments.json`: Complete `SegmentsColumnar` object
+

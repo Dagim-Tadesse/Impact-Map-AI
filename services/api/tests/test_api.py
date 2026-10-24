@@ -141,3 +141,18 @@ def test_static_map_layers():
     cdata = comm_resp.json()
     assert cdata["type"] == "FeatureCollection"
     assert len(cdata["features"]) == 263
+
+
+def test_demo_cascade():
+    idx_resp = client.get("/demo/index.json")
+    assert idx_resp.status_code == 200
+    data = idx_resp.json()
+    assert "demos" in data
+    assert len(data["demos"]) == 3
+
+    step_resp = client.get("/demo/awash-2020-replay/step_1.json")
+    assert step_resp.status_code == 200
+    sdata = step_resp.json()
+    assert sdata["step"] == 1
+    assert "narration" in sdata
+    assert "cache_key" in sdata

@@ -379,6 +379,26 @@ def get_communities_geojson():
     raise HTTPException(status_code=404, detail="Communities GeoJSON not built yet")
 
 
+# Stage Demo Cascade Endpoints (Task D9.4)
+DEMO_DIR = REPO_ROOT / "data" / "demo"
+
+
+@app.get("/demo/index.json")
+def get_demo_index():
+    path = DEMO_DIR / "index.json"
+    if path.exists():
+        return FileResponse(path, media_type="application/json")
+    raise HTTPException(status_code=404, detail="Demo cascade index not found")
+
+
+@app.get("/demo/{slug}/{filename}")
+def get_demo_step_file(slug: str, filename: str):
+    path = DEMO_DIR / slug / filename
+    if path.exists():
+        return FileResponse(path, media_type="application/json")
+    raise HTTPException(status_code=404, detail=f"Demo file {filename} not found")
+
+
 @app.get("/backtests")
 def get_backtests():
     return [
