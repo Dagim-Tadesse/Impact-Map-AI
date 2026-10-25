@@ -191,7 +191,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             onLaunchDemo?.();
           }}
           data-testid="topbar-run"
-          title={t('app.event_simulation')}
+          title={t('app.event_simulation_tooltip')}
           className={`${flatTrigger} text-cyan-300 hover:text-white`}
         >
           <Play className="w-3.5 h-3.5 fill-current shrink-0" />

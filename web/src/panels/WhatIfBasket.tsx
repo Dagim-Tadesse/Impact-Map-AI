@@ -17,6 +17,9 @@ export const WhatIfBasket: React.FC = () => {
     setActiveTab,
     drawerOpen,
     setDrawerOpen,
+    selectedSegmentId,
+    selectedFacilityId,
+    selectedCommunityId,
   } = useAppStore();
 
   const whatIfMutation = useWhatIfMutation();
@@ -26,6 +29,8 @@ export const WhatIfBasket: React.FC = () => {
   if (totalOverrides === 0 && drawerOpen !== 'whatif') {
     return null;
   }
+
+  const hasRightDrawer = Boolean(selectedSegmentId !== null || selectedFacilityId !== null || selectedCommunityId !== null);
 
   const handleApply = async () => {
     if (!currentCacheKey || totalOverrides === 0) return;
@@ -50,7 +55,13 @@ export const WhatIfBasket: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-20 sm:bottom-24 right-3 sm:right-4 left-3 sm:left-auto sm:w-80 glass-panel-elevated rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 z-50 animate-in fade-in slide-in-from-bottom-6 duration-300">
+    <div
+      className={`fixed ${
+        hasRightDrawer
+          ? 'top-16 sm:top-auto sm:bottom-24 left-3 sm:left-auto sm:right-[412px] sm:w-80'
+          : 'bottom-20 sm:bottom-24 right-3 sm:right-4 left-3 sm:left-auto sm:w-80'
+      } glass-panel-elevated rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 z-50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-6`}
+    >
       {/* Header */}
       <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10">
         <div className="flex items-center gap-2">

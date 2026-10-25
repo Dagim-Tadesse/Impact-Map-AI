@@ -337,11 +337,49 @@ async def get_job(job_id: str):
     return ex
 
 
+PRESET_SCENARIOS: Dict[str, Dict[str, Any]] = {
+    "baseline-dry": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [0.0],
+        "antecedent_30d_mm": 40.0,
+        "closure_factor": 1.0,
+        "forced_closed": [],
+        "forced_open": [],
+    },
+    "awash-2020-replay": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2020-08-20",
+        "daily_rain_mm": [25.0, 48.0, 36.5, 12.0],
+        "antecedent_30d_mm": 120.0,
+        "closure_factor": 1.0,
+        "forced_closed": [],
+        "forced_open": [],
+    },
+    "wet-week-heavy-storm": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [30.0, 85.0, 60.0, 15.0],
+        "antecedent_30d_mm": 220.0,
+        "closure_factor": 1.0,
+        "forced_closed": [],
+        "forced_open": [],
+    },
+}
+
+
 @app.get("/results/{cache_key}")
 async def get_result_summary(cache_key: str):
     cached = await db.get_cached_result(cache_key)
     if cached:
         return cached
+    if cache_key in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        await db.save_cached_result(cache_key, summary, segments)
+        return summary
     res = load_example("result_summary.json")
     res["cache_key"] = cache_key
     return res
@@ -350,6 +388,11 @@ async def get_result_summary(cache_key: str):
 @app.get("/results/{cache_key}/segments")
 async def get_result_segments(cache_key: str):
     cached = await db.get_cached_result(cache_key)
+    if not cached and cache_key in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        await db.save_cached_result(cache_key, summary, segments)
+        cached = await db.get_cached_result(cache_key)
+
     if cached and cached.get("segments"):
         return {
             "cache_key": cache_key,
@@ -631,8 +674,21 @@ async def post_whatif(body: WhatIfRequest):
 
 @app.get("/compare")
 async def get_compare(a: str = Query(...), b: str = Query(...)):
-    res_a = await db.get_cached_result(a) or load_example("result_summary.json")
-    res_b = await db.get_cached_result(b) or load_example("result_summary.json")
+    res_a = await db.get_cached_result(a)
+    if not res_a and a in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[a], a)
+        await db.save_cached_result(a, summary, segments)
+        res_a = summary
+    if not res_a:
+        res_a = load_example("result_summary.json")
+
+    res_b = await db.get_cached_result(b)
+    if not res_b and b in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[b], b)
+        await db.save_cached_result(b, summary, segments)
+        res_b = summary
+    if not res_b:
+        res_b = load_example("result_summary.json")
 
     totals_a = res_a.get("region_totals", {})
     totals_b = res_b.get("region_totals", {})

@@ -1,0 +1,10 @@
+{
+  "step": 3,
+  "day_label": "Day 3",
+  "rain_cumulative_mm": 109.5,
+  "cache_key": "785c2307eb353f898ffbefbb638c98ff",
+  "summary_url": "/demo/awash-2020-replay/step_3_summary.json",
+  "segments_url": "/demo/awash-2020-replay/step_3_segments.json",
+  "narration": "Day 3: 109.5 mm cumulative rainfall. Road network intact with minor drainage ponding (90,046 people with travel delays).",
+  "changes": []
+}

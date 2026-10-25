@@ -1,0 +1,84 @@
+{
+  "demos": [
+    {
+      "slug": "baseline-dry",
+      "title": "Baseline (Dry Weather)",
+      "description": "Zero rainfall baseline reference state for accessibility benchmarks.",
+      "n_steps": 3,
+      "scenario": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "antecedent_30d_mm": 40.0,
+        "spatial": {
+          "type": "uniform"
+        },
+        "closure_factor": 1.0,
+        "failure_mode": "independent",
+        "n_samples": 100,
+        "seed": 42,
+        "forced_closed": [],
+        "forced_open": []
+      }
+    },
+    {
+      "slug": "awash-2020-replay",
+      "title": "Awash Basin 2020 Replay",
+      "description": "Historical replay of the devastating August 2020 Awash river overflow.",
+      "n_steps": 4,
+      "scenario": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2020-08-20",
+        "daily_rain_mm": [
+          25.0,
+          48.0,
+          36.5,
+          12.0
+        ],
+        "antecedent_30d_mm": 120.0,
+        "spatial": {
+          "type": "uniform"
+        },
+        "closure_factor": 1.0,
+        "failure_mode": "independent",
+        "n_samples": 100,
+        "seed": 42,
+        "forced_closed": [],
+        "forced_open": []
+      }
+    },
+    {
+      "slug": "wet-week-heavy-storm",
+      "title": "Severe 4-Day Flood Event",
+      "description": "Peak-centered convective deluge over saturated upper catchments.",
+      "n_steps": 4,
+      "scenario": {
+        "hazard": "flood",
+        "region_id": "awash_01",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [
+          30.0,
+          85.0,
+          60.0,
+          15.0
+        ],
+        "antecedent_30d_mm": 220.0,
+        "spatial": {
+          "type": "uniform"
+        },
+        "closure_factor": 1.0,
+        "failure_mode": "independent",
+        "n_samples": 100,
+        "seed": 42,
+        "forced_closed": [],
+        "forced_open": []
+      }
+    }
+  ]
+}
