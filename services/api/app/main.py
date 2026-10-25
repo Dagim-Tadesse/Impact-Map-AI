@@ -3,6 +3,7 @@ import logging
 import time
 import uuid
 from datetime import datetime, timezone
+from http import HTTPStatus
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -103,22 +104,32 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    req_id = getattr(request.state, "request_id", f"req-{uuid.uuid4().hex[:12]}")
-    code = "NOT_FOUND" if exc.status_code == 404 else "INTERNAL_ERROR"
-    if exc.status_code == 429:
-        code = "RATE_LIMITED"
+    try:
+        error_phrase = HTTPStatus(exc.status_code).phrase
+    except (ValueError, KeyError):
+        error_phrase = "HTTP Exception"
+
+    if isinstance(exc.detail, dict):
+        error_val = exc.detail.get("error", error_phrase)
+        message_val = exc.detail.get("message", str(exc.detail))
+    else:
+        error_val = error_phrase
+        message_val = exc.detail
+
+    req_id = getattr(request.state, "request_id", None)
+    headers = dict(exc.headers) if getattr(exc, "headers", None) else {}
+    if req_id and "x-request-id" not in headers:
+        headers["x-request-id"] = req_id
 
     return JSONResponse(
         status_code=exc.status_code,
-        headers={"x-request-id": req_id},
+        headers=headers if headers else None,
         content={
-            "error": {
-                "code": code,
-                "message": str(exc.detail),
-                "field": None,
-                "request_id": req_id
-            }
-        }
+            "status_code": exc.status_code,
+            "error": error_val,
+            "message": message_val,
+            "path": request.url.path,
+        },
     )
 
 
