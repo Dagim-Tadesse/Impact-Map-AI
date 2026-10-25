@@ -1,6 +1,6 @@
 {
   "api_base_url": "https://impactmap-api.onrender.com",
-  "data_base_url": "https://impactmap-api.onrender.com/data",
+  "data_base_url": "/data",
   "region_id": "awash_01",
   "data_version": "d20261025a",
   "model_version": "m20261026a",

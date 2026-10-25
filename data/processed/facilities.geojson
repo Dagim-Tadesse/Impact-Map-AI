@@ -1,0 +1,265 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "fac_00001",
+      "properties": {
+        "facility_id": "fac_00001",
+        "name": "Unnamed Health Facility",
+        "level": "clinic",
+        "source": "osm",
+        "snap_distance_m": 55,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1106
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.91655,
+          8.86884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00002",
+      "properties": {
+        "facility_id": "fac_00002",
+        "name": "Unnamed Health Facility",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 86,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6009
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.91166,
+          10.01785
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00003",
+      "properties": {
+        "facility_id": "fac_00003",
+        "name": "Unnamed Health Facility",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 56,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8576
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.90397,
+          10.00756
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00004",
+      "properties": {
+        "facility_id": "fac_00004",
+        "name": "\u12f0\u1265\u1228 \u1265\u122d\u1200\u1295 \u122a\u1348\u122b\u120d \u1206\u1235\u1352\u1273\u120d",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 74,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3200
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.5351,
+          9.67858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00005",
+      "properties": {
+        "facility_id": "fac_00005",
+        "name": "Unnamed Health Facility",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 28,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6546
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.66016,
+          10.11991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00006",
+      "properties": {
+        "facility_id": "fac_00006",
+        "name": "Unnamed Health Facility",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 98,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6086
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.65482,
+          10.11602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00007",
+      "properties": {
+        "facility_id": "fac_00007",
+        "name": "Metehara Health Center",
+        "level": "hospital",
+        "source": "osm",
+        "snap_distance_m": 81,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11549
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.92638,
+          8.9067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00008",
+      "properties": {
+        "facility_id": "fac_00008",
+        "name": "Awash Sebat General Hospital",
+        "level": "hospital",
+        "source": "curated_regional",
+        "snap_distance_m": 79,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3503
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.1654,
+          8.9882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00009",
+      "properties": {
+        "facility_id": "fac_00009",
+        "name": "Awash Arba Health Center",
+        "level": "health_center",
+        "source": "curated_regional",
+        "snap_distance_m": 277,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6505
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.158,
+          9.145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00010",
+      "properties": {
+        "facility_id": "fac_00010",
+        "name": "Gedamaytu Health Center",
+        "level": "health_center",
+        "source": "curated_regional",
+        "snap_distance_m": 2315,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 6484
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.315,
+          9.385
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00011",
+      "properties": {
+        "facility_id": "fac_00011",
+        "name": "Doho Rural Clinic",
+        "level": "clinic",
+        "source": "curated_regional",
+        "snap_distance_m": 1589,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 6834
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.025,
+          9.215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00012",
+      "properties": {
+        "facility_id": "fac_00012",
+        "name": "Amibara Primary Hospital",
+        "level": "hospital",
+        "source": "curated_regional",
+        "snap_distance_m": 2657,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 6684
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.211,
+          9.352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fac_00013",
+      "properties": {
+        "facility_id": "fac_00013",
+        "name": "Melka Sedi Health Center",
+        "level": "health_center",
+        "source": "curated_regional",
+        "snap_distance_m": 265,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4715
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.134,
+          9.245
+        ]
+      }
+    }
+  ]
+}

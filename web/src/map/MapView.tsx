@@ -84,6 +84,7 @@ export const MapView: React.FC = () => {
               'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
             ],
             tileSize: 256,
+            maxzoom: 14,
             attribution: '© Esri, HERE, Garmin, OpenStreetMap contributors',
           },
         },
@@ -265,16 +266,35 @@ export const MapView: React.FC = () => {
         filter: ['match', ['get', 'segment_id'], [-9999], true, false],
       });
 
-      // Alternative Surviving Route
+      // Alternative Surviving Route (Cyan Dashed Line)
       map.addLayer({
         id: 'alt-route-line',
         type: 'line',
         source: 'alt-route',
         paint: {
-          'line-color': '#38bdf8',
-          'line-width': 4,
-          'line-dasharray': [2, 2],
-          'line-opacity': 0.9,
+          'line-color': '#06b6d4',
+          'line-width': 4.5,
+          'line-dasharray': [2, 1.5],
+          'line-opacity': 0.95,
+        },
+      });
+
+      // Alternative Surviving Route Label
+      map.addLayer({
+        id: 'alt-route-label',
+        type: 'symbol',
+        source: 'alt-route',
+        layout: {
+          'symbol-placement': 'line-center',
+          'text-field': '⚡ Surviving Emergency Detour Route',
+          'text-size': 11,
+          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, -1.2],
+        },
+        paint: {
+          'text-color': '#22d3ee',
+          'text-halo-color': '#020617',
+          'text-halo-width': 2.5,
         },
       });
 

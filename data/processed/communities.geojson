@@ -1,0 +1,5002 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "com_00001",
+      "properties": {
+        "community_id": "com_00001",
+        "name": "Debre Birhan",
+        "people_est": 73697,
+        "snap_distance_m": 41,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2797
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.53249,
+          9.67521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00002",
+      "properties": {
+        "community_id": "com_00002",
+        "name": "Bole",
+        "people_est": 12000,
+        "snap_distance_m": 61,
+        "quality_flag": "ok",
+        "nearest_node_idx": 7347
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.75414,
+          8.65032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00003",
+      "properties": {
+        "community_id": "com_00003",
+        "name": "Awash",
+        "people_est": 11053,
+        "snap_distance_m": 118,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2322
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.16767,
+          8.9925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00004",
+      "properties": {
+        "community_id": "com_00004",
+        "name": "Haro Adi",
+        "people_est": 12000,
+        "snap_distance_m": 130,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1106
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.91721,
+          8.86902
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00005",
+      "properties": {
+        "community_id": "com_00005",
+        "name": "Mi'eessoo",
+        "people_est": 12000,
+        "snap_distance_m": 20,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4331
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.75485,
+          9.23307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00006",
+      "properties": {
+        "community_id": "com_00006",
+        "name": "Ciroo",
+        "people_est": 12000,
+        "snap_distance_m": 80,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2727
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.86633,
+          9.08748
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00007",
+      "properties": {
+        "community_id": "com_00007",
+        "name": "Hirna",
+        "people_est": 12000,
+        "snap_distance_m": 16,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2060
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.1018,
+          9.21744
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00008",
+      "properties": {
+        "community_id": "com_00008",
+        "name": "Community Node",
+        "people_est": 12000,
+        "snap_distance_m": 88,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6500
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.16969,
+          9.12792
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00009",
+      "properties": {
+        "community_id": "com_00009",
+        "name": "Shoa Robit",
+        "people_est": 12000,
+        "snap_distance_m": 40,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5983
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.90087,
+          9.99376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00010",
+      "properties": {
+        "community_id": "com_00010",
+        "name": "Mullu",
+        "people_est": 1800,
+        "snap_distance_m": 136,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3391
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.83428,
+          9.29347
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00011",
+      "properties": {
+        "community_id": "com_00011",
+        "name": "Matahaaraa",
+        "people_est": 12000,
+        "snap_distance_m": 46,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3556
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.91814,
+          8.90251
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00012",
+      "properties": {
+        "community_id": "com_00012",
+        "name": "Aluaba",
+        "people_est": 1800,
+        "snap_distance_m": 111,
+        "quality_flag": "ok",
+        "nearest_node_idx": 78
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.78725,
+          9.5625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00013",
+      "properties": {
+        "community_id": "com_00013",
+        "name": "Kuni",
+        "people_est": 1800,
+        "snap_distance_m": 104,
+        "quality_flag": "ok",
+        "nearest_node_idx": 40
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.88455,
+          9.00246
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00014",
+      "properties": {
+        "community_id": "com_00014",
+        "name": "Aremaniyan",
+        "people_est": 1800,
+        "snap_distance_m": 21,
+        "quality_flag": "ok",
+        "nearest_node_idx": 7805
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.8221,
+          9.882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00015",
+      "properties": {
+        "community_id": "com_00015",
+        "name": "Old Gewane",
+        "people_est": 1800,
+        "snap_distance_m": 13,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2208
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.64528,
+          10.16639
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00016",
+      "properties": {
+        "community_id": "com_00016",
+        "name": "Boke Tiko",
+        "people_est": 12000,
+        "snap_distance_m": 61,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1780
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.64347,
+          8.72659
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00017",
+      "properties": {
+        "community_id": "com_00017",
+        "name": "Micheta",
+        "people_est": 12000,
+        "snap_distance_m": 107,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2029
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.31735,
+          8.57276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00018",
+      "properties": {
+        "community_id": "com_00018",
+        "name": "Gunt Amba",
+        "people_est": 450,
+        "snap_distance_m": 3224,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 367
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.68312,
+          9.90221
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00019",
+      "properties": {
+        "community_id": "com_00019",
+        "name": "Malka Jillo",
+        "people_est": 1800,
+        "snap_distance_m": 125,
+        "quality_flag": "ok",
+        "nearest_node_idx": 7121
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.62105,
+          8.89255
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00020",
+      "properties": {
+        "community_id": "com_00020",
+        "name": "Bike",
+        "people_est": 12000,
+        "snap_distance_m": 58,
+        "quality_flag": "ok",
+        "nearest_node_idx": 10206
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.19736,
+          9.53092
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00021",
+      "properties": {
+        "community_id": "com_00021",
+        "name": "Mesela",
+        "people_est": 12000,
+        "snap_distance_m": 39,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2393
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.17386,
+          9.07998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00022",
+      "properties": {
+        "community_id": "com_00022",
+        "name": "\u12a0\u134d\u12f0\u121d / \u0100fdem",
+        "people_est": 12000,
+        "snap_distance_m": 9,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3362
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.99808,
+          9.46263
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00023",
+      "properties": {
+        "community_id": "com_00023",
+        "name": "Ankober",
+        "people_est": 2485,
+        "snap_distance_m": 23,
+        "quality_flag": "ok",
+        "nearest_node_idx": 71
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.73382,
+          9.59115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00024",
+      "properties": {
+        "community_id": "com_00024",
+        "name": "Asbuli",
+        "people_est": 1800,
+        "snap_distance_m": 179,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2370
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.16547,
+          9.97944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00025",
+      "properties": {
+        "community_id": "com_00025",
+        "name": "Gelemso",
+        "people_est": 12000,
+        "snap_distance_m": 55,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3714
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.52205,
+          8.81271
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00026",
+      "properties": {
+        "community_id": "com_00026",
+        "name": "Dabaasoo",
+        "people_est": 1800,
+        "snap_distance_m": 102,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4556
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.0062,
+          9.14236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00027",
+      "properties": {
+        "community_id": "com_00027",
+        "name": "Molale",
+        "people_est": 93800,
+        "snap_distance_m": 19,
+        "quality_flag": "ok",
+        "nearest_node_idx": 10691
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.66066,
+          10.1192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00028",
+      "properties": {
+        "community_id": "com_00028",
+        "name": "Doba",
+        "people_est": 12000,
+        "snap_distance_m": 25,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2428
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.09141,
+          9.28571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00029",
+      "properties": {
+        "community_id": "com_00029",
+        "name": "Gudo Beret",
+        "people_est": 1800,
+        "snap_distance_m": 33,
+        "quality_flag": "ok",
+        "nearest_node_idx": 7606
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.68325,
+          9.80062
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00030",
+      "properties": {
+        "community_id": "com_00030",
+        "name": "Hoosay",
+        "people_est": 1800,
+        "snap_distance_m": 141,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4410
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.78893,
+          9.187
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00031",
+      "properties": {
+        "community_id": "com_00031",
+        "name": "Arbaa Rakkatee",
+        "people_est": 1800,
+        "snap_distance_m": 70,
+        "quality_flag": "ok",
+        "nearest_node_idx": 34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.91173,
+          9.0536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00032",
+      "properties": {
+        "community_id": "com_00032",
+        "name": "Zigiitaa",
+        "people_est": 1800,
+        "snap_distance_m": 693,
+        "quality_flag": "ok",
+        "nearest_node_idx": 308
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.13856,
+          9.27353
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00033",
+      "properties": {
+        "community_id": "com_00033",
+        "name": "Gugee",
+        "people_est": 1800,
+        "snap_distance_m": 103,
+        "quality_flag": "ok",
+        "nearest_node_idx": 261
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.18316,
+          9.27972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00034",
+      "properties": {
+        "community_id": "com_00034",
+        "name": "Debre Sina",
+        "people_est": 12000,
+        "snap_distance_m": 43,
+        "quality_flag": "ok",
+        "nearest_node_idx": 7728
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.76348,
+          9.85048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00035",
+      "properties": {
+        "community_id": "com_00035",
+        "name": "Debre Metmak",
+        "people_est": 1800,
+        "snap_distance_m": 130,
+        "quality_flag": "ok",
+        "nearest_node_idx": 366
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.63187,
+          9.93698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00036",
+      "properties": {
+        "community_id": "com_00036",
+        "name": "Bosena Werda",
+        "people_est": 1800,
+        "snap_distance_m": 127,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3792
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.64827,
+          9.72883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00037",
+      "properties": {
+        "community_id": "com_00037",
+        "name": "Gadamaytu",
+        "people_est": 1800,
+        "snap_distance_m": 205,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3772
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.4574,
+          9.73799
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00038",
+      "properties": {
+        "community_id": "com_00038",
+        "name": "Doni",
+        "people_est": 12000,
+        "snap_distance_m": 88,
+        "quality_flag": "ok",
+        "nearest_node_idx": 635
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.55245,
+          8.50734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00039",
+      "properties": {
+        "community_id": "com_00039",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 211,
+        "quality_flag": "ok",
+        "nearest_node_idx": 782
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.67789,
+          8.57317
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00040",
+      "properties": {
+        "community_id": "com_00040",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 572,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1496
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.40834,
+          8.955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00041",
+      "properties": {
+        "community_id": "com_00041",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 61,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1441
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.4275,
+          8.94496
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00042",
+      "properties": {
+        "community_id": "com_00042",
+        "name": "Bordode",
+        "people_est": 12000,
+        "snap_distance_m": 46,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11632
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.38902,
+          9.0131
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00043",
+      "properties": {
+        "community_id": "com_00043",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 191,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1612
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37012,
+          8.95239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00044",
+      "properties": {
+        "community_id": "com_00044",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 31,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3324
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37914,
+          9.02207
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00045",
+      "properties": {
+        "community_id": "com_00045",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 300,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1493
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.32711,
+          9.014
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00046",
+      "properties": {
+        "community_id": "com_00046",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 36,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1495
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.40274,
+          8.95064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00047",
+      "properties": {
+        "community_id": "com_00047",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 828,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1443
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.41012,
+          8.96391
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00048",
+      "properties": {
+        "community_id": "com_00048",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1478,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1519
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28064,
+          8.83352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00049",
+      "properties": {
+        "community_id": "com_00049",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1377,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1519
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28741,
+          8.8581
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00050",
+      "properties": {
+        "community_id": "com_00050",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 335,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1515
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.31617,
+          8.90209
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00051",
+      "properties": {
+        "community_id": "com_00051",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 88,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1530
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.30423,
+          8.77633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00052",
+      "properties": {
+        "community_id": "com_00052",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 265,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1527
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28143,
+          8.76505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00053",
+      "properties": {
+        "community_id": "com_00053",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 334,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1528
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.2878,
+          8.76359
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00054",
+      "properties": {
+        "community_id": "com_00054",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 107,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1540
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.30708,
+          8.7809
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00055",
+      "properties": {
+        "community_id": "com_00055",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 598,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1532
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28971,
+          8.77137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00056",
+      "properties": {
+        "community_id": "com_00056",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 3307,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 1549
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36907,
+          8.8041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00057",
+      "properties": {
+        "community_id": "com_00057",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1202,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4678
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.27865,
+          8.73615
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00058",
+      "properties": {
+        "community_id": "com_00058",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 944,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1537
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.29415,
+          8.80527
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00059",
+      "properties": {
+        "community_id": "com_00059",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 187,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1534
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.27132,
+          8.81951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00060",
+      "properties": {
+        "community_id": "com_00060",
+        "name": "Wefe",
+        "people_est": 12000,
+        "snap_distance_m": 415,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1543
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.30892,
+          8.69783
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00061",
+      "properties": {
+        "community_id": "com_00061",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 56,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1545
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.33326,
+          8.78689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00062",
+      "properties": {
+        "community_id": "com_00062",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2042,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1546
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.3393,
+          8.76573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00063",
+      "properties": {
+        "community_id": "com_00063",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2751,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1542
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.34215,
+          8.71367
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00064",
+      "properties": {
+        "community_id": "com_00064",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1704,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4678
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.2834,
+          8.73168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00065",
+      "properties": {
+        "community_id": "com_00065",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 3407,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 1543
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.30066,
+          8.72674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00066",
+      "properties": {
+        "community_id": "com_00066",
+        "name": "Medegede",
+        "people_est": 1800,
+        "snap_distance_m": 441,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2268
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.27738,
+          8.68292
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00067",
+      "properties": {
+        "community_id": "com_00067",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1276,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1456
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.38747,
+          8.92447
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00068",
+      "properties": {
+        "community_id": "com_00068",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 746,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1455
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.40013,
+          8.92389
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00069",
+      "properties": {
+        "community_id": "com_00069",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 143,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1455
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.39771,
+          8.92923
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00070",
+      "properties": {
+        "community_id": "com_00070",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 427,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1458
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.39092,
+          8.93626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00071",
+      "properties": {
+        "community_id": "com_00071",
+        "name": "Mechara",
+        "people_est": 12000,
+        "snap_distance_m": 58,
+        "quality_flag": "ok",
+        "nearest_node_idx": 9806
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.32448,
+          8.59977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00072",
+      "properties": {
+        "community_id": "com_00072",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 31,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1580
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.35069,
+          8.64368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00073",
+      "properties": {
+        "community_id": "com_00073",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 459,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1611
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36821,
+          8.92986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00074",
+      "properties": {
+        "community_id": "com_00074",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 626,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1549
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.38468,
+          8.82299
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00075",
+      "properties": {
+        "community_id": "com_00075",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 136,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1588
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.38467,
+          8.69107
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00076",
+      "properties": {
+        "community_id": "com_00076",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 72,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1585
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36656,
+          8.66951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00077",
+      "properties": {
+        "community_id": "com_00077",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 203,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4905
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.3993,
+          8.70894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00078",
+      "properties": {
+        "community_id": "com_00078",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 98,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1631
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.39429,
+          8.84641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00079",
+      "properties": {
+        "community_id": "com_00079",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 72,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1616
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.34767,
+          8.65056
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00080",
+      "properties": {
+        "community_id": "com_00080",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 65,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1584
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.35597,
+          8.65817
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00081",
+      "properties": {
+        "community_id": "com_00081",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 61,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1646
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.42216,
+          8.82869
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00082",
+      "properties": {
+        "community_id": "com_00082",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1613,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1614
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36816,
+          8.63542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00083",
+      "properties": {
+        "community_id": "com_00083",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 763,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1692
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.58104,
+          8.79319
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00084",
+      "properties": {
+        "community_id": "com_00084",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 595,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1639
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.60747,
+          8.84207
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00085",
+      "properties": {
+        "community_id": "com_00085",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1167,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1636
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67361,
+          8.87368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00086",
+      "properties": {
+        "community_id": "com_00086",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 107,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1690
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.58775,
+          8.76981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00087",
+      "properties": {
+        "community_id": "com_00087",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2556,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1728
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.66147,
+          8.86916
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00088",
+      "properties": {
+        "community_id": "com_00088",
+        "name": "Komona",
+        "people_est": 12000,
+        "snap_distance_m": 147,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1898
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.55582,
+          8.95065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00089",
+      "properties": {
+        "community_id": "com_00089",
+        "name": "Wachu",
+        "people_est": 12000,
+        "snap_distance_m": 72,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1637
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.62336,
+          8.8484
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00090",
+      "properties": {
+        "community_id": "com_00090",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 821,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1731
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67039,
+          8.84295
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00091",
+      "properties": {
+        "community_id": "com_00091",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 45,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1731
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.66614,
+          8.83646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00092",
+      "properties": {
+        "community_id": "com_00092",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 114,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1727
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.68777,
+          8.83479
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00093",
+      "properties": {
+        "community_id": "com_00093",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 894,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1689
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70094,
+          8.86641
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00094",
+      "properties": {
+        "community_id": "com_00094",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 122,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1726
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.69472,
+          8.84466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00095",
+      "properties": {
+        "community_id": "com_00095",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2141,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1728
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67311,
+          8.85602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00096",
+      "properties": {
+        "community_id": "com_00096",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1756,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1734
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.65149,
+          8.6718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00097",
+      "properties": {
+        "community_id": "com_00097",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 433,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1734
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.64989,
+          8.69139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00098",
+      "properties": {
+        "community_id": "com_00098",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1369,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1679
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67598,
+          8.78625
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00099",
+      "properties": {
+        "community_id": "com_00099",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 39,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1677
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67231,
+          8.77184
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00100",
+      "properties": {
+        "community_id": "com_00100",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 109,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4953
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.67428,
+          8.75881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00101",
+      "properties": {
+        "community_id": "com_00101",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1290,
+        "quality_flag": "ok",
+        "nearest_node_idx": 494
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70149,
+          8.70734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00102",
+      "properties": {
+        "community_id": "com_00102",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 144,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1804
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.60016,
+          8.6943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00103",
+      "properties": {
+        "community_id": "com_00103",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 160,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6869
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.62445,
+          8.67642
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00104",
+      "properties": {
+        "community_id": "com_00104",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1309,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1881
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.55506,
+          9.09834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00105",
+      "properties": {
+        "community_id": "com_00105",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1936,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6868
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6065,
+          8.65464
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00106",
+      "properties": {
+        "community_id": "com_00106",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1028,
+        "quality_flag": "ok",
+        "nearest_node_idx": 276
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.54701,
+          9.14747
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00107",
+      "properties": {
+        "community_id": "com_00107",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 969,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1814
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.60514,
+          8.67175
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00108",
+      "properties": {
+        "community_id": "com_00108",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 152,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1842
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.58696,
+          9.07765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00109",
+      "properties": {
+        "community_id": "com_00109",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 239,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1841
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6084,
+          9.08945
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00110",
+      "properties": {
+        "community_id": "com_00110",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 63,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1824
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.64187,
+          9.16924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00111",
+      "properties": {
+        "community_id": "com_00111",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 142,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1915
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61087,
+          9.11005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00112",
+      "properties": {
+        "community_id": "com_00112",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 167,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2046
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.65038,
+          9.21304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00113",
+      "properties": {
+        "community_id": "com_00113",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1066,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1896
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6724,
+          8.93588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00114",
+      "properties": {
+        "community_id": "com_00114",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 3278,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 1886
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.68483,
+          9.12301
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00115",
+      "properties": {
+        "community_id": "com_00115",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 754,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1906
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.69611,
+          9.09099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00116",
+      "properties": {
+        "community_id": "com_00116",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 203,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4272
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6984,
+          9.20984
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00117",
+      "properties": {
+        "community_id": "com_00117",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 249,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1851
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.68773,
+          9.16855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00118",
+      "properties": {
+        "community_id": "com_00118",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 67,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1902
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.60258,
+          8.95481
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00119",
+      "properties": {
+        "community_id": "com_00119",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1572,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1906
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6915,
+          9.09807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00120",
+      "properties": {
+        "community_id": "com_00120",
+        "name": "Fayu",
+        "people_est": 1800,
+        "snap_distance_m": 649,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4532
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70601,
+          9.19149
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00121",
+      "properties": {
+        "community_id": "com_00121",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1845,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1903
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.58839,
+          8.92385
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00122",
+      "properties": {
+        "community_id": "com_00122",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2716,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1886
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.68559,
+          9.12869
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00123",
+      "properties": {
+        "community_id": "com_00123",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1160,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1900
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.57755,
+          8.92315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00124",
+      "properties": {
+        "community_id": "com_00124",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 421,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1891
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61855,
+          9.14506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00125",
+      "properties": {
+        "community_id": "com_00125",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 430,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1906
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.69208,
+          9.08158
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00126",
+      "properties": {
+        "community_id": "com_00126",
+        "name": "Bekka",
+        "people_est": 1800,
+        "snap_distance_m": 34,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3753
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70331,
+          9.05895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00127",
+      "properties": {
+        "community_id": "com_00127",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 176,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1895
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70605,
+          9.16575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00128",
+      "properties": {
+        "community_id": "com_00128",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 279,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1900
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.57473,
+          8.93487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00129",
+      "properties": {
+        "community_id": "com_00129",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1011,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1891
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61957,
+          9.1327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00130",
+      "properties": {
+        "community_id": "com_00130",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 3331,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 1848
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.70603,
+          9.12875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00131",
+      "properties": {
+        "community_id": "com_00131",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1656,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1916
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.62196,
+          9.01147
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00132",
+      "properties": {
+        "community_id": "com_00132",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 263,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1808
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61219,
+          9.04434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00133",
+      "properties": {
+        "community_id": "com_00133",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 171,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1917
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61642,
+          9.02505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00134",
+      "properties": {
+        "community_id": "com_00134",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 229,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1946
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.55721,
+          8.76157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00135",
+      "properties": {
+        "community_id": "com_00135",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 67,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1930
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.55464,
+          8.76956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00136",
+      "properties": {
+        "community_id": "com_00136",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 218,
+        "quality_flag": "ok",
+        "nearest_node_idx": 318
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.5634,
+          8.72787
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00137",
+      "properties": {
+        "community_id": "com_00137",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 620,
+        "quality_flag": "ok",
+        "nearest_node_idx": 316
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.55384,
+          8.72547
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00138",
+      "properties": {
+        "community_id": "com_00138",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 80,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1941
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.54639,
+          8.76518
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00139",
+      "properties": {
+        "community_id": "com_00139",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1902,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2021
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36202,
+          8.5603
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00140",
+      "properties": {
+        "community_id": "com_00140",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1232,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1990
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.39129,
+          8.55052
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00141",
+      "properties": {
+        "community_id": "com_00141",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 72,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2003
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.42496,
+          8.566
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00142",
+      "properties": {
+        "community_id": "com_00142",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 65,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1986
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37044,
+          8.59727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00143",
+      "properties": {
+        "community_id": "com_00143",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 33,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2015
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36983,
+          8.50567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00144",
+      "properties": {
+        "community_id": "com_00144",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 67,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2034
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28284,
+          8.53818
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00145",
+      "properties": {
+        "community_id": "com_00145",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 437,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2171
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.131,
+          8.65214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00146",
+      "properties": {
+        "community_id": "com_00146",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 38,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2167
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.09158,
+          8.65143
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00147",
+      "properties": {
+        "community_id": "com_00147",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 25,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2198
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.18798,
+          8.54746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00148",
+      "properties": {
+        "community_id": "com_00148",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1120,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2196
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.14932,
+          8.57628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00149",
+      "properties": {
+        "community_id": "com_00149",
+        "name": "Gewane",
+        "people_est": 12000,
+        "snap_distance_m": 59,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3761
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6616,
+          10.15923
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00150",
+      "properties": {
+        "community_id": "com_00150",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 49,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3641
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.51716,
+          9.97797
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00151",
+      "properties": {
+        "community_id": "com_00151",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 91,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3777
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53822,
+          9.96711
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00152",
+      "properties": {
+        "community_id": "com_00152",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 138,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2265
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.23643,
+          8.69352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00153",
+      "properties": {
+        "community_id": "com_00153",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1380,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4738
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.54017,
+          8.99331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00154",
+      "properties": {
+        "community_id": "com_00154",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 384,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3647
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53718,
+          9.01348
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00155",
+      "properties": {
+        "community_id": "com_00155",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 282,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2293
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53332,
+          9.10896
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00156",
+      "properties": {
+        "community_id": "com_00156",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 643,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2284
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.54097,
+          9.06453
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00157",
+      "properties": {
+        "community_id": "com_00157",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 37,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3647
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53681,
+          9.0166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00158",
+      "properties": {
+        "community_id": "com_00158",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 277,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2673
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.14288,
+          9.00525
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00159",
+      "properties": {
+        "community_id": "com_00159",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 472,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.12435,
+          8.98408
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00160",
+      "properties": {
+        "community_id": "com_00160",
+        "name": "Mintamir",
+        "people_est": 12000,
+        "snap_distance_m": 302,
+        "quality_flag": "ok",
+        "nearest_node_idx": 537
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.55787,
+          9.12882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00161",
+      "properties": {
+        "community_id": "com_00161",
+        "name": "Chirameda",
+        "people_est": 1800,
+        "snap_distance_m": 538,
+        "quality_flag": "ok",
+        "nearest_node_idx": 252
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.8366,
+          9.90235
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00162",
+      "properties": {
+        "community_id": "com_00162",
+        "name": "Tscheoa",
+        "people_est": 1800,
+        "snap_distance_m": 154,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3924
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.97363,
+          10.10706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00163",
+      "properties": {
+        "community_id": "com_00163",
+        "name": "Dulecha",
+        "people_est": 1800,
+        "snap_distance_m": 79,
+        "quality_flag": "ok",
+        "nearest_node_idx": 10166
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.95616,
+          9.54589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00164",
+      "properties": {
+        "community_id": "com_00164",
+        "name": "Melka Sede",
+        "people_est": 1800,
+        "snap_distance_m": 30,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8768
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.14598,
+          9.24166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00165",
+      "properties": {
+        "community_id": "com_00165",
+        "name": "Amibara",
+        "people_est": 1800,
+        "snap_distance_m": 469,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4541
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.18206,
+          9.33257
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00166",
+      "properties": {
+        "community_id": "com_00166",
+        "name": "Hangito",
+        "people_est": 1800,
+        "snap_distance_m": 146,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6484
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.32718,
+          9.40229
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00167",
+      "properties": {
+        "community_id": "com_00167",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 71,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4769
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53933,
+          8.94489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00168",
+      "properties": {
+        "community_id": "com_00168",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 285,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3653
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.53689,
+          8.93764
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00169",
+      "properties": {
+        "community_id": "com_00169",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 106,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3656
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.47169,
+          8.88054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00170",
+      "properties": {
+        "community_id": "com_00170",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 113,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3710
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.46621,
+          8.82116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00171",
+      "properties": {
+        "community_id": "com_00171",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 62,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3737
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.04589,
+          8.63924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00172",
+      "properties": {
+        "community_id": "com_00172",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 59,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3734
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.91494,
+          8.71265
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00173",
+      "properties": {
+        "community_id": "com_00173",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 29,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3742
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.91536,
+          8.52487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00174",
+      "properties": {
+        "community_id": "com_00174",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 104,
+        "quality_flag": "ok",
+        "nearest_node_idx": 37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.90354,
+          9.02093
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00175",
+      "properties": {
+        "community_id": "com_00175",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 106,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3756
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.75357,
+          9.56023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00176",
+      "properties": {
+        "community_id": "com_00176",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1150,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3791
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.61981,
+          9.54728
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00177",
+      "properties": {
+        "community_id": "com_00177",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 502,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3903
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.9727,
+          10.16433
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00178",
+      "properties": {
+        "community_id": "com_00178",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1679,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2037
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.2969,
+          8.55696
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00179",
+      "properties": {
+        "community_id": "com_00179",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 129,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3838
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.38222,
+          8.74318
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00180",
+      "properties": {
+        "community_id": "com_00180",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 711,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3836
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37477,
+          8.75246
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00181",
+      "properties": {
+        "community_id": "com_00181",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 851,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1814
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.5988,
+          8.68164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00182",
+      "properties": {
+        "community_id": "com_00182",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 462,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1805
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.60931,
+          8.68645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00183",
+      "properties": {
+        "community_id": "com_00183",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1237,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1806
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.62628,
+          8.68981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00184",
+      "properties": {
+        "community_id": "com_00184",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 208,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1681
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.69272,
+          8.81631
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00185",
+      "properties": {
+        "community_id": "com_00185",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 55,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3865
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.6688,
+          9.00085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00186",
+      "properties": {
+        "community_id": "com_00186",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 2211,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6898
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.65935,
+          9.06996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00187",
+      "properties": {
+        "community_id": "com_00187",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 2131,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6898
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.66768,
+          9.08076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00188",
+      "properties": {
+        "community_id": "com_00188",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 4544,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 1886
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.65554,
+          9.1154
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00189",
+      "properties": {
+        "community_id": "com_00189",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1521,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1892
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.63202,
+          9.13839
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00190",
+      "properties": {
+        "community_id": "com_00190",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1936,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1892
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.63984,
+          9.14182
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00191",
+      "properties": {
+        "community_id": "com_00191",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 1587,
+        "quality_flag": "ok",
+        "nearest_node_idx": 282
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61859,
+          9.17275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00192",
+      "properties": {
+        "community_id": "com_00192",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 139,
+        "quality_flag": "ok",
+        "nearest_node_idx": 282
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.61479,
+          9.18521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00193",
+      "properties": {
+        "community_id": "com_00193",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 2484,
+        "quality_flag": "ok",
+        "nearest_node_idx": 278
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.57491,
+          9.1463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00194",
+      "properties": {
+        "community_id": "com_00194",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 137,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4033
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.47225,
+          8.69127
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00195",
+      "properties": {
+        "community_id": "com_00195",
+        "name": "Asebot",
+        "people_est": 12000,
+        "snap_distance_m": 42,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1862
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.66608,
+          9.17416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00196",
+      "properties": {
+        "community_id": "com_00196",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 3432,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 8858
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.20447,
+          10.05603
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00197",
+      "properties": {
+        "community_id": "com_00197",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1188,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8858
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.2375,
+          10.03037
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00198",
+      "properties": {
+        "community_id": "com_00198",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 451,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8858
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.22437,
+          10.03438
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00199",
+      "properties": {
+        "community_id": "com_00199",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 1488,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8844
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.20367,
+          10.09804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00200",
+      "properties": {
+        "community_id": "com_00200",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 209,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8848
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.29865,
+          10.08568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00201",
+      "properties": {
+        "community_id": "com_00201",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 2231,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8848
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.28122,
+          10.09245
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00202",
+      "properties": {
+        "community_id": "com_00202",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 742,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8852
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.25208,
+          10.09545
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00203",
+      "properties": {
+        "community_id": "com_00203",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 294,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8853
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.24947,
+          10.08284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00204",
+      "properties": {
+        "community_id": "com_00204",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 532,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8853
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.24608,
+          10.08433
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00205",
+      "properties": {
+        "community_id": "com_00205",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 400,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8855
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.23181,
+          10.09786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00206",
+      "properties": {
+        "community_id": "com_00206",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 161,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8854
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.23743,
+          10.09783
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00207",
+      "properties": {
+        "community_id": "com_00207",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 1423,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8852
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.25831,
+          10.09653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00208",
+      "properties": {
+        "community_id": "com_00208",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 51,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8856
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.26258,
+          10.02615
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00209",
+      "properties": {
+        "community_id": "com_00209",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1783,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8856
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.24679,
+          10.03066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00210",
+      "properties": {
+        "community_id": "com_00210",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 576,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8858
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.23293,
+          10.03359
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00211",
+      "properties": {
+        "community_id": "com_00211",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 873,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8860
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36059,
+          10.09437
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00212",
+      "properties": {
+        "community_id": "com_00212",
+        "name": "Community Node",
+        "people_est": 90,
+        "snap_distance_m": 739,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8868
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36824,
+          10.03554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00213",
+      "properties": {
+        "community_id": "com_00213",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1229,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8864
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36937,
+          10.04311
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00214",
+      "properties": {
+        "community_id": "com_00214",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 271,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8864
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37248,
+          10.05117
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00215",
+      "properties": {
+        "community_id": "com_00215",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 730,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8861
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37008,
+          10.08292
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00216",
+      "properties": {
+        "community_id": "com_00216",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 210,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8862
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36216,
+          10.07644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00217",
+      "properties": {
+        "community_id": "com_00217",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 73,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8886
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.36164,
+          10.02169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00218",
+      "properties": {
+        "community_id": "com_00218",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 922,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8874
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.41251,
+          10.02765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00219",
+      "properties": {
+        "community_id": "com_00219",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 679,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8877
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.40348,
+          10.02004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00220",
+      "properties": {
+        "community_id": "com_00220",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 430,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8868
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37339,
+          10.02936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00221",
+      "properties": {
+        "community_id": "com_00221",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 700,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8868
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.37542,
+          10.03136
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00222",
+      "properties": {
+        "community_id": "com_00222",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 50,
+        "quality_flag": "ok",
+        "nearest_node_idx": 8890
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.4105,
+          9.96701
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00223",
+      "properties": {
+        "community_id": "com_00223",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 628,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2246
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.43958,
+          9.96655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00224",
+      "properties": {
+        "community_id": "com_00224",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2746,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2246
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.46802,
+          9.9712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00225",
+      "properties": {
+        "community_id": "com_00225",
+        "name": "Bedesa",
+        "people_est": 12000,
+        "snap_distance_m": 43,
+        "quality_flag": "ok",
+        "nearest_node_idx": 9222
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.77649,
+          8.90322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00226",
+      "properties": {
+        "community_id": "com_00226",
+        "name": "Tarmaber",
+        "people_est": 1800,
+        "snap_distance_m": 40,
+        "quality_flag": "ok",
+        "nearest_node_idx": 131
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.73276,
+          9.84875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00227",
+      "properties": {
+        "community_id": "com_00227",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1844,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4240
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.17612,
+          8.85653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00228",
+      "properties": {
+        "community_id": "com_00228",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 173,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4240
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.16143,
+          8.85255
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00229",
+      "properties": {
+        "community_id": "com_00229",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 24,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6883
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.19356,
+          8.89463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00230",
+      "properties": {
+        "community_id": "com_00230",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 82,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11490
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.88088,
+          9.55039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00231",
+      "properties": {
+        "community_id": "com_00231",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 36,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6769
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.87504,
+          9.57388
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00232",
+      "properties": {
+        "community_id": "com_00232",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 938,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6773
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.89441,
+          9.5617
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00233",
+      "properties": {
+        "community_id": "com_00233",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 3911,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 10164
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.94355,
+          9.59109
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00234",
+      "properties": {
+        "community_id": "com_00234",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 4010,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 10164
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.94282,
+          9.59524
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00235",
+      "properties": {
+        "community_id": "com_00235",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 175,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6176
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.197,
+          9.44516
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00236",
+      "properties": {
+        "community_id": "com_00236",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 176,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6935
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.1733,
+          9.37103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00237",
+      "properties": {
+        "community_id": "com_00237",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 939,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2423
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.08988,
+          9.29883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00238",
+      "properties": {
+        "community_id": "com_00238",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 105,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5700
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.03295,
+          9.37424
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00239",
+      "properties": {
+        "community_id": "com_00239",
+        "name": "Melka Werer",
+        "people_est": 90,
+        "snap_distance_m": 1241,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5959
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.17546,
+          9.34527
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00240",
+      "properties": {
+        "community_id": "com_00240",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 104,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6741
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.86906,
+          10.09051
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00241",
+      "properties": {
+        "community_id": "com_00241",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 65,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1980
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.89418,
+          10.07749
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00242",
+      "properties": {
+        "community_id": "com_00242",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 2391,
+        "quality_flag": "ok",
+        "nearest_node_idx": 3925
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.93267,
+          10.0784
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00243",
+      "properties": {
+        "community_id": "com_00243",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 30,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1957
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.75982,
+          10.18048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00244",
+      "properties": {
+        "community_id": "com_00244",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 36,
+        "quality_flag": "ok",
+        "nearest_node_idx": 10608
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.64167,
+          10.1978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00245",
+      "properties": {
+        "community_id": "com_00245",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 46,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11146
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.50017,
+          8.97054
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00246",
+      "properties": {
+        "community_id": "com_00246",
+        "name": "Berehed",
+        "people_est": 12000,
+        "snap_distance_m": 26,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11201
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.70926,
+          9.19742
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00247",
+      "properties": {
+        "community_id": "com_00247",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 92,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11414
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.74711,
+          9.22816
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00248",
+      "properties": {
+        "community_id": "com_00248",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1292,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11411
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.76633,
+          9.24892
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00249",
+      "properties": {
+        "community_id": "com_00249",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 776,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11411
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.75284,
+          9.23605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00250",
+      "properties": {
+        "community_id": "com_00250",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 2378,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5873
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.6946,
+          9.06476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00251",
+      "properties": {
+        "community_id": "com_00251",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 41,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11456
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.6302,
+          9.23472
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00252",
+      "properties": {
+        "community_id": "com_00252",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 187,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6975
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.67301,
+          9.23099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00253",
+      "properties": {
+        "community_id": "com_00253",
+        "name": "Community Node",
+        "people_est": 450,
+        "snap_distance_m": 1092,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6960
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.68505,
+          9.24986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00254",
+      "properties": {
+        "community_id": "com_00254",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 30,
+        "quality_flag": "ok",
+        "nearest_node_idx": 11477
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.72421,
+          8.8425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00255",
+      "properties": {
+        "community_id": "com_00255",
+        "name": "Community Node",
+        "people_est": 1800,
+        "snap_distance_m": 59,
+        "quality_flag": "ok",
+        "nearest_node_idx": 2442
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.88238,
+          8.81917
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00256",
+      "properties": {
+        "community_id": "com_00256",
+        "name": "Doho Kebele",
+        "people_est": 4600,
+        "snap_distance_m": 1589,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6834
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.025,
+          9.215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00257",
+      "properties": {
+        "community_id": "com_00257",
+        "name": "Sabure Settlement",
+        "people_est": 3200,
+        "snap_distance_m": 3434,
+        "quality_flag": "long_snap",
+        "nearest_node_idx": 5084
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.225,
+          8.982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00258",
+      "properties": {
+        "community_id": "com_00258",
+        "name": "Amibara Agropastoral Center",
+        "people_est": 5800,
+        "snap_distance_m": 2657,
+        "quality_flag": "ok",
+        "nearest_node_idx": 6684
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.211,
+          9.352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00259",
+      "properties": {
+        "community_id": "com_00259",
+        "name": "Ilala Settlement",
+        "people_est": 2700,
+        "snap_distance_m": 1382,
+        "quality_flag": "ok",
+        "nearest_node_idx": 9175
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.18,
+          9.09
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00260",
+      "properties": {
+        "community_id": "com_00260",
+        "name": "Nura Hira",
+        "people_est": 6100,
+        "snap_distance_m": 568,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5837
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.85,
+          8.78
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00261",
+      "properties": {
+        "community_id": "com_00261",
+        "name": "Tibila",
+        "people_est": 4500,
+        "snap_distance_m": 175,
+        "quality_flag": "ok",
+        "nearest_node_idx": 1297
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.78,
+          8.65
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00262",
+      "properties": {
+        "community_id": "com_00262",
+        "name": "Worer Cotton Plantation Village",
+        "people_est": 3400,
+        "snap_distance_m": 824,
+        "quality_flag": "ok",
+        "nearest_node_idx": 4547
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.175,
+          9.31
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "com_00263",
+      "properties": {
+        "community_id": "com_00263",
+        "name": "Awash River Bank East",
+        "people_est": 1850,
+        "snap_distance_m": 663,
+        "quality_flag": "ok",
+        "nearest_node_idx": 5085
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.19,
+          9.02
+        ]
+      }
+    }
+  ]
+}
