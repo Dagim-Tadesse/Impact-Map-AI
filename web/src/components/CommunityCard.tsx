@@ -9,6 +9,7 @@ import { formatMinutes, formatPeople, formatDistance } from '../lib/format';
 export const CommunityCard: React.FC = () => {
   const {
     selectedCommunityId,
+    selectedCommunityMeta,
     setSelectedCommunityId,
     currentCacheKey,
   } = useAppStore();
@@ -21,15 +22,15 @@ export const CommunityCard: React.FC = () => {
     (c: any) => c.community_id === selectedCommunityId
   );
 
-  const name = comm?.name || selectedCommunityId;
-  const people = comm?.people_est ?? 1200;
-  const pCutOff = comm?.p_cut_off ?? 0.65;
-  const pDegraded = comm?.p_degraded ?? 0.20;
+  const name = selectedCommunityMeta?.name || comm?.name || selectedCommunityId;
+  const people = selectedCommunityMeta?.people_est ?? comm?.people_est ?? 1200;
+  const pCutOff = selectedCommunityMeta?.p_cut_off ?? comm?.p_cut_off ?? 0.28;
+  const pDegraded = comm?.p_degraded ?? Math.min(0.85, Math.round(pCutOff * 1.35 * 100) / 100);
   const baseMinutes = comm?.baseline_minutes ?? 45;
-  const expMinutes = comm?.expected_minutes ?? 110;
-  const snapDist = comm?.snap_distance_m ?? 120;
-  const isPoorBaseline = comm?.poor_baseline_access ?? false;
-  const qualityFlag = comm?.quality_flag ?? 'ok';
+  const expMinutes = comm?.expected_minutes ?? Math.round(baseMinutes * (1 + pCutOff * 1.8));
+  const snapDist = selectedCommunityMeta?.snap_distance_m ?? comm?.snap_distance_m ?? 120;
+  const isPoorBaseline = comm?.poor_baseline_access ?? (baseMinutes > 90);
+  const qualityFlag = comm?.quality_flag ?? (snapDist > 500 ? 'long_snap' : 'ok');
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto sm:inset-x-auto sm:top-20 sm:bottom-auto sm:right-4 w-full sm:w-96 glass-panel-elevated rounded-t-2xl sm:rounded-2xl p-4 sm:p-5 shadow-[0_24px_80px_rgba(0,0,0,0.85)] border-t sm:border border-white/15 z-40 flex flex-col animate-in fade-in slide-in-from-bottom-6 sm:slide-in-from-right duration-300">

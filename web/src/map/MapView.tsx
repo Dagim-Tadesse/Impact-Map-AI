@@ -104,7 +104,7 @@ export const MapView: React.FC = () => {
       bearing: -18,
       maxPitch: 85,
       minZoom: 6,
-      maxZoom: 16,
+      maxZoom: 14,
       maxBounds: [
         [38.0, 7.5],
         [43.0, 11.5],
@@ -468,9 +468,16 @@ export const MapView: React.FC = () => {
       // Communities Click & Hover Handlers (A4.8)
       map.on('click', 'communities-circle', (e) => {
         if (!e.features || !e.features[0]) return;
-        const commId = e.features[0].properties?.community_id || e.features[0].id;
+        const feat = e.features[0];
+        const commId = feat.properties?.community_id || feat.id;
         if (commId) {
-          setSelectedCommunityId(String(commId));
+          const state = map.getFeatureState({ source: 'communities', id: commId });
+          setSelectedCommunityId(String(commId), {
+            name: feat.properties?.name || undefined,
+            people_est: feat.properties?.people_est ? Number(feat.properties.people_est) : undefined,
+            snap_distance_m: feat.properties?.snap_distance_m ? Number(feat.properties.snap_distance_m) : undefined,
+            p_cut_off: state?.p_cut_off !== undefined ? Number(state.p_cut_off) : undefined,
+          });
         }
       });
       map.on('mouseenter', 'communities-circle', () => {

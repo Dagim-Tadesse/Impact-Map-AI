@@ -69,9 +69,9 @@
       "quality_flag": "ok"
     },
     {
-      "facility_id": "fac_00004",
-      "name": "Metehara Primary Hospital",
-      "level": "hospital",
+      "facility_id": "fac_00007",
+      "name": "Metehara Health Center",
+      "level": "health_center",
       "p_isolation": 0.6800,
       "p10": 0.5500,
       "p90": 0.7900,

@@ -271,8 +271,88 @@ async def get_result_segments(cache_key: str):
     return seg
 
 
+SEGMENTS_MAP: Dict[int, Dict[str, Any]] = {}
+
+
 @app.get("/segments/{segment_id}/explain")
-def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
+async def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
+    global SEGMENTS_MAP
+    if not SEGMENTS_MAP:
+        geojson_path = DATA_PROCESSED / "segments.geojson"
+        if geojson_path.exists():
+            try:
+                with open(geojson_path, "r", encoding="utf-8") as f:
+                    features = json.load(f).get("features", [])
+                    SEGMENTS_MAP = {
+                        feat["properties"]["segment_id"]: feat["properties"]
+                        for feat in features
+                        if "segment_id" in feat.get("properties", {})
+                    }
+            except Exception as e:
+                logger.warning(f"Could not index segments.geojson: {e}")
+
+    props = SEGMENTS_MAP.get(segment_id)
+    cached = await db.get_cached_result(cache_key)
+    exposure_prob = 0.05
+    closure_prob = 0.05
+    if cached and cached.get("segments"):
+        seg_ids = cached["segments"].get("segment_ids", [])
+        if segment_id in seg_ids:
+            idx = seg_ids.index(segment_id)
+            exposure_prob = cached["segments"]["exposure_prob"][idx]
+            closure_prob = cached["segments"]["closure_prob"][idx]
+
+    if props:
+        road_class = props.get("road_class", "secondary")
+        length_m = props.get("length_m", 1200)
+        hand_min = props.get("hand_min", 15.0)
+        slope_mean = props.get("slope_mean", 2.0)
+        name = props.get("name") or f"Awash Corridor {road_class.capitalize()} #{segment_id}"
+
+        reasons = []
+        if hand_min < 5.0:
+            reasons.append({
+                "feature": "hand_min",
+                "label": f"Low ground near river drainage (HAND = {hand_min:.1f}m)",
+                "contribution": 0.42
+            })
+        else:
+            reasons.append({
+                "feature": "hand_min",
+                "label": f"Elevated terrain above riverbed (HAND = {hand_min:.1f}m)",
+                "contribution": 0.15
+            })
+
+        if exposure_prob > 0.3:
+            reasons.append({
+                "feature": "peak_3d",
+                "label": "Heavy rainfall accumulation corridor",
+                "contribution": 0.33
+            })
+        else:
+            reasons.append({
+                "feature": "peak_3d",
+                "label": "Well-drained watershed ridge",
+                "contribution": 0.20
+            })
+
+        reasons.append({
+            "feature": "slope_mean",
+            "label": f"Terrain slope gradient ({slope_mean:.1f}°)",
+            "contribution": 0.25
+        })
+
+        return {
+            "segment_id": segment_id,
+            "name": name,
+            "road_class": road_class,
+            "length_m": length_m,
+            "exposure_prob": round(float(exposure_prob), 4),
+            "closure_prob": round(float(closure_prob), 4),
+            "quality_flag": props.get("quality_flag", "ok"),
+            "top_reasons": reasons
+        }
+
     seg = load_example("segment_explain.json")
     seg["segment_id"] = segment_id
     return seg

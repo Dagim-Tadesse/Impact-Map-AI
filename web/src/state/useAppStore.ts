@@ -34,6 +34,12 @@ export interface AppStore {
   selectedFacilityId: string | null;
   selectedSegmentId: number | null;
   selectedCommunityId: string | null;
+  selectedCommunityMeta: {
+    name?: string;
+    people_est?: number;
+    snap_distance_m?: number;
+    p_cut_off?: number;
+  } | null;
   drawerOpen: DrawerType;
 
   // What-If Interventions
@@ -59,7 +65,15 @@ export interface AppStore {
   setLayerMode: (mode: LayerMode) => void;
   setSelectedFacilityId: (id: string | null) => void;
   setSelectedSegmentId: (id: number | null) => void;
-  setSelectedCommunityId: (id: string | null) => void;
+  setSelectedCommunityId: (
+    id: string | null,
+    meta?: {
+      name?: string;
+      people_est?: number;
+      snap_distance_m?: number;
+      p_cut_off?: number;
+    } | null
+  ) => void;
   setDrawerOpen: (drawer: DrawerType) => void;
 
   // What-If Actions
@@ -93,6 +107,7 @@ export const useAppStore = create<AppStore>((set) => ({
   selectedFacilityId: null,
   selectedSegmentId: null,
   selectedCommunityId: null,
+  selectedCommunityMeta: null,
   drawerOpen: null,
 
   whatIf: {
@@ -140,15 +155,32 @@ export const useAppStore = create<AppStore>((set) => ({
   setSelectedFacilityId: (id) =>
     set({
       selectedFacilityId: id,
+      selectedSegmentId: null,
+      selectedCommunityId: null,
       drawerOpen: id ? 'facility' : null,
     }),
   setSelectedSegmentId: (id) =>
     set({
       selectedSegmentId: id,
+      selectedFacilityId: null,
+      selectedCommunityId: null,
       drawerOpen: id !== null ? 'segment' : null,
     }),
-  setSelectedCommunityId: (id) => set({ selectedCommunityId: id }),
-  setDrawerOpen: (drawer) => set({ drawerOpen: drawer }),
+  setSelectedCommunityId: (id, meta) =>
+    set({
+      selectedCommunityId: id,
+      selectedCommunityMeta: meta || null,
+      selectedFacilityId: null,
+      selectedSegmentId: null,
+      drawerOpen: id ? 'whatif' : null,
+    }),
+  setDrawerOpen: (drawer) =>
+    set({
+      drawerOpen: drawer,
+      selectedFacilityId: drawer === 'facility' ? undefined : null,
+      selectedSegmentId: drawer === 'segment' ? undefined : null,
+      selectedCommunityId: null,
+    }),
 
   addForcedClosed: (segmentId) =>
     set((state) => ({
