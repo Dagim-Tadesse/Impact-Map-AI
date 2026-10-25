@@ -391,6 +391,12 @@ export const ResultsTab: React.FC = () => {
           </select>
         </div>
 
+        {/* Interaction Hint */}
+        <p className="text-[11px] text-cyan-400/90 mb-2.5 flex items-center gap-1.5 font-medium">
+          <span>🎯</span>
+          <span>Click any facility below to fly the map to it and inspect its road route:</span>
+        </p>
+
         {/* Ranking List */}
         <div className="space-y-2">
           {filteredRanking.map((fac: any) => {

@@ -163,7 +163,7 @@ export const MapView: React.FC = () => {
       });
 
       // 3. Add Layers
-      // 3D Hillshade Layer for Awash Mountain Ridges and Depressions
+      // 3D Hillshade Layer for Awash Mountain Ridges (Realistic Neutral Topography, Not Neon Blue)
       map.addLayer({
         id: 'hills',
         type: 'hillshade',
@@ -171,10 +171,10 @@ export const MapView: React.FC = () => {
         layout: { visibility: 'visible' },
         paint: {
           'hillshade-shadow-color': '#020617',
-          'hillshade-highlight-color': '#38bdf8',
-          'hillshade-accent-color': '#0ea5e9',
+          'hillshade-highlight-color': '#475569',
+          'hillshade-accent-color': '#1e293b',
           'hillshade-illumination-direction': 315,
-          'hillshade-exaggeration': 0.75,
+          'hillshade-exaggeration': 0.45,
         },
       });
 
@@ -196,30 +196,30 @@ export const MapView: React.FC = () => {
           'line-color': [
             'step',
             ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
-            '#cbd5e1',
+            '#64748b', // Open / safe road (slate gray)
             0.05,
-            '#fde68a',
+            '#fde047', // 5-20% caution (yellow)
             0.2,
-            '#f59e0b',
+            '#f97316', // 20-40% moderate flood (orange)
             0.4,
-            '#dc2626',
+            '#ef4444', // 40-70% high flood risk (red)
             0.7,
-            '#7f1d1d',
+            '#b91c1c', // >70% critical / submerged (dark red)
           ],
           'line-width': [
             'step',
             ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
-            1.2,
+            1.5,
             0.05,
-            2,
+            2.5,
             0.2,
-            3,
+            3.5,
             0.4,
-            4,
+            4.5,
             0.7,
-            5,
+            5.5,
           ],
-          'line-opacity': 0.85,
+          'line-opacity': 0.9,
         },
       });
 
@@ -338,53 +338,53 @@ export const MapView: React.FC = () => {
             'match',
             ['get', 'level'],
             'hospital',
-            9,
+            13,
             'health_center',
-            6.5,
+            9.5,
             'clinic',
-            4.5,
-            5,
+            7,
+            8,
           ],
           'circle-color': [
             'step',
             ['coalesce', ['feature-state', 'p_isolation'], 0],
-            '#38bdf8',
+            '#06b6d4', // Safe baseline (cyan)
             0.05,
-            '#fde68a',
+            '#fde047', // Low isolation (yellow)
             0.2,
-            '#f59e0b',
+            '#f97316', // Moderate isolation (orange)
             0.4,
-            '#dc2626',
+            '#ef4444', // High isolation risk (red)
             0.7,
-            '#7f1d1d',
+            '#b91c1c', // Critical / isolated (crimson)
           ],
           'circle-stroke-width': [
             'case',
             ['boolean', ['feature-state', 'selected'], false],
-            3,
-            1.5,
+            4,
+            2,
           ],
           'circle-stroke-color': '#ffffff',
         },
       });
 
-      // Facility Label Layer
+      // Facility Label Layer (Visible from regional zoom 7.5)
       map.addLayer({
         id: 'facilities-labels',
         type: 'symbol',
         source: 'facilities',
-        minzoom: 9.5,
+        minzoom: 7.5,
         layout: {
           'text-field': ['get', 'name'],
-          'text-size': 11,
-          'text-offset': [0, 1.2],
+          'text-size': 12,
+          'text-offset': [0, 1.3],
           'text-anchor': 'top',
-          'text-font': ['Open Sans Semibold'],
+          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
         },
         paint: {
-          'text-color': '#f8fafc',
-          'text-halo-color': '#07090e',
-          'text-halo-width': 1.5,
+          'text-color': '#ffffff',
+          'text-halo-color': '#020617',
+          'text-halo-width': 2.5,
         },
       });
 
@@ -479,29 +479,29 @@ export const MapView: React.FC = () => {
     map.setPaintProperty('roads-risk', 'line-color', [
       'step',
       ['coalesce', ['feature-state', prop], 0],
-      '#cbd5e1',
+      '#64748b',
       0.05,
-      '#fde68a',
+      '#fde047',
       0.2,
-      '#f59e0b',
+      '#f97316',
       0.4,
-      '#dc2626',
+      '#ef4444',
       0.7,
-      '#7f1d1d',
+      '#b91c1c',
     ]);
 
     map.setPaintProperty('roads-risk', 'line-width', [
       'step',
       ['coalesce', ['feature-state', prop], 0],
-      1.2,
+      1.5,
       0.05,
-      2,
+      2.5,
       0.2,
-      3,
+      3.5,
       0.4,
-      4,
+      4.5,
       0.7,
-      5,
+      5.5,
     ]);
   }, [layerMode, mapLoaded]);
 
