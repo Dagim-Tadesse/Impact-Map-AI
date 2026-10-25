@@ -1,7 +1,7 @@
 # MODULE_INFRA (owner: Dagim)
 
 ## Status
-In progress
+Complete
 
 ## What is built
 - `infra/stacks/ci_stack.py`: GitHub OIDC Deploy Role stack (`ImpactMapCiStack`) allowing GitHub Actions to deploy without stored AWS credentials.

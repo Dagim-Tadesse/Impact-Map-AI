@@ -1,7 +1,7 @@
 # MODULE_API (owner: Dagim)
 
 ## Status
-In progress
+Complete
 
 ## What is built
 - `services/api/requirements.txt`: FastAPI, Mangum, Pydantic, HTTPX.
