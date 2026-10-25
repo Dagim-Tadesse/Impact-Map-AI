@@ -81,11 +81,10 @@ export const MapView: React.FC = () => {
           'osm-tiles': {
             type: 'raster',
             tiles: [
-              'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
-              'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
+              'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
             ],
             tileSize: 256,
-            attribution: '© OpenStreetMap contributors, CartoDB, Protomaps',
+            attribution: '© Esri, HERE, Garmin, OpenStreetMap contributors',
           },
         },
         layers: [
