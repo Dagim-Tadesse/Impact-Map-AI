@@ -219,15 +219,132 @@ export const handlers = [
   }),
 
   // GET /facilities/:facility_id/explain
-  http.get('*/facilities/:facility_id/explain', async () => {
-    const res = await fetch('/examples/facility_explain.json');
-    return HttpResponse.json(await res.json());
+  http.get('*/facilities/:facility_id/explain', async ({ params }) => {
+    const fid = params.facility_id as string;
+    const res = await fetch('/examples/result_summary.json');
+    const summary = await res.json();
+    const facItem = summary?.ranking?.find((f: any) => f.facility_id === fid);
+
+    const facilityExplanations: Record<string, any> = {
+      fac_00009: {
+        why: [
+          { segment_id: 102, lift: 0.42, closure_prob: 0.781, text: 'Critical primary access bridge over Awash tributary' },
+          { segment_id: 103, lift: 0.28, closure_prob: 0.623, text: 'Low-lying junction connecting western corridor' },
+        ],
+        sentences: [
+          'Awash Arba Health Center is likely to be isolated mainly because segment 102 (Awash Arba Secondary Access Road) has high flood risk.',
+          'Closing segment 102 alone increases isolation probability by 42%.',
+        ],
+      },
+      fac_00007: {
+        why: [
+          { segment_id: 204, lift: 0.38, closure_prob: 0.71, text: 'Lake Beseka shoreline rise sub-corridor' },
+          { segment_id: 207, lift: 0.24, closure_prob: 0.59, text: 'Awash national highway bridge transition' },
+        ],
+        sentences: [
+          'Metehara Health Center faces elevated isolation risk from Lake Beseka rising waters impacting segment 204.',
+          'A southern high-ground bypass is viable but extends ambulance transit by 90 minutes.',
+        ],
+      },
+      fac_00013: {
+        why: [
+          { segment_id: 185, lift: 0.35, closure_prob: 0.65, text: 'Mid-Awash floodplain backwater crossing' },
+        ],
+        sentences: [
+          'Melka Sedi Health Center access is vulnerable to mid-basin river discharge overtopping segment 185.',
+        ],
+      },
+      fac_00010: {
+        why: [
+          { segment_id: 301, lift: 0.31, closure_prob: 0.58, text: 'Northern wadi flash flood crossing' },
+        ],
+        sentences: [
+          'Gedamaytu Health Center access crosses dry wadi channels that flood rapidly under storm runoff.',
+        ],
+      },
+      fac_00011: {
+        why: [
+          { segment_id: 412, lift: 0.4, closure_prob: 0.62, text: 'Doho hot springs marshland feeder road' },
+        ],
+        sentences: [
+          'Doho Rural Clinic has severe baseline isolation; feeder roads cross marshy lowlands.',
+        ],
+      },
+      fac_00012: {
+        why: [
+          { segment_id: 510, lift: 0.28, closure_prob: 0.46, text: 'Amibara regional trunk crossing' },
+        ],
+        sentences: [
+          'Amibara Primary Hospital benefits from elevated hospital grounds, but road 510 faces shoulder erosion.',
+        ],
+      },
+      fac_00008: {
+        why: [
+          { segment_id: 701, lift: 0.12, closure_prob: 0.25, text: 'Main arterial highway bridge approach' },
+        ],
+        sentences: [
+          'Awash Sebat General Hospital is located on elevated basalt terrain with robust arterial connectivity.',
+        ],
+      },
+      fac_00004: {
+        why: [
+          { segment_id: 810, lift: 0.05, closure_prob: 0.1, text: 'Highland plateau highway link' },
+        ],
+        sentences: [
+          'Debre Berhan Referral Hospital sits above 2,800m elevation with negligible direct flood risk.',
+        ],
+      },
+    };
+
+    const specific = facilityExplanations[fid];
+    return HttpResponse.json({
+      facility_id: fid,
+      rank: facItem?.rank || 5,
+      rank_delta: facItem?.rank_delta || 0,
+      p_isolation: facItem?.p_isolation || 0.25,
+      why: specific?.why || [{ segment_id: 100 + (fid.charCodeAt(fid.length - 1) * 3), lift: 0.2, closure_prob: 0.3, text: 'Access road crossing' }],
+      alt_route: facItem?.alt_route || null,
+      sentences: specific?.sentences || [
+        `${facItem?.name || fid} has estimated ${(Number(facItem?.p_isolation || 0.25) * 100).toFixed(0)}% isolation probability.`,
+      ],
+    });
   }),
 
   // GET /segments/:segment_id/explain
-  http.get('*/segments/:segment_id/explain', async () => {
-    const res = await fetch('/examples/segment_explain.json');
-    return HttpResponse.json(await res.json());
+  http.get('*/segments/:segment_id/explain', async ({ params }) => {
+    const sid = Number(params.segment_id);
+    const roadClasses = ['primary', 'secondary', 'tertiary', 'residential'];
+    const roadClass = roadClasses[sid % roadClasses.length];
+    const lengthM = 650 + (sid * 137) % 2200;
+    const handMin = 1.0 + (sid * 3.7) % 25.0;
+    const exposureProb = Math.min(0.95, Math.max(0.05, ((sid * 17) % 100) / 100));
+
+    return HttpResponse.json({
+      segment_id: sid,
+      name: `Awash Corridor ${roadClass.charAt(0).toUpperCase() + roadClass.slice(1)} #${sid}`,
+      road_class: roadClass,
+      length_m: lengthM,
+      exposure_prob: exposureProb,
+      closure_prob: exposureProb,
+      quality_flag: 'ok',
+      top_reasons: [
+        {
+          feature: 'hand_min',
+          label: handMin < 5.0 ? `Low ground near river drainage (HAND = ${handMin.toFixed(1)}m)` : `Elevated terrain above riverbed (HAND = ${handMin.toFixed(1)}m)`,
+          contribution: 0.42,
+        },
+        {
+          feature: 'peak_3d',
+          label: exposureProb > 0.3 ? 'Heavy rainfall accumulation corridor' : 'Well-drained watershed ridge',
+          contribution: 0.33,
+        },
+        {
+          feature: 'slope_mean',
+          label: `Terrain slope gradient (${(1.0 + (sid % 5) * 0.8).toFixed(1)}°)`,
+          contribution: 0.25,
+        },
+      ],
+    });
   }),
 
   // POST /whatif

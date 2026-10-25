@@ -41,7 +41,7 @@
   },
   "ranking": [
     {
-      "facility_id": "fac_00017",
+      "facility_id": "fac_00009",
       "name": "Awash Arba Health Center",
       "level": "health_center",
       "p_isolation": 0.7450,
@@ -65,13 +65,13 @@
       "rank": 1,
       "rank_delta": 3,
       "snap_distance_m": 85,
-      "source": "osm",
+      "source": "curated_regional",
       "quality_flag": "ok"
     },
     {
       "facility_id": "fac_00007",
       "name": "Metehara Health Center",
-      "level": "health_center",
+      "level": "hospital",
       "p_isolation": 0.6800,
       "p10": 0.5500,
       "p90": 0.7900,
@@ -98,24 +98,34 @@
       "quality_flag": "ok"
     },
     {
-      "facility_id": "fac_00029",
-      "name": "Bolen Clinic",
-      "level": "clinic",
-      "p_isolation": 0.8120,
-      "p10": 0.7100,
-      "p90": 0.9200,
+      "facility_id": "fac_00013",
+      "name": "Melka Sedi Health Center",
+      "level": "health_center",
+      "p_isolation": 0.6120,
+      "p10": 0.5100,
+      "p90": 0.7200,
       "people_affected_est": 8900,
-      "baseline_minutes": 78.0,
+      "baseline_minutes": 38.0,
       "poor_baseline_access": false,
-      "alt_route": null,
+      "alt_route": {
+        "minutes": 82.0,
+        "segment_ids": [185, 189],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.134, 9.245],
+            [40.145, 9.255]
+          ]
+        }
+      },
       "rank": 3,
       "rank_delta": 4,
-      "snap_distance_m": 240,
-      "source": "osm",
+      "snap_distance_m": 265,
+      "source": "curated_regional",
       "quality_flag": "ok"
     },
     {
-      "facility_id": "fac_00041",
+      "facility_id": "fac_00010",
       "name": "Gedamaytu Health Center",
       "level": "health_center",
       "p_isolation": 0.5150,
@@ -138,11 +148,11 @@
       "rank": 4,
       "rank_delta": -1,
       "snap_distance_m": 450,
-      "source": "osm",
-      "quality_flag": "weak_source"
+      "source": "curated_regional",
+      "quality_flag": "long_snap"
     },
     {
-      "facility_id": "fac_00052",
+      "facility_id": "fac_00011",
       "name": "Doho Rural Clinic",
       "level": "clinic",
       "p_isolation": 0.4400,
@@ -165,62 +175,35 @@
       "rank": 5,
       "rank_delta": 2,
       "snap_distance_m": 1250,
-      "source": "osm",
+      "source": "curated_regional",
       "quality_flag": "long_snap"
     },
     {
       "facility_id": "fac_00012",
-      "name": "Sabure Clinic",
-      "level": "clinic",
+      "name": "Amibara Primary Hospital",
+      "level": "hospital",
       "p_isolation": 0.3950,
       "p10": 0.2800,
       "p90": 0.5200,
-      "people_affected_est": 5200,
-      "baseline_minutes": 38.0,
+      "people_affected_est": 15200,
+      "baseline_minutes": 52.0,
       "poor_baseline_access": false,
       "alt_route": {
-        "minutes": 68.0,
+        "minutes": 88.0,
         "segment_ids": [510, 514],
         "geometry": {
           "type": "LineString",
           "coordinates": [
-            [40.220, 8.980],
-            [40.240, 8.995]
+            [40.211, 9.352],
+            [40.225, 9.365]
           ]
         }
       },
       "rank": 6,
       "rank_delta": -2,
       "snap_distance_m": 90,
-      "source": "osm",
-      "quality_flag": "ok"
-    },
-    {
-      "facility_id": "fac_00063",
-      "name": "Kesem Health Post",
-      "level": "clinic",
-      "p_isolation": 0.3100,
-      "p10": 0.1800,
-      "p90": 0.4500,
-      "people_affected_est": 4300,
-      "baseline_minutes": 88.0,
-      "poor_baseline_access": false,
-      "alt_route": {
-        "minutes": 130.0,
-        "segment_ids": [602, 606],
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [40.010, 9.420],
-            [40.030, 9.440]
-          ]
-        }
-      },
-      "rank": 7,
-      "rank_delta": -1,
-      "snap_distance_m": 310,
-      "source": "osm",
-      "quality_flag": "ok"
+      "source": "curated_regional",
+      "quality_flag": "long_snap"
     },
     {
       "facility_id": "fac_00008",
@@ -243,9 +226,111 @@
           ]
         }
       },
-      "rank": 8,
-      "rank_delta": -5,
+      "rank": 7,
+      "rank_delta": -1,
       "snap_distance_m": 45,
+      "source": "curated_regional",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00004",
+      "name": "\u12f0\u1265\u1228 \u1265\u122d\u1200\u1295 \u122a\u1348\u122b\u120d \u1206\u1235\u1352\u1273\u120d (Debre Berhan Referral Hospital)",
+      "level": "hospital",
+      "p_isolation": 0.0500,
+      "p10": 0.0100,
+      "p90": 0.1000,
+      "people_affected_est": 48000,
+      "baseline_minutes": 12.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 8,
+      "rank_delta": 0,
+      "snap_distance_m": 74,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00001",
+      "name": "Unnamed Health Facility",
+      "level": "clinic",
+      "p_isolation": 0.0800,
+      "p10": 0.0200,
+      "p90": 0.1500,
+      "people_affected_est": 2500,
+      "baseline_minutes": 25.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 9,
+      "rank_delta": 0,
+      "snap_distance_m": 55,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00002",
+      "name": "Unnamed Health Facility",
+      "level": "hospital",
+      "p_isolation": 0.0400,
+      "p10": 0.0100,
+      "p90": 0.0800,
+      "people_affected_est": 4200,
+      "baseline_minutes": 30.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 10,
+      "rank_delta": 0,
+      "snap_distance_m": 86,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00003",
+      "name": "Unnamed Health Facility",
+      "level": "hospital",
+      "p_isolation": 0.0350,
+      "p10": 0.0100,
+      "p90": 0.0700,
+      "people_affected_est": 3800,
+      "baseline_minutes": 32.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 11,
+      "rank_delta": 0,
+      "snap_distance_m": 56,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00005",
+      "name": "Unnamed Health Facility",
+      "level": "hospital",
+      "p_isolation": 0.0250,
+      "p10": 0.0050,
+      "p90": 0.0500,
+      "people_affected_est": 5100,
+      "baseline_minutes": 22.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 12,
+      "rank_delta": 0,
+      "snap_distance_m": 28,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00006",
+      "name": "Unnamed Health Facility",
+      "level": "hospital",
+      "p_isolation": 0.0200,
+      "p10": 0.0050,
+      "p90": 0.0400,
+      "people_affected_est": 4900,
+      "baseline_minutes": 24.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 13,
+      "rank_delta": 0,
+      "snap_distance_m": 98,
       "source": "osm",
       "quality_flag": "ok"
     }

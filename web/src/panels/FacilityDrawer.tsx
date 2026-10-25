@@ -25,7 +25,7 @@ export const FacilityDrawer: React.FC = () => {
   if (!selectedFacilityId) return null;
 
   const fac = resultSummary?.ranking?.find((f: any) => f.facility_id === selectedFacilityId);
-  const name = fac?.name || explainData?.facility_id || selectedFacilityId;
+  const name = fac?.name || (explainData as any)?.name || selectedFacilityId;
   const level = fac?.level || 'hospital';
 
   return (

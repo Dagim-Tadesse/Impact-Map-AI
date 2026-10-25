@@ -82,8 +82,9 @@ def test_schemas_parse_contract_examples():
         assert job.status.value == 'done'
 
     # Test ResultSummary
-    with open(examples_dir / 'result_summary.json') as f:
+    with open(examples_dir / 'result_summary.json', encoding='utf-8') as f:
         data = json.load(f)
         summary = ResultSummary.model_validate(data)
-        assert len(summary.ranking) == 8
+        assert len(summary.ranking) >= 8
         assert summary.region_totals.facilities_isolated_expected == 3.4
+

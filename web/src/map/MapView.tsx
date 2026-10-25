@@ -429,42 +429,6 @@ export const MapView: React.FC = () => {
         },
       });
 
-      // 4. Click & Hover Handlers
-      const handleFacilityClick = (e: maplibregl.MapLayerMouseEvent) => {
-        if (!e.features || !e.features[0]) return;
-        const facId = e.features[0].properties?.facility_id;
-        if (facId) {
-          setSelectedFacilityId(facId);
-        }
-      };
-
-      map.on('click', 'facilities-circle', handleFacilityClick);
-      map.on('click', 'facilities-labels', handleFacilityClick);
-
-      map.on('mouseenter', 'facilities-circle', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'facilities-circle', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      map.on('mouseenter', 'facilities-labels', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'facilities-labels', () => {
-        map.getCanvas().style.cursor = '';
-      });
-
-      const handleRoadClick = (e: maplibregl.MapLayerMouseEvent) => {
-        if (!e.features || !e.features[0]) return;
-        const segId = e.features[0].properties?.segment_id ?? e.features[0].id;
-        if (segId !== undefined) {
-          setSelectedSegmentId(Number(segId));
-        }
-      };
-
-      map.on('click', 'roads-risk', handleRoadClick);
-      map.on('click', 'roads-buffer', handleRoadClick);
-
       // Hover Road Tooltip
       const handleRoadMouseMove = (e: maplibregl.MapLayerMouseEvent) => {
         if (!e.features || !e.features[0]) return;
@@ -504,24 +468,18 @@ export const MapView: React.FC = () => {
       map.on('mouseleave', 'roads-risk', handleRoadMouseLeave);
       map.on('mouseleave', 'roads-buffer', handleRoadMouseLeave);
 
-      // Communities Click & Hover Handlers (A4.8)
-      const handleCommunityClick = (e: maplibregl.MapLayerMouseEvent) => {
-        if (!e.features || !e.features[0]) return;
-        const feat = e.features[0];
-        const commId = feat.properties?.community_id || feat.id;
-        if (commId) {
-          const state = map.getFeatureState({ source: 'communities', id: commId });
-          setSelectedCommunityId(String(commId), {
-            name: feat.properties?.name || undefined,
-            people_est: feat.properties?.people_est ? Number(feat.properties.people_est) : undefined,
-            snap_distance_m: feat.properties?.snap_distance_m ? Number(feat.properties.snap_distance_m) : undefined,
-            p_cut_off: state?.p_cut_off !== undefined ? Number(state.p_cut_off) : undefined,
-          });
-        }
-      };
-
-      map.on('click', 'communities-circle', handleCommunityClick);
-      map.on('click', 'communities-buffer', handleCommunityClick);
+      map.on('mouseenter', 'facilities-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'facilities-circle', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      map.on('mouseenter', 'facilities-labels', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'facilities-labels', () => {
+        map.getCanvas().style.cursor = '';
+      });
 
       map.on('mouseenter', 'communities-circle', () => {
         map.getCanvas().style.cursor = 'pointer';
@@ -536,27 +494,60 @@ export const MapView: React.FC = () => {
         map.getCanvas().style.cursor = '';
       });
 
-      // Background Map Click -> Deselect and dismiss drawers
+      // Unified Prioritized Click Dispatcher: Facilities -> Communities -> Roads -> Canvas Deselect
       map.on('click', (e) => {
         const bbox: [maplibregl.PointLike, maplibregl.PointLike] = [
-          [e.point.x - 6, e.point.y - 6],
-          [e.point.x + 6, e.point.y + 6],
+          [e.point.x - 12, e.point.y - 12],
+          [e.point.x + 12, e.point.y + 12],
         ];
-        const features = map.queryRenderedFeatures(bbox, {
-          layers: [
-            'facilities-circle',
-            'facilities-labels',
-            'roads-risk',
-            'roads-buffer',
-            'communities-circle',
-            'communities-buffer',
-          ],
+
+        // 1. Highest priority: Healthcare Facilities (points or labels)
+        const facFeatures = map.queryRenderedFeatures(bbox, {
+          layers: ['facilities-circle', 'facilities-labels'],
         });
-        if (!features || features.length === 0) {
-          setSelectedFacilityId(null);
-          setSelectedSegmentId(null);
-          setSelectedCommunityId(null);
+        if (facFeatures.length > 0) {
+          const fid = facFeatures[0].properties?.facility_id;
+          if (fid) {
+            setSelectedFacilityId(fid);
+            return;
+          }
         }
+
+        // 2. Second priority: Community Settlements
+        const commFeatures = map.queryRenderedFeatures(bbox, {
+          layers: ['communities-circle', 'communities-buffer'],
+        });
+        if (commFeatures.length > 0) {
+          const feat = commFeatures[0];
+          const commId = feat.properties?.community_id || feat.id;
+          if (commId) {
+            const state = map.getFeatureState({ source: 'communities', id: commId });
+            setSelectedCommunityId(String(commId), {
+              name: feat.properties?.name || undefined,
+              people_est: feat.properties?.people_est ? Number(feat.properties.people_est) : undefined,
+              snap_distance_m: feat.properties?.snap_distance_m ? Number(feat.properties.snap_distance_m) : undefined,
+              p_cut_off: state?.p_cut_off !== undefined ? Number(state.p_cut_off) : undefined,
+            });
+            return;
+          }
+        }
+
+        // 3. Third priority: Road Segments
+        const roadFeatures = map.queryRenderedFeatures(bbox, {
+          layers: ['roads-risk', 'roads-buffer'],
+        });
+        if (roadFeatures.length > 0) {
+          const segId = roadFeatures[0].properties?.segment_id ?? roadFeatures[0].id;
+          if (segId !== undefined) {
+            setSelectedSegmentId(Number(segId));
+            return;
+          }
+        }
+
+        // 4. Empty space clicked -> Deselect and dismiss drawers
+        setSelectedFacilityId(null);
+        setSelectedSegmentId(null);
+        setSelectedCommunityId(null);
       });
 
       setMapLoaded(true);
