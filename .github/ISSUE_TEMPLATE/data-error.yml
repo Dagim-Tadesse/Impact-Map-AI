@@ -1,0 +1,16 @@
+name: Data error
+description: A place, name or number looks wrong
+labels: [data-error]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Which place or facility, and what is wrong?
+      description: Specify the facility ID, settlement name, road segment, or metric that appears inaccurate.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: Phone model or laptop; Chrome or Firefox

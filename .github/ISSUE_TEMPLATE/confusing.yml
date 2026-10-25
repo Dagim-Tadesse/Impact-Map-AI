@@ -1,0 +1,16 @@
+name: Confusing
+description: Something was hard to understand
+labels: [confusing]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Which screen, and what was unclear?
+      description: Describe what part of the interface, terms, or calculations felt ambiguous or confusing.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: Phone model or laptop; Chrome or Firefox

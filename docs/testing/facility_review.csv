@@ -1,0 +1,14 @@
+facility_id,name,level_guess,source,quality_flag,lon,lat,level_confirmed,checked_by,checked_on,note
+fac_00001,Unnamed Health Facility,clinic,osm,ok,39.91655,8.86884,clinic,Yagi,2026-10-25,Small rural health post verified from local district boundary
+fac_00002,Unnamed Health Facility,hospital,osm,ok,39.91166,10.01785,clinic,Yagi,2026-10-25,Downgraded from OSM hospital tag; facility is local dispensary
+fac_00003,Unnamed Health Facility,hospital,osm,ok,39.90397,10.00756,clinic,Yagi,2026-10-25,Downgraded from OSM hospital tag; outpatient clinic only
+fac_00004,ደብረ ብርሀን ሪፈራል ሆስፒታል,hospital,osm,ok,39.5351,9.67858,hospital,Yagi,2026-10-25,Major regional referral and teaching hospital with emergency surgery
+fac_00005,Unnamed Health Facility,hospital,osm,ok,39.66016,10.11991,clinic,Yagi,2026-10-25,Downgraded; community clinic serving surrounding pastoral kebeles
+fac_00006,Unnamed Health Facility,hospital,osm,ok,39.65482,10.11602,clinic,Yagi,2026-10-25,Downgraded; primary care post
+fac_00007,Metehara Health Center,hospital,osm,ok,39.92638,8.9067,health_center,Yagi,2026-10-25,Corrected from hospital to health_center according to MoH directory
+fac_00008,Awash Sebat General Hospital,hospital,curated_regional,ok,40.1654,8.9882,hospital,Yagi,2026-10-25,Primary emergency receiving hospital for Awash River floodplain
+fac_00009,Awash Arba Health Center,health_center,curated_regional,ok,40.158,9.145,health_center,Yagi,2026-10-25,Regional health center with maternal and child health beds
+fac_00010,Gedamaytu Health Center,health_center,curated_regional,long_snap,40.315,9.385,health_center,Yagi,2026-10-25,Confirmed health center; long snap due to unmapped access feeder
+fac_00011,Doho Rural Clinic,clinic,curated_regional,long_snap,40.025,9.215,clinic,Yagi,2026-10-25,Remote pastoral outpost clinic; access road submerge-prone
+fac_00012,Amibara Primary Hospital,hospital,curated_regional,long_snap,40.211,9.352,hospital,Yagi,2026-10-25,District primary hospital with surgical ward
+fac_00013,Melka Sedi Health Center,health_center,curated_regional,ok,40.134,9.245,health_center,Yagi,2026-10-25,Woreda health center adjacent to commercial irrigation canal
