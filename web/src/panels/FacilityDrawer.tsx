@@ -152,10 +152,17 @@ export const FacilityDrawer: React.FC = () => {
 
           {fac?.alt_route ? (
             <div className="space-y-2">
-              <p className="text-slate-300">
+              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-400/30 text-[10px] font-mono text-sky-300">
+                <span>🚑</span>
+                <span>Ground Convoy & Ambulance Bypass</span>
+              </div>
+              <p className="text-slate-300 text-xs">
                 {t('facility_drawer.surviving_detour_available')} <strong>{formatMinutes(fac.alt_route.minutes)}</strong>
               </p>
-              <div className="text-[10px] text-sky-300 font-mono">
+              <p className="text-[11px] text-slate-400 leading-snug">
+                Connects from unaffected regional highway to facility gates via unflooded bypass roads. Dispatch emergency vehicles along this corridor instead of submerged primary routes.
+              </p>
+              <div className="text-[10px] text-cyan-300 font-mono">
                 {t('facility_drawer.detour_drawn')}
               </div>
               <button
@@ -175,9 +182,15 @@ export const FacilityDrawer: React.FC = () => {
               </button>
             </div>
           ) : (
-            <p className="text-slate-400 italic">
-              {t('facility_drawer.no_alt_route')}
-            </p>
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-rose-500/10 border border-rose-400/30 text-[10px] font-mono text-rose-300">
+                <span>🚁</span>
+                <span>Ground Inaccessible · Air/Boat Required</span>
+              </div>
+              <p className="text-slate-400 text-xs italic">
+                {t('facility_drawer.no_alt_route')}
+              </p>
+            </div>
           )}
         </div>
 

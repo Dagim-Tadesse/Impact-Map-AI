@@ -124,10 +124,11 @@ export const handlers = [
   }),
 
   // POST /scenarios with switchable behaviors
-  http.post('*/scenarios', async () => {
+  http.post('*/scenarios', async ({ request }) => {
     if (currentScenarioBehavior === 'offline') {
       return HttpResponse.error();
     }
+    const body = (await request.json().catch(() => ({}))) as any;
     if (currentScenarioBehavior === 'rate_limit_429') {
       return HttpResponse.json(
         { error: { code: 'RATE_LIMITED', message: 'Too many requests. Please wait a moment.' } },
@@ -166,9 +167,24 @@ export const handlers = [
       );
     }
 
-    // Default cached 200
+    // Default cached 200 with dynamic scaling
     const res = await fetch('/examples/result_summary.json');
     const summary = await res.json();
+    const rain = Array.isArray(body?.daily_rain_mm)
+      ? body.daily_rain_mm.reduce((a: number, b: number) => a + b, 0)
+      : 120;
+    const intensity = rain <= 0 ? 0.08 : Math.max(0.05, Math.min(4.0, rain / 120.0));
+    if (summary.region_totals) {
+      summary.region_totals.people_cut_off.mean = Math.round(14200 * intensity);
+      summary.region_totals.people_degraded.mean = Math.round(28400 * intensity);
+      summary.region_totals.facilities_isolated_expected = Math.max(0.1, Number((3.4 * (intensity ** 0.8)).toFixed(1)));
+    }
+    if (summary.ranking) {
+      summary.ranking = summary.ranking.map((f: any) => ({
+        ...f,
+        p_isolation: Math.min(0.98, Math.max(0.01, Number((f.p_isolation * intensity).toFixed(4)))),
+      }));
+    }
     return HttpResponse.json(summary, { status: 200 });
   }),
 

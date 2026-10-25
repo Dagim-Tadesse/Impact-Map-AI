@@ -408,25 +408,65 @@ export const MapView: React.FC = () => {
         },
       });
 
+      // Wide Click Buffer Layers for Touch / Precision Clicking (A3)
+      map.addLayer({
+        id: 'roads-buffer',
+        type: 'line',
+        source: 'roads',
+        paint: {
+          'line-width': 18,
+          'line-opacity': 0.001,
+        },
+      });
+
+      map.addLayer({
+        id: 'communities-buffer',
+        type: 'circle',
+        source: 'communities',
+        paint: {
+          'circle-radius': 14,
+          'circle-opacity': 0.001,
+        },
+      });
+
       // 4. Click & Hover Handlers
-      map.on('click', 'facilities-circle', (e) => {
+      const handleFacilityClick = (e: maplibregl.MapLayerMouseEvent) => {
         if (!e.features || !e.features[0]) return;
         const facId = e.features[0].properties?.facility_id;
         if (facId) {
           setSelectedFacilityId(facId);
         }
+      };
+
+      map.on('click', 'facilities-circle', handleFacilityClick);
+      map.on('click', 'facilities-labels', handleFacilityClick);
+
+      map.on('mouseenter', 'facilities-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'facilities-circle', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      map.on('mouseenter', 'facilities-labels', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'facilities-labels', () => {
+        map.getCanvas().style.cursor = '';
       });
 
-      map.on('click', 'roads-risk', (e) => {
+      const handleRoadClick = (e: maplibregl.MapLayerMouseEvent) => {
         if (!e.features || !e.features[0]) return;
-        const segId = e.features[0].properties?.segment_id || e.features[0].id;
+        const segId = e.features[0].properties?.segment_id ?? e.features[0].id;
         if (segId !== undefined) {
           setSelectedSegmentId(Number(segId));
         }
-      });
+      };
+
+      map.on('click', 'roads-risk', handleRoadClick);
+      map.on('click', 'roads-buffer', handleRoadClick);
 
       // Hover Road Tooltip
-      map.on('mousemove', 'roads-risk', (e) => {
+      const handleRoadMouseMove = (e: maplibregl.MapLayerMouseEvent) => {
         if (!e.features || !e.features[0]) return;
         map.getCanvas().style.cursor = 'pointer';
         const feat = e.features[0];
@@ -448,25 +488,24 @@ export const MapView: React.FC = () => {
             </div>`
           )
           .addTo(map);
-      });
+      };
 
-      map.on('mouseleave', 'roads-risk', () => {
+      map.on('mousemove', 'roads-risk', handleRoadMouseMove);
+      map.on('mousemove', 'roads-buffer', handleRoadMouseMove);
+
+      const handleRoadMouseLeave = () => {
         map.getCanvas().style.cursor = '';
         if (activeTooltip.current) {
           activeTooltip.current.remove();
           activeTooltip.current = null;
         }
-      });
+      };
 
-      map.on('mouseenter', 'facilities-circle', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'facilities-circle', () => {
-        map.getCanvas().style.cursor = '';
-      });
+      map.on('mouseleave', 'roads-risk', handleRoadMouseLeave);
+      map.on('mouseleave', 'roads-buffer', handleRoadMouseLeave);
 
       // Communities Click & Hover Handlers (A4.8)
-      map.on('click', 'communities-circle', (e) => {
+      const handleCommunityClick = (e: maplibregl.MapLayerMouseEvent) => {
         if (!e.features || !e.features[0]) return;
         const feat = e.features[0];
         const commId = feat.properties?.community_id || feat.id;
@@ -479,12 +518,45 @@ export const MapView: React.FC = () => {
             p_cut_off: state?.p_cut_off !== undefined ? Number(state.p_cut_off) : undefined,
           });
         }
-      });
+      };
+
+      map.on('click', 'communities-circle', handleCommunityClick);
+      map.on('click', 'communities-buffer', handleCommunityClick);
+
       map.on('mouseenter', 'communities-circle', () => {
         map.getCanvas().style.cursor = 'pointer';
       });
       map.on('mouseleave', 'communities-circle', () => {
         map.getCanvas().style.cursor = '';
+      });
+      map.on('mouseenter', 'communities-buffer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'communities-buffer', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Background Map Click -> Deselect and dismiss drawers
+      map.on('click', (e) => {
+        const bbox: [maplibregl.PointLike, maplibregl.PointLike] = [
+          [e.point.x - 6, e.point.y - 6],
+          [e.point.x + 6, e.point.y + 6],
+        ];
+        const features = map.queryRenderedFeatures(bbox, {
+          layers: [
+            'facilities-circle',
+            'facilities-labels',
+            'roads-risk',
+            'roads-buffer',
+            'communities-circle',
+            'communities-buffer',
+          ],
+        });
+        if (!features || features.length === 0) {
+          setSelectedFacilityId(null);
+          setSelectedSegmentId(null);
+          setSelectedCommunityId(null);
+        }
       });
 
       setMapLoaded(true);
