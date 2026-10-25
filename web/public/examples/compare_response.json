@@ -1,0 +1,48 @@
+{
+  "a": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "b": "c3d4e5f60718293a4b5c6d7e8f90a1b2",
+  "region_totals_a": {
+    "people_cut_off": {
+      "mean": 14200.0,
+      "p10": 9800.0,
+      "p90": 19500.0
+    },
+    "people_degraded": {
+      "mean": 28400.0,
+      "p10": 21000.0,
+      "p90": 36000.0
+    },
+    "facilities_isolated_expected": 3.4
+  },
+  "region_totals_b": {
+    "people_cut_off": {
+      "mean": 8100.0,
+      "p10": 5200.0,
+      "p90": 11400.0
+    },
+    "people_degraded": {
+      "mean": 17200.0,
+      "p10": 12500.0,
+      "p90": 22100.0
+    },
+    "facilities_isolated_expected": 1.8
+  },
+  "people_cut_off_delta": -6100.0,
+  "rank_changes": [
+    {
+      "facility_id": "fac_00017",
+      "rank_a": 1,
+      "rank_b": 4
+    },
+    {
+      "facility_id": "fac_00004",
+      "rank_a": 2,
+      "rank_b": 1
+    },
+    {
+      "facility_id": "fac_00029",
+      "rank_a": 3,
+      "rank_b": 2
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "cache_key": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "versions": {
+    "model": "m20261026a",
+    "data": "d20261025a",
+    "engine": "0.1.0",
+    "app": "9fa31c2"
+  },
+  "hazard": "flood",
+  "evidence_level": "validated",
+  "scenario": {
+    "hazard": "flood",
+    "region_id": "pilot_01",
+    "start_date": "2026-10-25",
+    "daily_rain_mm": [25.0, 48.0, 36.5, 12.0],
+    "antecedent_30d_mm": 120.0,
+    "spatial": {
+      "type": "uniform"
+    },
+    "closure_factor": 1.0,
+    "failure_mode": "independent",
+    "n_samples": 200,
+    "seed": 42,
+    "forced_closed": [],
+    "forced_open": []
+  },
+  "base_cache_key": null,
+  "computed_at": "2026-10-25T08:30:08Z",
+  "region_totals": {
+    "people_cut_off": {
+      "mean": 14200.0,
+      "p10": 9800.0,
+      "p90": 19500.0
+    },
+    "people_degraded": {
+      "mean": 28400.0,
+      "p10": 21000.0,
+      "p90": 36000.0
+    },
+    "facilities_isolated_expected": 3.4
+  },
+  "ranking": [
+    {
+      "facility_id": "fac_00017",
+      "name": "Awash Arba Health Center",
+      "level": "health_center",
+      "p_isolation": 0.7450,
+      "p10": 0.6200,
+      "p90": 0.8500,
+      "people_affected_est": 18500,
+      "baseline_minutes": 42.5,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 118.0,
+        "segment_ids": [102, 103, 108],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.152, 9.141],
+            [40.165, 9.155],
+            [40.180, 9.162]
+          ]
+        }
+      },
+      "rank": 1,
+      "rank_delta": 3,
+      "snap_distance_m": 85,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00004",
+      "name": "Metehara Primary Hospital",
+      "level": "hospital",
+      "p_isolation": 0.6800,
+      "p10": 0.5500,
+      "p90": 0.7900,
+      "people_affected_est": 32000,
+      "baseline_minutes": 55.0,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 145.0,
+        "segment_ids": [204, 207, 210],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [39.912, 8.895],
+            [39.930, 8.910],
+            [39.945, 8.930]
+          ]
+        }
+      },
+      "rank": 2,
+      "rank_delta": 0,
+      "snap_distance_m": 110,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00029",
+      "name": "Bolen Clinic",
+      "level": "clinic",
+      "p_isolation": 0.8120,
+      "p10": 0.7100,
+      "p90": 0.9200,
+      "people_affected_est": 8900,
+      "baseline_minutes": 78.0,
+      "poor_baseline_access": false,
+      "alt_route": null,
+      "rank": 3,
+      "rank_delta": 4,
+      "snap_distance_m": 240,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00041",
+      "name": "Gedamaytu Health Center",
+      "level": "health_center",
+      "p_isolation": 0.5150,
+      "p10": 0.3800,
+      "p90": 0.6400,
+      "people_affected_est": 12400,
+      "baseline_minutes": 64.0,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 92.5,
+        "segment_ids": [301, 305],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.310, 9.380],
+            [40.325, 9.395]
+          ]
+        }
+      },
+      "rank": 4,
+      "rank_delta": -1,
+      "snap_distance_m": 450,
+      "source": "osm",
+      "quality_flag": "weak_source"
+    },
+    {
+      "facility_id": "fac_00052",
+      "name": "Doho Rural Clinic",
+      "level": "clinic",
+      "p_isolation": 0.4400,
+      "p10": 0.3100,
+      "p90": 0.5800,
+      "people_affected_est": 6100,
+      "baseline_minutes": 145.0,
+      "poor_baseline_access": true,
+      "alt_route": {
+        "minutes": 210.0,
+        "segment_ids": [412, 415],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.020, 9.210],
+            [40.040, 9.230]
+          ]
+        }
+      },
+      "rank": 5,
+      "rank_delta": 2,
+      "snap_distance_m": 1250,
+      "source": "osm",
+      "quality_flag": "long_snap"
+    },
+    {
+      "facility_id": "fac_00012",
+      "name": "Sabure Clinic",
+      "level": "clinic",
+      "p_isolation": 0.3950,
+      "p10": 0.2800,
+      "p90": 0.5200,
+      "people_affected_est": 5200,
+      "baseline_minutes": 38.0,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 68.0,
+        "segment_ids": [510, 514],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.220, 8.980],
+            [40.240, 8.995]
+          ]
+        }
+      },
+      "rank": 6,
+      "rank_delta": -2,
+      "snap_distance_m": 90,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00063",
+      "name": "Kesem Health Post",
+      "level": "clinic",
+      "p_isolation": 0.3100,
+      "p10": 0.1800,
+      "p90": 0.4500,
+      "people_affected_est": 4300,
+      "baseline_minutes": 88.0,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 130.0,
+        "segment_ids": [602, 606],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.010, 9.420],
+            [40.030, 9.440]
+          ]
+        }
+      },
+      "rank": 7,
+      "rank_delta": -1,
+      "snap_distance_m": 310,
+      "source": "osm",
+      "quality_flag": "ok"
+    },
+    {
+      "facility_id": "fac_00008",
+      "name": "Awash Sebat General Hospital",
+      "level": "hospital",
+      "p_isolation": 0.1250,
+      "p10": 0.0500,
+      "p90": 0.2200,
+      "people_affected_est": 45000,
+      "baseline_minutes": 15.0,
+      "poor_baseline_access": false,
+      "alt_route": {
+        "minutes": 35.0,
+        "segment_ids": [701, 705],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [40.160, 8.990],
+            [40.170, 9.005]
+          ]
+        }
+      },
+      "rank": 8,
+      "rank_delta": -5,
+      "snap_distance_m": 45,
+      "source": "osm",
+      "quality_flag": "ok"
+    }
+  ],
+  "top_communities": [
+    {
+      "community_id": "com_00231",
+      "name": "Sabure Settlement",
+      "people_est": 3200,
+      "p_cut_off": 0.8200,
+      "p_degraded": 0.1200,
+      "expected_minutes": 135.0,
+      "baseline_minutes": 38.0,
+      "poor_baseline_access": false,
+      "snap_distance_m": 120,
+      "quality_flag": "ok"
+    },
+    {
+      "community_id": "com_00108",
+      "name": "Doho Kebele",
+      "people_est": 2400,
+      "p_cut_off": 0.7400,
+      "p_degraded": 0.2100,
+      "expected_minutes": 195.0,
+      "baseline_minutes": 145.0,
+      "poor_baseline_access": true,
+      "snap_distance_m": 850,
+      "quality_flag": "long_snap"
+    },
+    {
+      "community_id": "com_00342",
+      "name": "Awash River Bank East",
+      "people_est": 1850,
+      "p_cut_off": 0.6900,
+      "p_degraded": 0.2400,
+      "expected_minutes": 110.0,
+      "baseline_minutes": 45.0,
+      "poor_baseline_access": false,
+      "snap_distance_m": 210,
+      "quality_flag": "ok"
+    }
+  ],
+  "assumptions": {
+    "speeds_kmh": {
+      "motorway": 80,
+      "trunk": 60,
+      "primary": 50,
+      "secondary": 40,
+      "tertiary": 35,
+      "unclassified": 25,
+      "residential": 20,
+      "track": 12,
+      "other": 15
+    },
+    "closure_factor": 1.0,
+    "degraded_ratio": 2.0,
+    "poor_baseline_minutes": 120,
+    "failure_mode": "independent"
+  }
+}

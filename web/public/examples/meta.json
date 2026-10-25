@@ -1,0 +1,31 @@
+{
+  "versions": {
+    "model": "m20261026a",
+    "data": "d20261025a",
+    "engine": "0.1.0",
+    "app": "9fa31c2"
+  },
+  "region_id": "pilot_01",
+  "limits": {
+    "max_days": 10,
+    "max_rain_mm": 400.0,
+    "max_samples": 500
+  },
+  "assumptions": {
+    "speeds_kmh": {
+      "motorway": 80,
+      "trunk": 60,
+      "primary": 50,
+      "secondary": 40,
+      "tertiary": 35,
+      "unclassified": 25,
+      "residential": 20,
+      "track": 12,
+      "other": 15
+    },
+    "closure_factor": 1.0,
+    "degraded_ratio": 2.0,
+    "poor_baseline_minutes": 120,
+    "failure_mode": "independent"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "daily_rain_mm array must have length between 1 and 10",
+    "field": "daily_rain_mm",
+    "request_id": "req-98765432"
+  }
+}

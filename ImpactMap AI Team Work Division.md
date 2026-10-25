@@ -1284,24 +1284,24 @@ You own the demo flow from section 14 of the functional document. Rehearse the t
 
 | # | Item | Status |
 | --- | --- | --- |
-| 1 | App scaffold, Tailwind v4, tooling, CI web job green | \[ \] |
-| 2 | Basemap file made, verified, handed to Dagim, loads from our bucket through CloudFront | \[ \] |
-| 3 | Config loader works; no environment variables needed to build | \[ \] |
-| 4 | Mock server covers every endpoint and the failure cases | \[ \] |
-| 5 | Roads, facilities, communities draw with the shared five-class legend | \[ \] |
-| 6 | Manual controls conversion passes the golden tests | \[ \] |
-| 7 | Run and poll flow shows Queued, Running, Done and all error states | \[ \] |
-| 8 | Results tab, ranking table (sort, filter, search), summary cards | \[ \] |
-| 9 | Facility drawer, segment drawer, what-if basket, before and after card | \[ \] |
-| 10 | Cascade bar plays with preloaded steps | \[ \] |
-| 11 | Evidence tab shows the real evaluation file and the evidence badge | \[ \] |
-| 12 | Compare table works | \[ \] |
-| 13 | About page and footer with disclaimer and attributions | \[ \] |
-| 14 | All UI text in en.json; fixed terms exact | \[ \] |
-| 15 | Phone check done twice; timings recorded | \[ \] |
-| 16 | Four Playwright flows pass | \[ \] |
-| 17 | Demo script rehearsed; local fallback copy ready | \[ \] |
-| 18 | MODULE\_WEB.md up to date | \[ \] |
+| 1 | App scaffold, Tailwind v4, tooling, CI web job green | [x] |
+| 2 | Basemap file made, verified, handed to Dagim, loads from our bucket through CloudFront | [x] |
+| 3 | Config loader works; no environment variables needed to build | [x] |
+| 4 | Mock server covers every endpoint and the failure cases | [x] |
+| 5 | Roads, facilities, communities draw with the shared five-class legend | [x] |
+| 6 | Manual controls conversion passes the golden tests | [x] |
+| 7 | Run and poll flow shows Queued, Running, Done and all error states | [x] |
+| 8 | Results tab, ranking table (sort, filter, search), summary cards | [x] |
+| 9 | Facility drawer, segment drawer, what-if basket, before and after card | [x] |
+| 10 | Cascade bar plays with preloaded steps | [x] |
+| 11 | Evidence tab shows the real evaluation file and the evidence badge | [x] |
+| 12 | Compare table works | [x] |
+| 13 | About page and footer with disclaimer and attributions | [x] |
+| 14 | All UI text in en.json; fixed terms exact | [x] |
+| 15 | Phone check done twice; timings recorded | [x] |
+| 16 | Four Playwright flows pass | [x] |
+| 17 | Demo script rehearsed; local fallback copy ready | [x] |
+| 18 | MODULE_WEB.md up to date | [x] |
 
 # PART Y. YAGI (support developer)
 

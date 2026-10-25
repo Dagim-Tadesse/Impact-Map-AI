@@ -1,0 +1,43 @@
+{
+  "facility_id": "fac_00017",
+  "rank": 1,
+  "rank_delta": 3,
+  "p_isolation": 0.7450,
+  "why": [
+    {
+      "segment_id": 102,
+      "lift": 0.4200,
+      "closure_prob": 0.7810,
+      "text": "Critical primary access bridge over Awash tributary"
+    },
+    {
+      "segment_id": 103,
+      "lift": 0.2850,
+      "closure_prob": 0.6230,
+      "text": "Low-lying junction connecting western corridor"
+    },
+    {
+      "segment_id": 108,
+      "lift": 0.1450,
+      "closure_prob": 0.5400,
+      "text": "Secondary bypass route segment"
+    }
+  ],
+  "alt_route": {
+    "minutes": 118.0,
+    "segment_ids": [102, 103, 108],
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [40.152, 9.141],
+        [40.165, 9.155],
+        [40.180, 9.162]
+      ]
+    }
+  },
+  "sentences": [
+    "Awash Arba Health Center is likely to be isolated mainly because segment 102 (Awash Arba Secondary Access Road) has a 78% flood exposure risk.",
+    "Closing segment 102 alone increases isolation probability by 42%.",
+    "An alternative southern bypass remains viable in 25% of simulation samples but adds 75 minutes of travel time."
+  ]
+}

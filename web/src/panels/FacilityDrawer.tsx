@@ -1,0 +1,193 @@
+import React from 'react';
+import { X, Navigation, AlertCircle, Clock, ShieldCheck, MapPin, Compass } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useAppStore } from '../state/useAppStore';
+import { useFacilityExplainQuery, useResultSummaryQuery } from '../api/hooks';
+import { ProbabilityBar } from '../components/ProbabilityBar';
+import { QualityFlag } from '../components/QualityFlag';
+import { formatMinutes, formatPeople, formatDistance } from '../lib/format';
+
+export const FacilityDrawer: React.FC = () => {
+  const { t } = useTranslation();
+  const {
+    selectedFacilityId,
+    setSelectedFacilityId,
+    setSelectedSegmentId,
+    currentCacheKey,
+  } = useAppStore();
+
+  const { data: resultSummary } = useResultSummaryQuery(currentCacheKey);
+  const { data: explainData, isLoading, isError } = useFacilityExplainQuery(
+    selectedFacilityId,
+    currentCacheKey
+  );
+
+  if (!selectedFacilityId) return null;
+
+  const fac = resultSummary?.ranking?.find((f: any) => f.facility_id === selectedFacilityId);
+  const name = fac?.name || explainData?.facility_id || selectedFacilityId;
+  const level = fac?.level || 'hospital';
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 top-14 sm:inset-x-auto sm:top-20 sm:bottom-8 sm:right-4 w-full sm:w-96 glass-panel-elevated rounded-t-2xl sm:rounded-2xl p-4 sm:p-5 shadow-[0_24px_80px_rgba(0,0,0,0.85)] border-t sm:border border-white/15 z-40 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6 sm:slide-in-from-right duration-300">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/10 shrink-0">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-bold">
+              {level.replace('_', ' ')}
+            </span>
+            <span className="text-[10px] font-mono text-slate-400">
+              {selectedFacilityId}
+            </span>
+          </div>
+          <h3 className="text-base font-extrabold text-white leading-tight">{name}</h3>
+        </div>
+
+        <button
+          onClick={() => setSelectedFacilityId(null)}
+          className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+          title="Close Facility Drawer"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Scrollable Body */}
+      <div className="flex-1 overflow-y-auto py-4 space-y-5 text-xs">
+        {/* Core Metrics Grid */}
+        <div className="glass-panel p-3.5 rounded-xl border border-white/10 space-y-3">
+          <div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">
+              {t('facility_drawer.isolation_risk')}
+            </div>
+            <ProbabilityBar
+              prob={fac?.p_isolation ?? explainData?.p_isolation ?? 0}
+              p10={fac?.p10}
+              p90={fac?.p90}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5 font-mono">
+            <div>
+              <div className="text-[10px] text-slate-400">{t('facility_drawer.affected_people')}</div>
+              <div className="text-xs font-bold text-slate-100">
+                {formatPeople(fac?.people_affected_est || 0)}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[10px] text-slate-400">{t('facility_drawer.baseline_time')}</div>
+              <div className="text-xs font-bold text-slate-100">
+                {formatMinutes(fac?.baseline_minutes || 0)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Poor Baseline Access Plain-Language Note */}
+        {fac?.poor_baseline_access && (
+          <div className="p-3 rounded-xl bg-purple-950/50 border border-purple-500/30 text-purple-200 text-xs flex items-start gap-2">
+            <Clock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+            <p className="leading-relaxed">
+              {t('facility_drawer.poor_baseline_note')}
+            </p>
+          </div>
+        )}
+
+        {/* Explanation Sentences */}
+        <div className="space-y-2">
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+            {t('facility_drawer.why_title')}
+          </h4>
+
+          {isLoading ? (
+            <div className="space-y-2 animate-pulse">
+              <div className="h-4 bg-slate-800 rounded w-full" />
+              <div className="h-4 bg-slate-800 rounded w-5/6" />
+            </div>
+          ) : explainData?.sentences ? (
+            <ul className="space-y-1.5 text-slate-300 leading-relaxed list-disc list-inside">
+              {explainData.sentences.map((sent: string, i: number) => (
+                <li key={i}>{sent}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-slate-400 italic">
+              {t('facility_drawer.critical_feeder')}
+            </p>
+          )}
+        </div>
+
+        {/* Critical Segments Chips */}
+        {explainData?.why && explainData.why.length > 0 && (
+          <div>
+            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+              {t('facility_drawer.critical_roads')}
+            </h4>
+            <div className="flex flex-wrap gap-1.5">
+              {explainData.why.slice(0, 3).map((seg: any) => (
+                <button
+                  key={seg.segment_id}
+                  onClick={() => {
+                    setSelectedSegmentId(seg.segment_id);
+                  }}
+                  className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-cyan-950/60 hover:border-cyan-500/50 border border-white/10 text-[11px] font-mono text-cyan-300 transition-colors flex items-center gap-1.5"
+                >
+                  <MapPin className="w-3 h-3 text-cyan-400" />
+                  <span>Seg #{seg.segment_id}</span>
+                  <span className="text-rose-400">({(seg.lift * 100).toFixed(0)}% lift)</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Alternative Route Info */}
+        <div className="glass-panel p-3 rounded-xl border border-white/10">
+          <div className="flex items-center gap-2 mb-1.5 font-bold text-white text-[11px] uppercase tracking-wider">
+            <Navigation className="w-3.5 h-3.5 text-sky-400" />
+            <span>{t('facility_drawer.alt_route')}</span>
+          </div>
+
+          {fac?.alt_route ? (
+            <div className="space-y-2">
+              <p className="text-slate-300">
+                {t('facility_drawer.surviving_detour_available')} <strong>{formatMinutes(fac.alt_route.minutes)}</strong>
+              </p>
+              <div className="text-[10px] text-sky-300 font-mono">
+                {t('facility_drawer.detour_drawn')}
+              </div>
+              <button
+                onClick={() => {
+                  if (fac?.alt_route?.geometry?.coordinates) {
+                    window.dispatchEvent(
+                      new CustomEvent('map:fitBounds', {
+                        detail: { coordinates: fac.alt_route.geometry.coordinates },
+                      })
+                    );
+                  }
+                }}
+                className="w-full py-1.5 px-3 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/30 text-sky-200 font-semibold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-[0_0_10px_rgba(56,189,248,0.15)] active:scale-98"
+              >
+                <Compass className="w-3.5 h-3.5 text-sky-400" />
+                <span>{t('facility_drawer.inspect_detour')}</span>
+              </button>
+            </div>
+          ) : (
+            <p className="text-slate-400 italic">
+              {t('facility_drawer.no_alt_route')}
+            </p>
+          )}
+        </div>
+
+        {/* Data Quality & Snapping */}
+        <div className="text-[10px] text-slate-400 font-mono space-y-0.5 border-t border-white/5 pt-2">
+          <div>{t('facility_drawer.source')}: {fac?.source || 'osm'}</div>
+          <div>{t('facility_drawer.snap_dist')}: {formatDistance(fac?.snap_distance_m || 85)}</div>
+          <QualityFlag flag={fac?.quality_flag} />
+        </div>
+      </div>
+    </div>
+  );
+};

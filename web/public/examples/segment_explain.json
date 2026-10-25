@@ -1,0 +1,26 @@
+{
+  "segment_id": 102,
+  "name": "Awash Arba Secondary Access Road",
+  "road_class": "secondary",
+  "length_m": 1420,
+  "exposure_prob": 0.7810,
+  "closure_prob": 0.7810,
+  "quality_flag": "ok",
+  "top_reasons": [
+    {
+      "feature": "hand_min",
+      "label": "Low ground next to river (HAND < 1.5m)",
+      "contribution": 0.3850
+    },
+    {
+      "feature": "peak_3d",
+      "label": "Heavy 3-day rainfall accumulation (> 110mm)",
+      "contribution": 0.2410
+    },
+    {
+      "feature": "slope_mean",
+      "label": "Flat floodplain terrain promoting ponding (< 1.2°)",
+      "contribution": 0.1550
+    }
+  ]
+}
