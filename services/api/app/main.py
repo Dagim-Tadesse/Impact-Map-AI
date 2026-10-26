@@ -109,14 +109,17 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     except (ValueError, KeyError):
         error_phrase = "HTTP Exception"
 
-    if isinstance(exc.detail, dict):
-        error_val = exc.detail.get("error", error_phrase)
-        message_val = exc.detail.get("message", str(exc.detail))
-    else:
-        error_val = error_phrase
-        message_val = exc.detail
+    req_id = getattr(request.state, "request_id", f"req-{uuid.uuid4().hex[:12]}")
+    code = "NOT_FOUND" if exc.status_code == 404 else ("RATE_LIMITED" if exc.status_code == 429 else "INTERNAL_ERROR")
 
-    req_id = getattr(request.state, "request_id", None)
+    if isinstance(exc.detail, dict):
+        code = exc.detail.get("code", code)
+        message_val = exc.detail.get("message", str(exc.detail))
+        field = exc.detail.get("field", None)
+    else:
+        message_val = str(exc.detail)
+        field = None
+
     headers = dict(exc.headers) if getattr(exc, "headers", None) else {}
     if req_id and "x-request-id" not in headers:
         headers["x-request-id"] = req_id
@@ -126,9 +129,14 @@ async def http_exception_handler(request: Request, exc: HTTPException):
         headers=headers if headers else None,
         content={
             "status_code": exc.status_code,
-            "error": error_val,
-            "message": message_val,
             "path": request.url.path,
+            "error": {
+                "code": code,
+                "message": message_val,
+                "phrase": error_phrase,
+                "field": field,
+                "request_id": req_id
+            }
         },
     )
 
@@ -139,6 +147,22 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 def get_health():
     return {
         "status": "ok",
+        "time": datetime.now(timezone.utc).isoformat()
+    }
+
+
+@app.get("/ready")
+def get_ready():
+    facilities_ready = (DATA_PROCESSED / "facilities.geojson").exists()
+    segments_ready = (DATA_PROCESSED / "segments.geojson").exists()
+    communities_ready = (DATA_PROCESSED / "communities.geojson").exists()
+    return {
+        "status": "ready" if (facilities_ready and segments_ready) else "degraded",
+        "data_files": {
+            "facilities": facilities_ready,
+            "segments": segments_ready,
+            "communities": communities_ready
+        },
         "time": datetime.now(timezone.utc).isoformat()
     }
 
