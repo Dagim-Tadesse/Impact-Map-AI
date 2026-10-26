@@ -17,10 +17,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 import lightgbm as lgb
 import numpy as np
+from scipy.sparse.csgraph import dijkstra
 
 from impactmap_core.closure import compute_closure_probabilities
 from impactmap_core.explain import compute_facility_lift_explanations
 from impactmap_core.features import apply_spatial_pattern, compute_rainfall_features
+from impactmap_core.graph_io import build_sparse_adjacency, compute_travel_times_minutes
 from impactmap_core.hashing import make_cache_key
 from impactmap_core.montecarlo import run_monte_carlo_simulation
 from impactmap_core.ranking import compute_facility_rankings
@@ -205,6 +207,29 @@ def execute_scenario(scenario: Dict[str, Any], repo_root: Optional[Path] = None)
     fac_baseline_min = sim_res["fac_baseline_min"]
     fac_poor_baseline = sim_res["fac_poor_baseline"]
 
+    # 6. Alternative Surviving Route Calculation via Dijkstra on surviving network
+    g = art["graph_data"]
+    num_nodes = max(int(np.max(g["edge_u"])), int(np.max(g["edge_v"]))) + 1
+    travel_w = compute_travel_times_minutes(g["length_m"], g["speed_kmh"])
+    fac_nodes = art["facility_npz"]["node_idx"]
+    fac_levels = art["facility_npz"]["level_idx"]
+    hospital_indices = fac_nodes[fac_levels == 0]
+
+    # Build detour graph prioritizing surviving corridors
+    surviving_mask = closure_prob < 0.5
+    if np.sum(surviving_mask) < len(closure_prob) * 0.3:
+        surviving_weights = travel_w * (1.0 + 10.0 * closure_prob)
+        alt_adj = build_sparse_adjacency(g["edge_u"], g["edge_v"], surviving_weights, num_nodes)
+    else:
+        alt_adj = build_sparse_adjacency(g["edge_u"], g["edge_v"], travel_w, num_nodes, active_edge_mask=surviving_mask)
+
+    alt_dists, alt_preds = dijkstra(alt_adj, directed=False, indices=hospital_indices, return_predecessors=True)
+
+    edge_to_seg = {}
+    for s_id, (u, v) in enumerate(zip(g["edge_u"], g["edge_v"])):
+        edge_to_seg[(int(u), int(v))] = s_id
+        edge_to_seg[(int(v), int(u))] = s_id
+
     facility_items: List[Dict[str, Any]] = []
     for idx, f_feat in enumerate(art["fac_geojson"]):
         props = f_feat["properties"]
@@ -214,6 +239,40 @@ def execute_scenario(scenario: Dict[str, Any], repo_root: Optional[Path] = None)
         aff = int(fac_affected[idx])
         base_m = float(fac_baseline_min[idx])
         poor_b = bool(fac_poor_baseline[idx])
+
+        # Compute alternative surviving route to nearest reachable hospital
+        f_node = int(fac_nodes[idx])
+        is_hosp = (fac_levels[idx] == 0)
+        best_h_idx = -1
+        min_alt_d = float('inf')
+        for h_i, h_node in enumerate(hospital_indices):
+            if is_hosp and h_node == f_node:
+                continue
+            d = alt_dists[h_i, f_node]
+            if d < min_alt_d and np.isfinite(d):
+                min_alt_d = d
+                best_h_idx = h_i
+
+        alt_route = None
+        if best_h_idx >= 0 and np.isfinite(min_alt_d):
+            target_h_node = hospital_indices[best_h_idx]
+            curr = f_node
+            path = [curr]
+            visited = set([curr])
+            while curr != target_h_node and curr >= 0:
+                curr = int(alt_preds[best_h_idx, curr])
+                if curr in visited or curr < 0:
+                    break
+                visited.add(curr)
+                path.append(curr)
+
+            if curr == target_h_node:
+                route_segs = [edge_to_seg[(u, v)] for u, v in zip(path[:-1], path[1:]) if (u, v) in edge_to_seg]
+                if route_segs:
+                    alt_route = {
+                        "minutes": round(float(min_alt_d), 1),
+                        "segment_ids": route_segs
+                    }
 
         facility_items.append({
             "facility_id": props.get("facility_id", f"fac_{idx:05d}"),
@@ -225,7 +284,7 @@ def execute_scenario(scenario: Dict[str, Any], repo_root: Optional[Path] = None)
             "people_affected_est": aff,
             "baseline_minutes": round(base_m, 1) if np.isfinite(base_m) else None,
             "poor_baseline_access": poor_b,
-            "alt_route": None,
+            "alt_route": alt_route,
             "snap_distance_m": int(props.get("snap_distance_m", 50)),
             "source": props.get("source", "osm"),
             "quality_flag": props.get("quality_flag", "ok")

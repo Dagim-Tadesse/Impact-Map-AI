@@ -174,8 +174,14 @@ def run_monte_carlo_simulation(
     )
 
     p_isolation_fac = fac_isolated_counts / n_samples
-    p10_fac = np.maximum(0.0, p_isolation_fac - 0.12)
-    p90_fac = np.minimum(1.0, p_isolation_fac + 0.12)
+    # Wilson score interval (z = 1.28155 for 10th to 90th percentile / 80% confidence bounds)
+    z = 1.28155
+    z2 = z * z
+    denom = 1.0 + z2 / n_samples
+    center = (p_isolation_fac + z2 / (2.0 * n_samples)) / denom
+    margin = (z * np.sqrt((p_isolation_fac * (1.0 - p_isolation_fac) + z2 / (4.0 * n_samples)) / n_samples)) / denom
+    p10_fac = np.clip(np.round(center - margin, 4), 0.0, 1.0)
+    p90_fac = np.clip(np.round(center + margin, 4), 0.0, 1.0)
 
     region_totals = {
         'people_cut_off': {
