@@ -271,6 +271,8 @@ export interface components {
         /** @enum {string} */
         EvidenceLevelEnum: "validated" | "limited" | "heuristic";
         /** @enum {string} */
+        ExecutionModeEnum: "live_model" | "heuristic" | "precomputed_demo" | "failed";
+        /** @enum {string} */
         FailureModeEnum: "independent" | "correlated";
         /** @enum {string} */
         SpatialTypeEnum: "uniform" | "gradient" | "cell";
@@ -419,6 +421,7 @@ export interface components {
             versions: components["schemas"]["Versions"];
             hazard: components["schemas"]["HazardEnum"];
             evidence_level: components["schemas"]["EvidenceLevelEnum"];
+            execution_mode?: components["schemas"]["ExecutionModeEnum"];
             scenario: components["schemas"]["Scenario"];
             base_cache_key?: string;
             /** Format: date-time */

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Dropdown, DropdownItem, DropdownSection } from './Dropdown';
 import { useAppStore, type MockScenarioBehavior } from '../state/useAppStore';
+import { useResultSummaryQuery } from '../api/hooks';
 import { getConfig } from '../config';
 import { useTranslation } from 'react-i18next';
 
@@ -52,14 +53,32 @@ export const TopBar: React.FC<TopBarProps> = ({
 }) => {
   const config = getConfig();
   const { t, i18n } = useTranslation();
-  const { isOfflineMode, mockBehavior, setActiveTab, setMockBehavior } = useAppStore();
+  const { isOfflineMode, mockBehavior, setActiveTab, setMockBehavior, currentCacheKey } = useAppStore();
+  const { data: resultSummary } = useResultSummaryQuery(currentCacheKey);
   const currentLang = i18n.language || 'en';
 
-  const dotClass = isOfflineMode
-    ? 'bg-amber-400'
-    : mockBehavior !== 'cached_200'
-      ? 'bg-sky-400'
-      : 'bg-emerald-400';
+  const executionMode = resultSummary?.execution_mode;
+  const badgeLabel = executionMode === 'live_model'
+    ? 'LIVE MODEL + GRAPH'
+    : executionMode === 'precomputed_demo'
+      ? 'PRECOMPUTED DEMO'
+      : executionMode === 'heuristic'
+        ? 'HEURISTIC SCENARIO'
+        : 'PILOT PROTOTYPE';
+
+  const badgeDot = executionMode === 'live_model'
+    ? 'bg-emerald-400'
+    : executionMode === 'precomputed_demo'
+      ? 'bg-cyan-400'
+      : isOfflineMode
+        ? 'bg-amber-400'
+        : 'bg-sky-400';
+
+  const badgeTextClass = executionMode === 'live_model'
+    ? 'text-emerald-300'
+    : executionMode === 'precomputed_demo'
+      ? 'text-cyan-300'
+      : 'text-slate-300';
 
   const modeIcon = (iconKey: string) =>
     iconKey === 'offline' ? (
@@ -139,11 +158,13 @@ export const TopBar: React.FC<TopBarProps> = ({
           buttonLabel={() => (
             <>
               <span
-                className={`w-2 h-2 rounded-full shrink-0 ${dotClass}`}
-                title={isOfflineMode ? 'offline' : mockBehavior}
+                className={`w-2 h-2 rounded-full shrink-0 ${badgeDot}`}
+                title={isOfflineMode ? 'offline' : (executionMode || mockBehavior)}
               />
-              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-              <span className="hidden sm:inline text-cyan-300 uppercase tracking-wider">Validated (L0)</span>
+              <ShieldCheck className={`w-3.5 h-3.5 shrink-0 ${badgeTextClass}`} />
+              <span className={`hidden sm:inline uppercase tracking-wider font-mono text-[11px] ${badgeTextClass}`}>
+                {badgeLabel}
+              </span>
               <ChevronDown className="w-3 h-3 text-slate-500 shrink-0" />
             </>
           )}
