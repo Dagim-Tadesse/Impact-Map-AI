@@ -55,7 +55,13 @@ export const ScenarioTab: React.FC = () => {
   const { data: libraryScenarios, isLoading: isLibLoading } = useLibraryQuery();
   const runScenarioMutation = useRunScenarioMutation();
 
-  const { setCurrentCacheKey, setCascadeState, setActiveTab } = useAppStore();
+  const {
+    setCurrentCacheKey,
+    setCascadeState,
+    setActiveTab,
+    setBaseCacheKey,
+    clearWhatIf,
+  } = useAppStore();
 
   // Custom Builder State
   const [stormTotalMm, setStormTotalMm] = useState<number>(120);
