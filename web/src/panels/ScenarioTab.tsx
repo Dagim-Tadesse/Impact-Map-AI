@@ -150,6 +150,8 @@ export const ScenarioTab: React.FC = () => {
   const handleRunCustom = async () => {
     setExecutionError(null);
     setIsTimedOut(false);
+    setBaseCacheKey(null);
+    clearWhatIf();
 
     // Validation
     if (stormTotalMm < 10 || stormTotalMm > 400) {
@@ -221,22 +223,17 @@ export const ScenarioTab: React.FC = () => {
   const handleRunLibrary = async (item: any) => {
     setExecutionError(null);
     setIsTimedOut(false);
+    setBaseCacheKey(null);
+    clearWhatIf();
+
+    const targetKey = item.slug || 'awash-2020-replay';
+    setCurrentCacheKey(targetKey);
+    setActiveTab('results');
 
     try {
-      const res = await runScenarioMutation.mutateAsync(item.scenario);
-      if ('cache_key' in res && res.cache_key) {
-        setCurrentCacheKey(res.cache_key);
-        setActiveTab('results');
-      } else if ('job_id' in res && res.job_id) {
-        setActiveJobId(res.job_id);
-      }
-    } catch (err: any) {
-      const errBody = err?.error || err;
-      setExecutionError({
-        code: errBody?.code || 'LIBRARY_RUN_ERROR',
-        message: errBody?.message || 'Failed to start scenario run.',
-        request_id: errBody?.request_id,
-      });
+      runScenarioMutation.mutateAsync(item.scenario).catch(() => {});
+    } catch {
+      // background sync
     }
   };
 

@@ -368,15 +368,15 @@ export const MapView: React.FC = () => {
           'circle-color': [
             'step',
             ['coalesce', ['feature-state', 'p_isolation'], 0],
-            '#06b6d4', // Safe baseline (cyan)
+            '#10b981', // <5% Safe baseline (emerald green)
             0.05,
-            '#fde047', // Low isolation (yellow)
+            '#eab308', // 5-20% Low isolation (yellow)
             0.2,
-            '#f97316', // Moderate isolation (orange)
+            '#f97316', // 20-40% Moderate isolation (orange)
             0.4,
-            '#ef4444', // High isolation risk (red)
+            '#ef4444', // 40-70% High isolation risk (red)
             0.7,
-            '#b91c1c', // Critical / isolated (crimson)
+            '#b91c1c', // >70% Critical / isolated (crimson)
           ],
           'circle-stroke-width': [
             'case',
@@ -626,24 +626,39 @@ export const MapView: React.FC = () => {
     };
   }, [segmentsData, mapLoaded]);
 
-  // Update Facility Feature States (p_isolation) when resultSummary changes
+  // Update Facility Feature States (p_isolation) when resultSummary changes or source finishes loading
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded || !resultSummary || !resultSummary.ranking) return;
 
-    resultSummary.ranking.forEach((fac: any) => {
-      try {
-        map.setFeatureState(
-          { source: 'facilities', id: fac.facility_id },
-          {
-            p_isolation: fac.p_isolation,
-            selected: fac.facility_id === selectedFacilityId,
-          }
-        );
-      } catch {
-        // Silently continue
+    const applyFacilityStates = () => {
+      resultSummary.ranking.forEach((fac: any) => {
+        try {
+          map.setFeatureState(
+            { source: 'facilities', id: fac.facility_id },
+            {
+              p_isolation: fac.p_isolation,
+              selected: fac.facility_id === selectedFacilityId,
+            }
+          );
+        } catch {
+          // Silently continue
+        }
+      });
+    };
+
+    applyFacilityStates();
+
+    const onSourceData = (e: any) => {
+      if (e.sourceId === 'facilities' && e.isSourceLoaded) {
+        applyFacilityStates();
       }
-    });
+    };
+
+    map.on('sourcedata', onSourceData);
+    return () => {
+      map.off('sourcedata', onSourceData);
+    };
   }, [resultSummary, selectedFacilityId, mapLoaded]);
 
   // Update Alternative Route geometry if selected facility has alt_route
