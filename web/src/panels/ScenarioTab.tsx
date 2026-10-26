@@ -220,21 +220,16 @@ export const ScenarioTab: React.FC = () => {
   };
 
   // Run Library Scenario
-  const handleRunLibrary = async (item: any) => {
+  const handleRunLibrary = (item: any) => {
     setExecutionError(null);
     setIsTimedOut(false);
+    setActiveJobId(null);
     setBaseCacheKey(null);
     clearWhatIf();
 
     const targetKey = item.slug || 'awash-2020-replay';
     setCurrentCacheKey(targetKey);
     setActiveTab('results');
-
-    try {
-      runScenarioMutation.mutateAsync(item.scenario).catch(() => {});
-    } catch {
-      // background sync
-    }
   };
 
   const isSimulating = Boolean(activeJobId) && !isTimedOut;
@@ -325,8 +320,7 @@ export const ScenarioTab: React.FC = () => {
 
                       <button
                         onClick={() => handleRunLibrary(item)}
-                        disabled={runScenarioMutation.isPending || isSimulating}
-                        className="min-h-[36px] flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors active:scale-95 disabled:opacity-50"
+                        className="min-h-[36px] flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors active:scale-95"
                       >
                         <span>{t('scenario.run_card')}</span>
                       </button>
