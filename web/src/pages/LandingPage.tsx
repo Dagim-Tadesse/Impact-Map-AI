@@ -369,7 +369,7 @@ export function LandingPage({
 
       {/* ── Section 2: The Problem (Step Inside Crisis Zoom-In Scroll Animation) ── */}
       <section id="crisis" className="relative bg-[#060a14] z-10">
-        <StepInsideCrisisZoom onExploreClick={handleLaunchDemo} />
+        <StepInsideCrisisZoom />
       </section>
 
       {/* ── Section 3: The Solution (Pinned 5-Card Horizontal Scroll Showcase) ── */}
