@@ -39,17 +39,29 @@ def test_scenarios_library():
     assert any(i["slug"] == "baseline-dry" for i in items)
 
 
+def test_ready_endpoint():
+    response = client.get("/ready")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ready"
+    assert data["capabilities"]["map_data"] is True
+    assert data["capabilities"]["graph"] is True
+    assert data["capabilities"]["terrain"] is True
+    assert data["capabilities"]["model"] is True
+    assert data["capabilities"]["calibration"] is True
+
+
 def test_create_scenario_valid():
     payload = {
         "hazard": "flood",
-        "region_id": "pilot_01",
+        "region_id": "awash_01",
         "start_date": "2026-10-25",
         "daily_rain_mm": [25.0, 40.0, 15.0],
         "antecedent_30d_mm": 120.0,
         "spatial": {"type": "uniform"},
         "closure_factor": 1.0,
         "failure_mode": "independent",
-        "n_samples": 200,
+        "n_samples": 50,
         "seed": 42,
         "forced_closed": [],
         "forced_open": []
@@ -61,12 +73,49 @@ def test_create_scenario_valid():
     assert len(data["cache_key"]) == 32
     assert "x-request-id" in response.headers
 
+    # Verify result has execution_mode live_model
+    res_resp = client.get(f"/results/{data['cache_key']}")
+    assert res_resp.status_code == 200
+    assert res_resp.json()["execution_mode"] == "live_model"
+
+
+def test_create_scenario_unsupported_region():
+    payload = {
+        "hazard": "flood",
+        "region_id": "unsupported_region_xyz",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [20.0],
+        "antecedent_30d_mm": 120.0,
+        "spatial": {"type": "uniform"}
+    }
+    response = client.post("/scenarios", json=payload)
+    assert response.status_code == 400
+    data = response.json()
+    assert data["error"]["code"] == "VALIDATION_ERROR"
+    assert "region_id" in data["error"]["field"]
+
+
+def test_create_scenario_unsupported_hazard():
+    payload = {
+        "hazard": "landslide",
+        "region_id": "awash_01",
+        "start_date": "2026-10-25",
+        "daily_rain_mm": [20.0],
+        "antecedent_30d_mm": 120.0,
+        "spatial": {"type": "uniform"}
+    }
+    response = client.post("/scenarios", json=payload)
+    assert response.status_code == 400
+    data = response.json()
+    assert data["error"]["code"] == "VALIDATION_ERROR"
+    assert "hazard" in data["error"]["field"]
+
 
 def test_create_scenario_invalid_validation_error_shape():
     # Invalid: 11 days of rain (> 10 limit)
     payload = {
         "hazard": "flood",
-        "region_id": "pilot_01",
+        "region_id": "awash_01",
         "start_date": "2026-10-25",
         "daily_rain_mm": [20.0] * 11,
         "antecedent_30d_mm": 120.0,
@@ -83,38 +132,55 @@ def test_create_scenario_invalid_validation_error_shape():
 
 
 def test_results_and_explain_endpoints():
-    cache_key = "a1b2c3d4e5f60718293a4b5c6d7e8f90"
+    # 404 on arbitrary unknown keys (no fabricated results!)
+    fake_key = "a1b2c3d4e5f60718293a4b5c6d7e8f99"
+    assert client.get(f"/results/{fake_key}").status_code == 404
+    assert client.get(f"/results/{fake_key}/segments").status_code == 404
+    assert client.get(f"/jobs/job-not-real-1234").status_code == 404
+    assert client.get(f"/segments/102/explain?cache_key={fake_key}").status_code == 404
+    assert client.get(f"/facilities/fac_00010/explain?cache_key={fake_key}").status_code == 404
 
-    # Results summary
-    res_resp = client.get(f"/results/{cache_key}")
+    # Preset demo scenarios load properly with precomputed_demo badge
+    preset_key = "baseline-dry"
+    res_resp = client.get(f"/results/{preset_key}")
     assert res_resp.status_code == 200
-    assert res_resp.json()["cache_key"] == cache_key
+    assert res_resp.json()["execution_mode"] == "precomputed_demo"
 
-    # Columnar segments
-    seg_resp = client.get(f"/results/{cache_key}/segments")
+    seg_resp = client.get(f"/results/{preset_key}/segments")
     assert seg_resp.status_code == 200
     assert "segment_ids" in seg_resp.json()
 
-    # Segment explain
-    sexp_resp = client.get(f"/segments/102/explain?cache_key={cache_key}")
+    sexp_resp = client.get(f"/segments/102/explain?cache_key={preset_key}")
     assert sexp_resp.status_code == 200
     assert sexp_resp.json()["segment_id"] == 102
 
-    # Facility explain
-    fexp_resp = client.get(f"/facilities/fac_00017/explain?cache_key={cache_key}")
+    fexp_resp = client.get(f"/facilities/fac_00010/explain?cache_key={preset_key}")
     assert fexp_resp.status_code == 200
-    assert fexp_resp.json()["facility_id"] == "fac_00017"
+    assert fexp_resp.json()["facility_id"] == "fac_00010"
 
 
 def test_whatif_and_compare():
+    # 404 on unknown base key
+    bad_whatif = client.post("/whatif", json={
+        "base_cache_key": "not-a-real-base-key-12345678",
+        "forced_closed": [108]
+    })
+    assert bad_whatif.status_code == 404
+
+    # Successful whatif branching from preset
     whatif_resp = client.post("/whatif", json={
-        "base_cache_key": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+        "base_cache_key": "baseline-dry",
         "forced_closed": [108],
         "forced_open": [102]
     })
     assert whatif_resp.status_code == 200
 
-    comp_resp = client.get("/compare?a=key11111111111111111111111111111&b=key22222222222222222222222222222")
+    # 404 on comparing non-existent keys
+    bad_comp = client.get("/compare?a=key11111111111111111111111111111&b=key22222222222222222222222222222")
+    assert bad_comp.status_code == 404
+
+    # Valid compare between presets
+    comp_resp = client.get("/compare?a=baseline-dry&b=awash-2020-replay")
     assert comp_resp.status_code == 200
     assert "people_cut_off_delta" in comp_resp.json()
 

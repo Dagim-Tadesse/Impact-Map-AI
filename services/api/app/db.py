@@ -55,6 +55,7 @@ async def save_cached_result(cache_key: str, summary_data: Dict[str, Any], segme
         "versions": summary_data.get("versions", {}),
         "hazard": summary_data.get("hazard", "flood"),
         "evidence_level": summary_data.get("evidence_level", "validated"),
+        "execution_mode": summary_data.get("execution_mode", "live_model"),
         "scenario": summary_data.get("scenario", {}),
         "base_cache_key": summary_data.get("base_cache_key"),
         "region_totals": summary_data.get("region_totals", {}),
@@ -79,7 +80,7 @@ async def save_cached_result(cache_key: str, summary_data: Dict[str, Any], segme
         return False
 
 
-async def create_job(job_id: str, cache_key: str, scenario_payload: Dict[str, Any], status: str = "done", result_url: Optional[str] = None) -> Dict[str, Any]:
+async def create_job(job_id: str, cache_key: str, scenario_payload: Dict[str, Any], status: str = "done", result_url: Optional[str] = None, error: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     job_record = {
         "job_id": job_id,
         "status": status,
@@ -88,7 +89,7 @@ async def create_job(job_id: str, cache_key: str, scenario_payload: Dict[str, An
         "started_at": datetime.now(timezone.utc).isoformat() if status in ("running", "done") else None,
         "finished_at": datetime.now(timezone.utc).isoformat() if status == "done" else None,
         "result_url": result_url or f"/data/results/{cache_key}/",
-        "error": None,
+        "error": error,
         "scenario_payload": scenario_payload
     }
     _memory_jobs[job_id] = job_record

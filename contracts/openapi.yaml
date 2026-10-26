@@ -511,6 +511,10 @@ components:
       type: string
       enum: [validated, limited, heuristic]
 
+    ExecutionModeEnum:
+      type: string
+      enum: [live_model, heuristic, precomputed_demo, failed]
+
     FailureModeEnum:
       type: string
       enum: [independent, correlated]
@@ -557,6 +561,7 @@ components:
         - RATE_LIMITED
         - VERSION_MISMATCH
         - INTERNAL_ERROR
+        - SIMULATION_UNAVAILABLE
 
     Versions:
       type: object
@@ -902,6 +907,9 @@ components:
           $ref: '#/components/schemas/HazardEnum'
         evidence_level:
           $ref: '#/components/schemas/EvidenceLevelEnum'
+        execution_mode:
+          $ref: '#/components/schemas/ExecutionModeEnum'
+          default: live_model
         scenario:
           $ref: '#/components/schemas/Scenario'
         base_cache_key:

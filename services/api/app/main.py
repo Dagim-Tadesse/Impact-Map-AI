@@ -156,12 +156,38 @@ def get_ready():
     facilities_ready = (DATA_PROCESSED / "facilities.geojson").exists()
     segments_ready = (DATA_PROCESSED / "segments.geojson").exists()
     communities_ready = (DATA_PROCESSED / "communities.geojson").exists()
+    graph_ready = (DATA_PROCESSED / "graph.npz").exists()
+    fac_npz_ready = (DATA_PROCESSED / "facilities.npz").exists()
+    comm_npz_ready = (DATA_PROCESSED / "communities.npz").exists()
+    terrain_ready = (DATA_PROCESSED / "terrain_features.npz").exists()
+    model_ready = (REPO_ROOT / "data" / "models" / "m20261026a" / "model.txt").exists()
+    calibration_ready = (REPO_ROOT / "data" / "models" / "m20261026a" / "calibration.json").exists()
+
+    all_ready = (
+        facilities_ready and segments_ready and communities_ready and
+        graph_ready and fac_npz_ready and comm_npz_ready and
+        terrain_ready and model_ready and calibration_ready
+    )
+
     return {
-        "status": "ready" if (facilities_ready and segments_ready) else "degraded",
+        "status": "ready" if all_ready else "degraded",
+        "capabilities": {
+            "map_data": facilities_ready and segments_ready and communities_ready,
+            "graph": graph_ready and fac_npz_ready and comm_npz_ready,
+            "terrain": terrain_ready,
+            "model": model_ready,
+            "calibration": calibration_ready
+        },
         "data_files": {
-            "facilities": facilities_ready,
-            "segments": segments_ready,
-            "communities": communities_ready
+            "facilities_geojson": facilities_ready,
+            "segments_geojson": segments_ready,
+            "communities_geojson": communities_ready,
+            "graph_npz": graph_ready,
+            "facilities_npz": fac_npz_ready,
+            "communities_npz": comm_npz_ready,
+            "terrain_features_npz": terrain_ready,
+            "model_txt": model_ready,
+            "calibration_json": calibration_ready
         },
         "time": datetime.now(timezone.utc).isoformat()
     }
@@ -294,6 +320,7 @@ def generate_dynamic_simulation(scenario_dict: Dict[str, Any], cache_key: str) -
     summary = {
         **example_summary,
         "cache_key": cache_key,
+        "execution_mode": "precomputed_demo",
         "scenario": scenario_dict,
         "region_totals": {
             "people_cut_off": {
@@ -339,9 +366,36 @@ def generate_dynamic_simulation(scenario_dict: Dict[str, Any], cache_key: str) -
 
 
 @app.post("/scenarios")
-async def create_scenario(scenario: Scenario):
+async def create_scenario(scenario: Scenario, request: Request):
+    req_id = getattr(request.state, "request_id", None)
+
+    # Validate region (Awash Basin P0 pilot)
+    if scenario.region_id not in ("awash_01", "pilot_01"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": "VALIDATION_ERROR",
+                "message": f"Unsupported region '{scenario.region_id}'. Currently only 'awash_01' is supported.",
+                "field": "region_id"
+            }
+        )
+
+    # Reject disabled/unsupported hazard modes
+    if scenario.hazard == "landslide":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": "VALIDATION_ERROR",
+                "message": "Landslide hazard simulation is currently disabled in prototype. Only 'flood' is supported.",
+                "field": "hazard"
+            }
+        )
+
     job_id = str(uuid.uuid4())
     scenario_dict = scenario.model_dump()
+    if scenario_dict.get("region_id") == "pilot_01":
+        scenario_dict["region_id"] = "awash_01"
+
     cache_key = make_cache_key(scenario_dict, "m20261026a", "d20261025a", "0.1.0")
 
     # Check cache in Supabase / memory
@@ -349,16 +403,29 @@ async def create_scenario(scenario: Scenario):
     if cached:
         return await db.create_job(job_id, cache_key, scenario_dict, status="done")
 
-    # Run live simulation engine with dynamic fallback if full graph.npz data not present
+    # Run real live simulation engine
     try:
         summary, segments = execute_scenario(scenario_dict)
+        summary["execution_mode"] = "live_model"
         await db.save_cached_result(cache_key, summary, segments)
         return await db.create_job(job_id, cache_key, scenario_dict, status="done")
     except Exception as exc:
-        logger.warning(f"Live simulation fallback triggered: {exc}")
-        summary, segments = generate_dynamic_simulation(scenario_dict, cache_key)
-        await db.save_cached_result(cache_key, summary, segments)
-        return await db.create_job(job_id, cache_key, scenario_dict, status="done")
+        logger.error(f"Live simulation execution failed: {exc}", exc_info=True)
+        await db.create_job(
+            job_id,
+            cache_key,
+            scenario_dict,
+            status="failed",
+            error={"code": "JOB_FAILED", "message": str(exc), "request_id": req_id}
+        )
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "SIMULATION_UNAVAILABLE",
+                "message": f"Live simulation execution failed: {str(exc)}",
+                "request_id": req_id
+            }
+        )
 
 
 @app.get("/jobs/{job_id}")
@@ -366,10 +433,10 @@ async def get_job(job_id: str):
     job = await db.get_job(job_id)
     if job:
         return job
-    # Fallback to example
-    ex = load_example("job_done.json")
-    ex["job_id"] = job_id
-    return ex
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail={"code": "NOT_FOUND", "message": f"Job '{job_id}' not found"}
+    )
 
 
 PRESET_SCENARIOS: Dict[str, Dict[str, Any]] = {
@@ -413,11 +480,13 @@ async def get_result_summary(cache_key: str):
         return cached
     if cache_key in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        summary["execution_mode"] = "precomputed_demo"
         await db.save_cached_result(cache_key, summary, segments)
         return summary
-    res = load_example("result_summary.json")
-    res["cache_key"] = cache_key
-    return res
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail={"code": "NOT_FOUND", "message": f"Result summary not found for cache key '{cache_key}'"}
+    )
 
 
 @app.get("/results/{cache_key}/segments")
@@ -425,6 +494,7 @@ async def get_result_segments(cache_key: str):
     cached = await db.get_cached_result(cache_key)
     if not cached and cache_key in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        summary["execution_mode"] = "precomputed_demo"
         await db.save_cached_result(cache_key, summary, segments)
         cached = await db.get_cached_result(cache_key)
 
@@ -437,9 +507,10 @@ async def get_result_segments(cache_key: str):
             "exposure_prob": cached["segments"].get("exposure_prob", []),
             "closure_prob": cached["segments"].get("closure_prob", [])
         }
-    seg = load_example("segments_columnar.json")
-    seg["cache_key"] = cache_key
-    return seg
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail={"code": "NOT_FOUND", "message": f"Result segments not found for cache key '{cache_key}'"}
+    )
 
 
 SEGMENTS_MAP: Dict[int, Dict[str, Any]] = {}
@@ -480,9 +551,21 @@ async def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
         }
 
     cached = await db.get_cached_result(cache_key)
+    if not cached and cache_key in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        summary["execution_mode"] = "precomputed_demo"
+        await db.save_cached_result(cache_key, summary, segments)
+        cached = await db.get_cached_result(cache_key)
+
+    if not cached:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": f"Result for cache key '{cache_key}' not found"}
+        )
+
     exposure_prob = 0.05
     closure_prob = 0.05
-    if cached and cached.get("segments"):
+    if cached.get("segments"):
         seg_ids = cached["segments"].get("segment_ids", [])
         if segment_id in seg_ids:
             idx = seg_ids.index(segment_id)
@@ -637,7 +720,19 @@ FACILITY_DETAILS: Dict[str, Dict[str, Any]] = {
 @app.get("/facilities/{facility_id}/explain")
 async def get_facility_explain(facility_id: str, cache_key: str = Query(...)):
     cached = await db.get_cached_result(cache_key)
-    ranking = (cached or {}).get("ranking", [])
+    if not cached and cache_key in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
+        summary["execution_mode"] = "precomputed_demo"
+        await db.save_cached_result(cache_key, summary, segments)
+        cached = await db.get_cached_result(cache_key)
+
+    if not cached:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": f"Result for cache key '{cache_key}' not found"}
+        )
+
+    ranking = cached.get("ranking", [])
     fac_item = next((f for f in ranking if f["facility_id"] == facility_id), None)
 
     details = FACILITY_DETAILS.get(facility_id)
@@ -657,7 +752,7 @@ async def get_facility_explain(facility_id: str, cache_key: str = Query(...)):
             "sentences": details["sentences"]
         }
 
-    # Dynamic fallback for any other facility
+    # Dynamic fallback for any other facility in the region
     name = fac_item["name"] if fac_item else f"Facility {facility_id}"
     p_iso = fac_item["p_isolation"] if fac_item else 0.15
     return {
@@ -678,12 +773,23 @@ async def get_facility_explain(facility_id: str, cache_key: str = Query(...)):
 
 
 @app.post("/whatif")
-async def post_whatif(body: WhatIfRequest):
+async def post_whatif(body: WhatIfRequest, request: Request):
     job_id = str(uuid.uuid4())
+    req_id = getattr(request.state, "request_id", None)
     base_cached = await db.get_cached_result(body.base_cache_key)
-    base_scenario = (base_cached or {}).get("scenario") or load_example("scenario.json")
+    if not base_cached and body.base_cache_key in PRESET_SCENARIOS:
+        summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[body.base_cache_key], body.base_cache_key)
+        summary["execution_mode"] = "precomputed_demo"
+        await db.save_cached_result(body.base_cache_key, summary, segments)
+        base_cached = await db.get_cached_result(body.base_cache_key)
 
-    # Apply manual overrides to produce branching scenario
+    if not base_cached:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": f"Base scenario result '{body.base_cache_key}' not found"}
+        )
+
+    base_scenario = base_cached.get("scenario") or load_example("scenario.json")
     new_scenario = dict(base_scenario)
     new_scenario["forced_closed"] = sorted(list(set(new_scenario.get("forced_closed", []) + body.forced_closed)))
     new_scenario["forced_open"] = sorted(list(set(new_scenario.get("forced_open", []) + body.forced_open)))
@@ -697,14 +803,26 @@ async def post_whatif(body: WhatIfRequest):
     try:
         summary, segments = execute_scenario(new_scenario)
         summary["base_cache_key"] = body.base_cache_key
+        summary["execution_mode"] = "live_model"
         await db.save_cached_result(new_cache_key, summary, segments)
         return await db.create_job(job_id, new_cache_key, new_scenario, status="done")
     except Exception as exc:
-        logger.warning(f"Live what-if simulation fallback triggered: {exc}")
-        summary, segments = generate_dynamic_simulation(new_scenario, new_cache_key)
-        summary["base_cache_key"] = body.base_cache_key
-        await db.save_cached_result(new_cache_key, summary, segments)
-        return await db.create_job(job_id, new_cache_key, new_scenario, status="done")
+        logger.error(f"Live what-if simulation failed: {exc}", exc_info=True)
+        await db.create_job(
+            job_id,
+            new_cache_key,
+            new_scenario,
+            status="failed",
+            error={"code": "JOB_FAILED", "message": str(exc), "request_id": req_id}
+        )
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "SIMULATION_UNAVAILABLE",
+                "message": f"Live what-if simulation failed: {str(exc)}",
+                "request_id": req_id
+            }
+        )
 
 
 @app.get("/compare")
@@ -712,18 +830,26 @@ async def get_compare(a: str = Query(...), b: str = Query(...)):
     res_a = await db.get_cached_result(a)
     if not res_a and a in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[a], a)
+        summary["execution_mode"] = "precomputed_demo"
         await db.save_cached_result(a, summary, segments)
         res_a = summary
     if not res_a:
-        res_a = load_example("result_summary.json")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": f"Comparison baseline result '{a}' not found"}
+        )
 
     res_b = await db.get_cached_result(b)
     if not res_b and b in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[b], b)
+        summary["execution_mode"] = "precomputed_demo"
         await db.save_cached_result(b, summary, segments)
         res_b = summary
     if not res_b:
-        res_b = load_example("result_summary.json")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": f"Comparison target result '{b}' not found"}
+        )
 
     totals_a = res_a.get("region_totals", {})
     totals_b = res_b.get("region_totals", {})

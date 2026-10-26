@@ -14,6 +14,13 @@ class EvidenceLevelEnum(str, Enum):
     heuristic = 'heuristic'
 
 
+class ExecutionModeEnum(str, Enum):
+    live_model = 'live_model'
+    heuristic = 'heuristic'
+    precomputed_demo = 'precomputed_demo'
+    failed = 'failed'
+
+
 class FailureModeEnum(str, Enum):
     independent = 'independent'
     correlated = 'correlated'
@@ -78,6 +85,7 @@ class ErrorCodeEnum(str, Enum):
     RATE_LIMITED = 'RATE_LIMITED'
     VERSION_MISMATCH = 'VERSION_MISMATCH'
     INTERNAL_ERROR = 'INTERNAL_ERROR'
+    SIMULATION_UNAVAILABLE = 'SIMULATION_UNAVAILABLE'
 
 
 class SpatialConfig(BaseModel):
@@ -198,6 +206,7 @@ class ResultSummary(BaseModel):
     versions: dict[str, str]
     hazard: HazardEnum
     evidence_level: EvidenceLevelEnum
+    execution_mode: ExecutionModeEnum = ExecutionModeEnum.live_model
     scenario: Scenario
     base_cache_key: Optional[str] = None
     computed_at: str

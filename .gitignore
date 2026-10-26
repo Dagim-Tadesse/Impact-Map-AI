@@ -60,11 +60,13 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 !data/processed/*.geojson
+!data/processed/*.npz
 *.pbf
 *.pmtiles
 *.tif
 *.tiff
 *.npz
+!data/processed/*.npz
 *.npy
 
 # IDE & OS
