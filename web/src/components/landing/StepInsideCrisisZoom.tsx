@@ -24,30 +24,34 @@ export default function StepInsideCrisisZoom({ onExploreClick }: StepInsideCrisi
     if (!container) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Parallax drift on the background CRISIS watermark typography
-      gsap.to(backdropTextRef.current, {
-        yPercent: 30,
-        scale: 1.1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+      if (!prefersReducedMotion) {
+        // Parallax drift on the background CRISIS watermark typography
+        gsap.to(backdropTextRef.current, {
+          yPercent: 30,
+          scale: 1.1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
 
       // Smooth cinematic entrance for the briefing content
+      // (opacity-only under reduced motion so the reveal is still visible)
       gsap.fromTo(
         contentRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          scale: 0.96,
-        },
+        prefersReducedMotion
+          ? { opacity: 0 }
+          : {
+              opacity: 0,
+              y: 50,
+              scale: 0.96,
+            },
         {
           opacity: 1,
           y: 0,
@@ -63,18 +67,20 @@ export default function StepInsideCrisisZoom({ onExploreClick }: StepInsideCrisi
       );
 
       // Subtle atmospheric warp
-      gsap.to(bgGlowRef.current, {
-        scale: 1.3,
-        opacity: 0.45,
-        duration: 1.2,
-        ease: 'sine.inOut',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: true,
-        },
-      });
+      if (!prefersReducedMotion) {
+        gsap.to(bgGlowRef.current, {
+          scale: 1.3,
+          opacity: 0.45,
+          duration: 1.2,
+          ease: 'sine.inOut',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true,
+          },
+        });
+      }
     }, container);
 
     return () => {
