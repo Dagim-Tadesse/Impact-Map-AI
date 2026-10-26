@@ -20,22 +20,19 @@ jobs:
       - run: pytest
       - run: pip-audit -r requirements-dev.txt
 
-  # Web job is commented out until Anon pushes the initial Vite/React scaffold (Task T1)
-  # web:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #     - run: npm ci
-  #       working-directory: web
-  #     - run: npm run lint
-  #       working-directory: web
-  #     - run: npm test
-  #       working-directory: web
-  #     - run: npm run build
-  #       working-directory: web
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: web
+      - run: npm test -- --run
+        working-directory: web
+      - run: npm run build
+        working-directory: web
 
   infra:
     runs-on: ubuntu-latest
@@ -49,8 +46,8 @@ jobs:
           node-version: 22
       - run: npm install -g aws-cdk
       - run: pip install -r infra/requirements.txt
-      # Will run cdk synth once CDK stacks and app.py are in place
-      - run: echo "Infra setup validated"
+      - run: cdk synth
+        working-directory: infra
 
   secrets:
     runs-on: ubuntu-latest
@@ -61,7 +58,7 @@ jobs:
       - run: docker run --rm -v ${{ github.workspace }}:/repo ghcr.io/gitleaks/gitleaks:latest detect --source /repo --no-banner
 
   all-checks:
-    needs: [python, infra, secrets]
+    needs: [python, web, infra, secrets]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ok
+      - run: echo "All CI verification gates passed"

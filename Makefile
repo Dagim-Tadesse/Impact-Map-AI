@@ -1,4 +1,4 @@
-.PHONY: setup lint test synth deploy smoke destroy
+.PHONY: setup lint test synth deploy smoke destroy check
 
 setup:
 	python3 -m pip install --upgrade pip
@@ -11,10 +11,13 @@ lint:
 
 test:
 	pytest
-	cd web && npm test
+	cd web && npm test -- --run
 
 synth:
-	cd infra && cdk synth --all
+	cd infra && npx cdk synth
+
+check: test synth
+	cd web && npm run build
 
 deploy:
 	cd infra && cdk deploy --all --require-approval never --exclude ImpactMapCiStack
