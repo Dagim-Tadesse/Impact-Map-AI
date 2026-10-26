@@ -2,29 +2,34 @@
 
 @layer base {
   :root {
-    --font-display: 'Figtree', 'Inter', system-ui, sans-serif;
+    --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --font-body: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Menlo', monospace;
     --bg-primary: #07090e;
-    --bg-surface: rgba(13, 17, 26, 0.75);
-    --bg-surface-elevated: rgba(22, 28, 42, 0.85);
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-highlight: rgba(56, 189, 248, 0.25);
-    --accent-glow: rgba(14, 165, 233, 0.15);
+    --bg-surface: rgba(14, 16, 22, 0.8);
+    --bg-surface-elevated: rgba(20, 23, 32, 0.88);
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-highlight: rgba(168, 192, 210, 0.2);
+    --accent-glow: rgba(120, 160, 200, 0.1);
   }
 
   body {
     background-color: var(--bg-primary);
-    color: #e2e8f0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #d4d8e0;
+    font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, .font-display {
-    font-family: 'Figtree', 'Inter', system-ui, sans-serif;
-    letter-spacing: -0.025em;
+    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.01em;
+    font-weight: 400;
   }
 
   code, kbd, samp, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', 'Menlo', monospace;
   }
 }
 
@@ -34,15 +39,15 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 .glass-panel-elevated {
   background: var(--bg-surface-elevated);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
 }
 
 .glass-glow-cyan {
@@ -68,12 +73,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* MapLibre Controls Override for Luxury Dark Theme */

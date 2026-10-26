@@ -153,16 +153,21 @@ export default function HorizontalSolutionShowcase({
   return (
     <div
       ref={sectionRef}
-      className="relative w-full bg-[#07090e] text-slate-100 overflow-hidden z-10"
+      className="relative w-full bg-transparent text-slate-100 overflow-hidden z-10"
     >
       <div className="relative flex h-screen min-h-[580px] max-h-[960px] w-full flex-col justify-between pt-16 sm:pt-20 pb-3 sm:pb-6">
         {/* Section Header */}
-        <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 text-center space-y-1 sm:space-y-2">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+        <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 text-center space-y-2 sm:space-y-2.5">
+          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <span>OPERATIONAL CAPABILITIES</span>
+            <span className="text-white/20">•</span>
+            <span>HIGH-STRESS CRISIS COMMAND</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl tracking-tight text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
             Five Breakthrough Capabilities
           </h2>
-          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-300">
-            Scroll horizontally through the operational toolset designed for high-stress crisis command rooms.
+          <p className="mx-auto max-w-xl text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Continuous topological intelligence from remote satellite radar down to offline convoy manifests.
           </p>
         </div>
 
@@ -170,99 +175,82 @@ export default function HorizontalSolutionShowcase({
         <div className="relative my-auto w-full overflow-hidden py-1 sm:py-2">
           <div
             ref={trackRef}
-            className="flex items-stretch gap-4 sm:gap-6 px-4 sm:px-12 pr-12 sm:pr-24 w-max will-change-transform"
+            className="flex items-stretch gap-5 sm:gap-7 px-4 sm:px-12 pr-12 sm:pr-24 w-max will-change-transform"
           >
             {SOLUTION_CARDS.map((card, idx) => {
-              const Icon = card.icon;
               const isCard3 = card.id === 'sol-3';
 
               return (
                 <div
                   key={card.id}
-                  className={`w-[84vw] sm:w-[400px] md:w-[450px] lg:w-[470px] flex-shrink-0 rounded-2xl sm:rounded-3xl border p-3.5 sm:p-5 md:p-6 backdrop-blur-xl shadow-2xl transition-all duration-300 flex flex-col justify-between ${
+                  className={`w-[85vw] sm:w-[420px] md:w-[460px] lg:w-[480px] flex-shrink-0 rounded-2xl border transition-all duration-300 flex flex-col justify-between overflow-hidden backdrop-blur-xl ${
                     idx === activeCardIndex
-                      ? 'border-cyan-400/50 bg-[#0c1427]/95 shadow-[0_0_35px_rgba(6,182,212,0.18)] scale-[1.01]'
-                      : 'border-slate-800 bg-[#090e1c]/85 hover:border-slate-700'
+                      ? 'border-white/20 bg-[#0d121c]/95 shadow-[0_20px_50px_rgba(0,0,0,0.65)]'
+                      : 'border-white/[0.08] bg-[#0a0e16]/85 hover:border-white/15'
                   }`}
                 >
-                  {/* Card Visual / Image Header */}
-                  <div className="relative h-28 sm:h-36 md:h-40 w-full overflow-hidden rounded-xl sm:rounded-2xl bg-slate-900 flex-shrink-0">
+                  {/* Seamless Bleed Image Header */}
+                  <div className="relative h-36 sm:h-44 md:h-48 w-full overflow-hidden bg-slate-900 flex-shrink-0">
                     <img
                       src={card.image}
                       alt={card.title}
                       className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#090e1c] via-transparent to-black/40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e16] via-black/20 to-black/30" />
 
-                    <div className="absolute top-2 left-2 inline-flex items-center gap-1.5 rounded-lg bg-black/75 px-2 py-0.5 sm:px-2.5 sm:py-1 font-mono text-[9px] sm:text-[10px] font-semibold text-cyan-300 backdrop-blur">
-                      <Icon size={11} className="text-cyan-400" />
-                      <span>{card.badge}</span>
+                    {/* Minimal Top Header Marks */}
+                    <div className="absolute top-3 left-4 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-wider text-slate-300/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      <span>{card.badge.replace(/^\d+\s*•\s*/, '')}</span>
                     </div>
 
-                    <div className="absolute top-2 right-2 rounded-full bg-cyan-950/80 px-2 py-0.5 font-mono text-[9px] sm:text-[10px] font-bold text-cyan-400 border border-cyan-500/30">
-                      0{idx + 1} / 05
+                    <div className="absolute top-2.5 right-4 text-xl sm:text-2xl text-white/50 font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                      0{idx + 1}
                     </div>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="mt-2.5 sm:mt-3.5 flex-1 flex flex-col justify-between space-y-2">
+                  {/* Card Content Area (No nested boxes) */}
+                  <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <h3 className="font-display text-base sm:text-xl md:text-2xl font-bold text-white leading-tight">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl text-white font-normal leading-snug" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
                         {card.title}
                       </h3>
-                      <p className="mt-1 text-xs sm:text-sm leading-relaxed text-slate-300 line-clamp-2 sm:line-clamp-3">
+                      <p className="mt-2 text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                         {card.description}
                       </p>
                     </div>
 
-                    {/* Interactive What-If Sandbox in Card 3 */}
+                    {/* Interactive What-If Sandbox in Card 3 (Minimal clean inline ledger) */}
                     {isCard3 && (
-                      <div className="rounded-xl border border-emerald-500/30 bg-[#071714]/90 p-2 sm:p-2.5 space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <span className="font-mono text-[9px] sm:text-[10px] font-bold text-emerald-400">
-                            LIVE WHAT-IF INTERVENTION TEST
+                      <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-slate-400">
+                            Cutoff: <strong className="text-white font-normal">{whatIfActive ? '194,800' : '312,400'}</strong>
                           </span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setWhatIfActive(!whatIfActive);
-                            }}
-                            className={`rounded-full px-2 py-0.5 sm:px-2.5 sm:py-0.5 font-mono text-[9px] sm:text-[10px] font-bold transition-all ${
-                              whatIfActive
-                                ? 'bg-emerald-400 text-slate-950 shadow-[0_0_12px_rgba(16,185,129,0.5)]'
-                                : 'border border-emerald-500/50 bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900/60'
-                            }`}
-                          >
-                            {whatIfActive ? '✓ Pin Applied' : '+ Pin Road Open'}
-                          </button>
+                          <span className="text-emerald-400">
+                            Saved: {whatIfActive ? '+117,600' : '0'}
+                          </span>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-xs">
-                          <div>
-                            <span className="text-slate-400">Cutoff: </span>
-                            <span className="font-bold text-rose-400">
-                              {whatIfActive ? '194,800' : '312,400'}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-slate-400">Saved: </span>
-                            <span className="font-bold text-emerald-400">
-                              {whatIfActive ? '+117,600' : '0'}
-                            </span>
-                          </div>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setWhatIfActive(!whatIfActive)}
+                          className={`rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-medium transition-all ${
+                            whatIfActive
+                              ? 'bg-white text-slate-950 font-semibold'
+                              : 'border border-white/20 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
+                          }`}
+                        >
+                          {whatIfActive ? '✓ Sandbag Active' : '+ Test Sandbag'}
+                        </button>
                       </div>
                     )}
 
-                    {/* Feature Tags */}
-                    <div className="flex flex-wrap gap-1 pt-1">
-                      {card.tags.map((tag) => (
-                        <div
-                          key={tag}
-                          className="inline-flex items-center gap-1 rounded-md border border-white/5 bg-white/5 px-1.5 py-0.5 font-mono text-[9px] sm:text-[10px] text-cyan-300"
-                        >
-                          <CheckCircle2 size={10} className="text-cyan-400" />
+                    {/* Feature Specification Line (Clean dot-separated specs, not chunky pill buttons) */}
+                    <div className="pt-3 border-t border-white/[0.06] flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[10px] sm:text-[11px] text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {card.tags.map((tag, tIdx) => (
+                        <span key={tag} className="flex items-center gap-2">
                           <span>{tag}</span>
-                        </div>
+                          {tIdx < card.tags.length - 1 && <span className="text-white/20">•</span>}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -278,10 +266,10 @@ export default function HorizontalSolutionShowcase({
             {SOLUTION_CARDS.map((_, i) => (
               <div
                 key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
+                className={`h-1 rounded-full transition-all duration-300 ${
                   i === activeCardIndex
-                    ? 'w-8 sm:w-10 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
-                    : 'w-2.5 sm:w-3 bg-slate-700'
+                    ? 'w-8 sm:w-10 bg-white'
+                    : 'w-2.5 sm:w-3 bg-white/15'
                 }`}
               />
             ))}

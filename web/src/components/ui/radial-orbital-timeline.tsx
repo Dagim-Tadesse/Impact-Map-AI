@@ -189,34 +189,33 @@ export default function RadialOrbitalTimeline({
         <div className="relative h-[260px] w-full max-w-[340px] flex items-center justify-center overflow-visible">
           {/* Ambient decorative rotating rings */}
           <div
-            className="pointer-events-none absolute rounded-full border border-cyan-500/10 animate-spin [animation-duration:80s]"
+            className="pointer-events-none absolute rounded-full border border-white/5 animate-spin [animation-duration:80s]"
             style={{ width: `${radius * 2 + 50}px`, height: `${radius * 2 + 50}px` }}
           />
           <div
-            className="pointer-events-none absolute rounded-full border border-sky-400/20 border-dashed animate-spin [animation-duration:50s] [animation-direction:reverse]"
+            className="pointer-events-none absolute rounded-full border border-white/10 border-dashed animate-spin [animation-duration:50s] [animation-direction:reverse]"
             style={{ width: `${radius * 2 + 25}px`, height: `${radius * 2 + 25}px` }}
           />
           {/* Primary Orbit Ring */}
           <div
-            className="pointer-events-none absolute rounded-full border-2 border-cyan-500/25 shadow-[0_0_24px_rgba(6,182,212,0.15)]"
+            className="pointer-events-none absolute rounded-full border border-white/15 shadow-[0_0_24px_rgba(255,255,255,0.05)]"
             style={{ width: `${radius * 2}px`, height: `${radius * 2}px` }}
           />
 
           {/* Central Active Avatar Core (Monogram + Role Icon Badge) */}
           {activeMember && (
             <div className="relative z-10 h-16 w-16 flex items-center justify-center">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 opacity-75 blur-sm animate-pulse" />
-              <div className="relative h-full w-full rounded-full border-2 border-cyan-300 bg-gradient-to-b from-[#0e1d35] via-[#091322] to-[#040810] flex flex-col items-center justify-center shadow-[inset_0_0_16px_rgba(6,182,212,0.35)]">
-                <span className="font-display text-lg font-black tracking-wider text-cyan-200 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">
+              <div className="relative h-full w-full rounded-full border-2 border-white/30 bg-gradient-to-b from-[#141b2a] via-[#0d131f] to-[#070b14] flex flex-col items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
+                <span className="text-lg font-normal tracking-wider text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
                   {getInitials(activeMember.title)}
                 </span>
-                <span className="text-[8px] font-mono font-bold tracking-widest text-cyan-400/90 uppercase">
+                <span className="text-[8px] font-medium tracking-widest text-slate-400 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {activeMember.category.slice(0, 4)}
                 </span>
               </div>
               {ActiveIconMobile && (
-                <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full border border-cyan-400 bg-[#091120] shadow-[0_0_8px_rgba(6,182,212,0.6)]">
-                  <ActiveIconMobile size={10} className="text-cyan-300" />
+                <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full border border-white/30 bg-[#0a0e16] shadow-md">
+                  <ActiveIconMobile size={10} className="text-slate-300" />
                 </div>
               )}
             </div>
@@ -241,31 +240,31 @@ export default function RadialOrbitalTimeline({
                 <div
                   className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${
                     isActive
-                      ? 'h-11 w-11 border-2 border-cyan-300 bg-gradient-to-b from-cyan-950 via-[#0a1628] to-[#050c18] shadow-[0_0_20px_rgba(6,182,212,0.8)] scale-110'
-                      : 'h-9 w-9 border border-slate-600 bg-gradient-to-b from-[#0b1220] to-[#050912] hover:border-cyan-400 hover:scale-105 shadow-md'
+                      ? 'h-11 w-11 border-2 border-white/60 bg-[#0e1422] shadow-[0_0_16px_rgba(255,255,255,0.2)] scale-110'
+                      : 'h-9 w-9 border border-white/10 bg-[#0a0e16] hover:border-white/30 hover:scale-105 shadow-md'
                   }`}
                 >
                   <div className="flex flex-col items-center justify-center">
-                    <Icon size={isActive ? 14 : 12} className={isActive ? 'text-cyan-300' : 'text-slate-300'} />
-                    <span className={`text-[8px] font-mono font-bold tracking-tighter ${isActive ? 'text-cyan-200' : 'text-slate-400'}`}>
+                    <Icon size={isActive ? 14 : 12} className={isActive ? 'text-white' : 'text-slate-400'} />
+                    <span className={`text-[8px] font-bold tracking-tighter ${isActive ? 'text-white' : 'text-slate-400'}`} style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {getInitials(item.title)}
                     </span>
                   </div>
 
                   {isActive && (
                     <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
-                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-500 border border-black" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400 border border-black" />
                     </span>
                   )}
                 </div>
 
                 <div
-                  className={`mt-1 rounded-full px-2 py-0.5 font-mono text-[9px] font-bold tracking-wider transition-all whitespace-nowrap ${
+                  className={`mt-1 rounded-full px-2 py-0.5 text-[9px] font-medium tracking-wider transition-all whitespace-nowrap ${
                     isActive
-                      ? 'bg-cyan-500 text-slate-950 shadow-[0_0_8px_rgba(6,182,212,0.6)]'
-                      : 'bg-black/80 text-slate-300 border border-white/10'
+                      ? 'bg-white text-slate-950 shadow-md font-semibold'
+                      : 'bg-[#0a0e16]/90 text-slate-400 border border-white/10'
                   }`}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {item.title}
                 </div>
@@ -276,15 +275,15 @@ export default function RadialOrbitalTimeline({
 
         {/* Member Detail HUD Card for Mobile */}
         {activeMember && (
-          <div className="relative z-20 w-full max-w-[340px] rounded-2xl border border-transparent bg-[#080d1b]/95 p-4 text-center backdrop-blur-2xl shadow-[0_0_30px_rgba(6,182,212,0.2)] mt-1">
-            <h3 className="font-display text-lg font-bold text-white tracking-tight">
+          <div className="relative z-20 w-full max-w-[340px] rounded-2xl border border-white/10 bg-[#0a0e16]/95 p-4 text-center backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] mt-1">
+            <h3 className="text-lg font-normal text-white tracking-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
               {activeMember.title}
             </h3>
-            <p className="mt-0.5 font-mono text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {activeMember.date}
             </p>
 
-            <p className="mt-2 text-xs leading-relaxed text-slate-200">
+            <p className="mt-2 text-xs leading-relaxed text-slate-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               {activeMember.content}
             </p>
 
@@ -293,7 +292,8 @@ export default function RadialOrbitalTimeline({
                 {activeMember.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[9px] text-slate-300"
+                    className="rounded-md border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-slate-400"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {tag}
                   </span>
@@ -307,7 +307,8 @@ export default function RadialOrbitalTimeline({
                   href={activeMember.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 font-mono text-[11px] font-semibold text-slate-200 hover:border-cyan-400 hover:text-white transition"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Github size={11} />
                   <span>GitHub</span>
@@ -318,7 +319,8 @@ export default function RadialOrbitalTimeline({
                   href={activeMember.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 font-mono text-[11px] font-semibold text-slate-200 hover:border-cyan-400 hover:text-white transition"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Linkedin size={11} />
                   <span>LinkedIn</span>
@@ -340,50 +342,49 @@ export default function RadialOrbitalTimeline({
     >
       {/* Outer ambient glow and decorative rings */}
       <div
-        className="pointer-events-none absolute rounded-full border border-cyan-500/10 animate-spin [animation-duration:90s]"
+        className="pointer-events-none absolute rounded-full border border-white/5 animate-spin [animation-duration:90s]"
         style={{ width: `${radius * 2 + 140}px`, height: `${radius * 2 + 140}px` }}
       />
       <div
-        className="pointer-events-none absolute rounded-full border border-sky-400/15 border-dashed animate-spin [animation-duration:60s] [animation-direction:reverse]"
+        className="pointer-events-none absolute rounded-full border border-white/10 border-dashed animate-spin [animation-duration:60s] [animation-direction:reverse]"
         style={{ width: `${radius * 2 + 70}px`, height: `${radius * 2 + 70}px` }}
       />
       {/* Primary Orbit Ring */}
       <div
-        className="pointer-events-none absolute rounded-full border-2 border-cyan-500/25 shadow-[0_0_40px_rgba(6,182,212,0.15)]"
+        className="pointer-events-none absolute rounded-full border border-white/15 shadow-[0_0_30px_rgba(255,255,255,0.05)]"
         style={{ width: `${radius * 2}px`, height: `${radius * 2}px` }}
       />
 
       {/* ── Active Member Center Stage HUD ── */}
       {activeMember && (
-        <div className="relative z-20 w-[90vw] max-w-[340px] sm:max-w-[390px] rounded-3xl border border-transparent bg-[#080d1b]/90 p-5 sm:p-6 text-center backdrop-blur-2xl shadow-[0_0_60px_rgba(6,182,212,0.22)] transition-all duration-300">
+        <div className="relative z-20 w-[90vw] max-w-[340px] sm:max-w-[390px] rounded-3xl border border-white/10 bg-[#0a0e16]/90 p-5 sm:p-6 text-center backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-300">
           {/* Monogram Avatar with Pulsing Ring and Role Icon Badge */}
           <div className="relative mx-auto h-20 w-20 sm:h-22 sm:w-22 flex items-center justify-center">
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-cyan-400 via-sky-400 to-teal-400 opacity-75 blur-md animate-pulse" />
-            <div className="relative h-full w-full rounded-full border-2 border-cyan-300 bg-gradient-to-b from-[#0e1d35] via-[#091322] to-[#040810] flex flex-col items-center justify-center shadow-[inset_0_0_24px_rgba(6,182,212,0.35)]">
-              <span className="font-display text-2xl sm:text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-white to-sky-200 drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]">
+            <div className="relative h-full w-full rounded-full border-2 border-white/30 bg-gradient-to-b from-[#141b2a] via-[#0d131f] to-[#070b14] flex flex-col items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
+              <span className="text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
                 {getInitials(activeMember.title)}
               </span>
-              <span className="mt-0.5 text-[9px] font-mono font-bold tracking-widest text-cyan-400/90 uppercase">
+              <span className="mt-0.5 text-[9px] font-medium tracking-widest text-slate-400 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 {activeMember.category.split(' ')[0]}
               </span>
             </div>
             {ActiveIconDesktop && (
-              <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-cyan-400/80 bg-[#091120] shadow-[0_0_12px_rgba(6,182,212,0.6)]">
-                <ActiveIconDesktop size={14} className="text-cyan-300" />
+              <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-white/30 bg-[#0a0e16] shadow-md">
+                <ActiveIconDesktop size={14} className="text-slate-300" />
               </div>
             )}
           </div>
 
           {/* Name & Role */}
-          <h3 className="mt-3.5 font-display text-2xl font-extrabold text-white tracking-tight">
+          <h3 className="mt-3.5 text-2xl font-normal text-white tracking-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
             {activeMember.title}
           </h3>
-          <p className="mt-1 font-mono text-xs font-bold uppercase tracking-wider text-cyan-400">
+          <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {activeMember.date}
           </p>
 
           {/* Bio Content */}
-          <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-200">
+          <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             {activeMember.content}
           </p>
 
@@ -393,7 +394,8 @@ export default function RadialOrbitalTimeline({
               {activeMember.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-300"
+                  className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] text-slate-400"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {tag}
                 </span>
@@ -408,7 +410,8 @@ export default function RadialOrbitalTimeline({
                 href={activeMember.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3.5 py-1.5 font-mono text-xs font-semibold text-slate-200 hover:border-cyan-400 hover:text-white transition"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 <Github size={13} />
                 <span>GitHub</span>
@@ -419,7 +422,8 @@ export default function RadialOrbitalTimeline({
                 href={activeMember.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3.5 py-1.5 font-mono text-xs font-semibold text-slate-200 hover:border-cyan-400 hover:text-white transition"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 <Linkedin size={13} />
                 <span>LinkedIn</span>
@@ -449,32 +453,32 @@ export default function RadialOrbitalTimeline({
             <div
               className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${
                 isActive
-                  ? 'h-15 w-15 sm:h-16 sm:w-16 border-2 border-cyan-300 bg-gradient-to-b from-cyan-950 via-[#0a1628] to-[#050c18] shadow-[0_0_35px_rgba(6,182,212,0.8)] scale-110'
-                  : 'h-12 w-12 sm:h-13 sm:w-13 border border-slate-600/80 bg-gradient-to-b from-[#0b1424] to-[#050912] hover:border-cyan-400 hover:scale-105 shadow-lg'
+                  ? 'h-15 w-15 sm:h-16 sm:w-16 border-2 border-white/60 bg-[#0e1422] shadow-[0_0_24px_rgba(255,255,255,0.25)] scale-110'
+                  : 'h-12 w-12 sm:h-13 sm:w-13 border border-white/15 bg-[#0a0e16] hover:border-white/30 hover:scale-105 shadow-md'
               }`}
             >
               <div className="flex flex-col items-center justify-center">
-                <Icon size={isActive ? 19 : 16} className={isActive ? 'text-cyan-300' : 'text-slate-300 group-hover:text-cyan-200'} />
-                <span className={`text-[9px] font-mono font-bold tracking-tighter ${isActive ? 'text-cyan-200' : 'text-slate-400 group-hover:text-slate-200'}`}>
+                <Icon size={isActive ? 19 : 16} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'} />
+                <span className={`text-[9px] font-bold tracking-tighter ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`} style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {getInitials(item.title)}
                 </span>
               </div>
 
               {isActive && (
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
-                  <span className="relative inline-flex h-3 w-3 rounded-full bg-cyan-500 border border-black" />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-amber-400 border border-black" />
                 </span>
               )}
             </div>
 
             {/* Label below node */}
             <div
-              className={`mt-2 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold tracking-wider transition-all whitespace-nowrap ${
+              className={`mt-2 rounded-full px-2.5 py-0.5 text-[11px] font-medium tracking-wider transition-all whitespace-nowrap ${
                 isActive
-                  ? 'bg-cyan-500 text-slate-950 shadow-[0_0_12px_rgba(6,182,212,0.6)]'
-                  : 'bg-black/80 text-slate-300 border border-white/10 group-hover:border-cyan-500/40 group-hover:text-white'
+                  ? 'bg-white text-slate-950 font-semibold shadow-md'
+                  : 'bg-[#0a0e16]/90 text-slate-400 border border-white/10 group-hover:border-white/30 group-hover:text-white'
               }`}
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               {item.title}
             </div>

@@ -51,7 +51,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
         }`}
       >
         {/* Main Curved Floating Pill Navigation */}
-        <div className="relative flex items-center justify-between rounded-full border border-cyan-500/25 bg-[#070e1c]/85 px-3.5 sm:px-5 py-2 sm:py-2.5 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.65)] ring-1 ring-white/10">
+        <div className="relative flex items-center justify-between rounded-full border border-white/10 bg-[#0a0e16]/85 px-3.5 sm:px-5 py-2 sm:py-2.5 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.65)]">
           {/* Brand Logo & Name */}
           <button
             type="button"
@@ -60,16 +60,16 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
             }}
             className="group flex items-center gap-2 text-left focus:outline-none"
           >
-            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-cyan-500 to-sky-400 p-0.5 shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-0.5">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-[#080d1a]">
-                <Sparkles size={14} className="text-cyan-400 transition-transform group-hover:rotate-12" />
+                <Sparkles size={14} className="text-amber-400 transition-transform group-hover:rotate-12" />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-sm sm:text-base font-extrabold tracking-tight text-white leading-tight">
-                ImpactMap <span className="bg-gradient-to-r from-cyan-400 to-sky-300 bg-clip-text text-transparent">AI</span>
+              <span className="text-sm sm:text-base tracking-tight text-white leading-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                Impact<em className="text-amber-300/80">Map</em>
               </span>
-              <span className="font-mono text-[9px] text-cyan-400/80 tracking-wider">
+              <span className="text-[9px] text-slate-500 tracking-wider" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 AWASH BASIN
               </span>
             </div>
@@ -82,7 +82,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
                 key={link.id}
                 type="button"
                 onClick={() => scrollToSection(link.id)}
-                className="rounded-full px-3 py-1 font-mono text-xs font-semibold text-slate-300 transition-colors hover:bg-white/10 hover:text-cyan-300 focus:outline-none"
+                className="rounded-full px-3 py-1 text-xs font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white focus:outline-none" style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 {link.label}
               </button>
@@ -97,9 +97,9 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
               onClick={() => {
                 onLaunchLive();
               }}
-              className="group relative hidden sm:inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-4 py-1.5 text-xs font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] active:scale-95"
+              className="group relative hidden sm:inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-900 transition-all hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
-              <Sparkles size={13} className="transition-transform group-hover:rotate-12" />
+              <Sparkles size={13} className="text-amber-600 transition-transform group-hover:rotate-12" />
               <span>Launch Live</span>
               <ChevronRight size={13} className="transition-transform group-hover:translate-x-0.5" />
             </button>
@@ -111,7 +111,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              className="flex md:hidden h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-slate-900/90 text-slate-200 transition hover:border-cyan-400 hover:text-cyan-300"
+              className="flex md:hidden h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:border-white/20 hover:text-white"
             >
               {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
@@ -120,7 +120,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
 
         {/* Mobile Curved Drawer / Dropdown */}
         {mobileMenuOpen && (
-          <div className="mt-2 flex md:hidden flex-col gap-1.5 rounded-2xl border border-cyan-500/30 bg-[#070e1c]/95 p-3.5 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.85)] animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="mt-2 flex md:hidden flex-col gap-1.5 rounded-2xl border border-white/10 bg-[#0a0e16]/95 p-3.5 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.85)] animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="grid grid-cols-2 gap-1.5">
               {navLinks.map((link) => {
                 const Icon = link.icon;
@@ -129,25 +129,25 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
                     key={link.id}
                     type="button"
                     onClick={() => scrollToSection(link.id)}
-                    className="flex items-center gap-2 rounded-xl border border-white/5 bg-white/5 p-2.5 text-left font-mono text-xs font-semibold text-slate-200 transition hover:border-cyan-400/40 hover:bg-cyan-950/40 hover:text-cyan-300"
+                    className="flex items-center gap-2 rounded-xl border border-white/[0.05] bg-white/[0.03] p-2.5 text-left text-xs font-medium text-slate-300 transition hover:border-white/10 hover:bg-white/[0.06] hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    <Icon size={14} className="text-cyan-400" />
+                    <Icon size={14} className="text-slate-500" />
                     <span>{link.label}</span>
                   </button>
                 );
               })}
             </div>
 
-            <div className="mt-1 flex items-center justify-end border-t border-slate-800 pt-2.5">
+            <div className="mt-1 flex items-center justify-end border-t border-white/[0.04] pt-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onLaunchLive();
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-3.5 py-1 font-mono text-xs font-bold text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+                className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1 text-xs font-semibold text-slate-900" style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
-                <Sparkles size={12} />
+                <Sparkles size={12} className="text-amber-600" />
                 <span>Launch Live</span>
               </button>
             </div>

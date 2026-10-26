@@ -48,7 +48,7 @@ export default function StepInsideCrisisZoom() {
       tl.to(
         portalTextRef.current,
         {
-          scale: 14,
+          scale: 18,
           opacity: 0,
           ease: 'power2.in',
           duration: 0.45,
@@ -95,27 +95,17 @@ export default function StepInsideCrisisZoom() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-[#07090e] text-slate-100 overflow-hidden"
+      className="relative w-full bg-transparent text-slate-100 overflow-hidden"
       style={{ minHeight: '100vh' }}
     >
-      {/* Background Radial Ambiance */}
+      {/* Background Radial Ambiance (Preserving ref for GSAP scroll camera warp) */}
       <div
         ref={bgGlowRef}
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-25 transition-transform will-change-transform"
+        className="pointer-events-none absolute inset-0 opacity-20 transition-transform will-change-transform"
         style={{
           background:
-            'radial-gradient(circle at 50% 45%, rgba(6,182,212,0.35), rgba(2,132,199,0.15) 40%, transparent 70%), radial-gradient(circle at 20% 80%, rgba(225,29,72,0.2), transparent 50%)',
-        }}
-      />
-
-      {/* Grid line texture overlay */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+            'radial-gradient(circle at 50% 45%, rgba(251,191,36,0.08), rgba(56,189,248,0.04) 40%, transparent 70%)',
         }}
       />
 
@@ -127,51 +117,88 @@ export default function StepInsideCrisisZoom() {
           className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 pointer-events-none select-none will-change-transform"
         >
           <h2
-            className="font-display text-[28vw] sm:text-[24vw] md:text-[22vw] font-black tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-cyan-500 drop-shadow-[0_20px_45px_rgba(0,0,0,0.95)]"
-            style={{ fontFamily: "'Figtree', 'Inter', sans-serif" }}
+            className="text-[35vw] sm:text-[32vw] md:text-[29vw] lg:text-[27vw] tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-200 to-slate-500 drop-shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
+            style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
           >
             CRISIS
           </h2>
 
         </div>
 
-        {/* ── Layer 2: The Target Crisis Briefing (Zooms in to fill screen - Open Spacious Layout) ── */}
+        {/* ── Layer 2: The Target Crisis Briefing (Editorial SitRep Dossier Layout) ── */}
         <div
           ref={contentRef}
-          className="relative z-10 mx-auto max-w-4xl text-center px-4 will-change-transform"
+          className="relative z-10 mx-auto max-w-6xl w-full px-4 sm:px-6 lg:px-8 will-change-transform"
         >
-          <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-snug">
-            When the Awash River floods, roads vanish before satellite clouds clear.
-          </h2>
+          {/* Authentic Field Overview Eyebrow */}
+          <div className="border-b border-white/[0.08] pb-3 sm:pb-4 mb-6 sm:mb-8 flex items-center justify-between text-xs text-slate-400">
+            <span className="text-slate-300 font-serif italic text-sm">Awash River Basin, Ethiopia</span>
+            <span className="text-slate-400 text-xs">Humanitarian Ground Reality</span>
+          </div>
 
-          <p className="mx-auto mt-3 sm:mt-5 max-w-3xl text-sm sm:text-base md:text-lg font-normal leading-relaxed text-slate-300">
-            Aid coordinators are forced to guess which bridges remain passable. Convoys carrying emergency medical cargo drive blindly into submerged dead ends, while 89 regional clinics lose their referral lifeline.
-          </p>
+          {/* Asymmetric Editorial Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
+            {/* Left Column: Headline, Journalism, and Field Note */}
+            <div className="lg:col-span-7 text-left space-y-4 sm:space-y-6">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl tracking-tight text-white leading-[1.08] font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                When the Awash River floods, roads vanish <em className="italic text-slate-300 font-serif">before satellite clouds clear.</em>
+              </h2>
 
-          {/* Key Crisis Metrics */}
-          <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-            <div className="pt-4 sm:pt-0 sm:px-4 text-center">
-              <p className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.4)] tracking-tight">
-                4,200,000+
+              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-300/85 max-w-xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Aid coordinators are forced to guess which bridges remain passable. Convoys carrying emergency medical cargo drive blindly into submerged dead ends, while <span className="text-white font-medium">89 regional clinics</span> lose their referral lifeline.
               </p>
-              <p className="mt-1.5 text-xs sm:text-sm md:text-base font-bold text-white">People Exposed in Basin</p>
-              <p className="mt-0.5 text-[11px] sm:text-xs text-slate-400">Pastoralist & farming communities at risk</p>
+
+              {/* Field Evidence Pull Note */}
+              <div className="border-l-2 border-amber-400/40 pl-3.5 sm:pl-4 py-1 text-xs text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                <p className="text-slate-300">
+                  &ldquo;Optical satellites stay blinded by cloud cover for up to 5 days, paralyzing ground operations precisely when flood waves crest.&rdquo;
+                </p>
+                <p className="mt-1 text-[10px] text-slate-500 uppercase tracking-wider">
+                  — UN-OCHA Horn of Africa Humanitarian Briefing
+                </p>
+              </div>
             </div>
 
-            <div className="pt-4 sm:pt-0 sm:px-4 text-center">
-              <p className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.4)] tracking-tight">
-                $1,200M
-              </p>
-              <p className="mt-1.5 text-xs sm:text-sm md:text-base font-bold text-white">Annual Corridor Losses</p>
-              <p className="mt-0.5 text-[11px] sm:text-xs text-slate-400">Critical food spoilage, vehicle loss & delays</p>
-            </div>
+            {/* Right Column: Architectural Tiered Metrics Ledger */}
+            <div className="lg:col-span-5 space-y-3 sm:space-y-3.5 w-full">
+              {/* Stat 1: Population Exposed */}
+              <div className="group rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 backdrop-blur-xl shadow-[0_12px_36px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 hover:bg-[#0e131d]/90">
+                <p className="text-3xl sm:text-4xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                  4,200,000+
+                </p>
+                <p className="mt-1 text-sm font-medium text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  People Exposed in Basin
+                </p>
+                <p className="mt-0.5 text-xs text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Pastoralist &amp; farming communities at risk of complete isolation
+                </p>
+              </div>
 
-            <div className="pt-4 sm:pt-0 sm:px-4 text-center">
-              <p className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.4)] tracking-tight">
-                72 hrs
-              </p>
-              <p className="mt-1.5 text-xs sm:text-sm md:text-base font-bold text-white">Pre-Impact Advantage</p>
-              <p className="mt-0.5 text-[11px] sm:text-xs text-slate-400">Advance notice before flood peak arrives</p>
+              {/* Stat 2: Economic Losses */}
+              <div className="group rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 backdrop-blur-xl shadow-[0_12px_36px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 hover:bg-[#0e131d]/90">
+                <p className="text-3xl sm:text-4xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                  $1,200M
+                </p>
+                <p className="mt-1 text-sm font-medium text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Annual Corridor Losses
+                </p>
+                <p className="mt-0.5 text-xs text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Critical food spoilage, submerged transport fleets &amp; trade delays
+                </p>
+              </div>
+
+              {/* Stat 3: Pre-Impact Window */}
+              <div className="group rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 backdrop-blur-xl shadow-[0_12px_36px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 hover:bg-[#0e131d]/90">
+                <p className="text-3xl sm:text-4xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                  72 hrs
+                </p>
+                <p className="mt-1 text-sm font-medium text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Pre-Impact Advantage
+                </p>
+                <p className="mt-0.5 text-xs text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Advance notice before flood peak arrives at critical bridges
+                </p>
+              </div>
             </div>
           </div>
         </div>

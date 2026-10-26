@@ -17,28 +17,28 @@ interface TechStackItem {
 
 const TECH_STACK: TechStackItem[] = [
   {
-    category: 'Frontend',
+    category: 'Frontend Architecture',
     tech: 'React 19, TS, Vite',
-    desc: 'MapLibre GL, GSAP, Web Audio API',
-    icon: <Layers size={16} className="text-cyan-400" />,
+    desc: 'MapLibre GL 3D vector, GSAP, Web Audio API',
+    icon: <Layers size={15} className="text-slate-400" />,
   },
   {
-    category: 'Backend Engine',
+    category: 'Simulation Engine',
     tech: 'FastAPI, NetworkX',
-    desc: 'Monte Carlo Dijkstra, GeoPandas',
-    icon: <Cpu size={16} className="text-sky-400" />,
+    desc: 'Monte Carlo Dijkstra, GeoPandas spatial graph',
+    icon: <Cpu size={15} className="text-slate-400" />,
   },
   {
-    category: 'AI & Remote Sensing',
+    category: 'Earth Observation & ML',
     tech: 'Sentinel-1 SAR, LightGBM',
-    desc: 'WorldPop 100m, CHIRPS telemetry',
-    icon: <Activity size={16} className="text-teal-400" />,
+    desc: 'WorldPop 100m, CHIRPS precipitation ingestion',
+    icon: <Activity size={15} className="text-slate-400" />,
   },
   {
-    category: 'Edge Resilience',
-    tech: 'MSW Offline PWA',
-    desc: 'IndexedDB caching & PDF SitRep',
-    icon: <ShieldCheck size={16} className="text-emerald-400" />,
+    category: 'Edge & Offline Field',
+    tech: 'PWA Edge Cache',
+    desc: 'IndexedDB storage & Amharic / English PDF dispatch',
+    icon: <ShieldCheck size={15} className="text-slate-400" />,
   },
 ];
 
@@ -119,93 +119,82 @@ export function HardestTechnicalProblem() {
     <section
       id="hardest-problem"
       ref={sectionRef}
-      className="relative py-10 sm:py-14 md:py-16 bg-[#060a14] border-t border-white/5 z-10 overflow-hidden"
+      className="relative py-14 sm:py-20 md:py-24 bg-transparent z-10 overflow-hidden"
     >
-      {/* Background radial accent glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 30%, rgba(6,182,212,0.18), transparent 70%), radial-gradient(ellipse at 80% 80%, rgba(14,165,233,0.1), transparent 60%)',
-        }}
-      />
-
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-        {/* The Hardest Technical Problem Solved Card */}
-        <div
-          ref={cardRef}
-          className="rounded-2xl sm:rounded-3xl border border-cyan-500/30 bg-gradient-to-r from-[#091426]/95 via-[#0c1c36]/90 to-[#091426]/95 p-5 sm:p-7 md:p-8 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
-        >
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-3xl">
-              <Badge
-                variant="outline"
-                className="inline-flex items-center gap-1.5 rounded-md border-cyan-500/30 bg-cyan-950/80 px-2.5 py-1 font-mono text-[10px] sm:text-xs font-bold text-cyan-300"
-              >
-                <Sparkles size={13} className="text-cyan-400" />
-                <span>THE HARDEST TECHNICAL PROBLEM WE SOLVED</span>
-              </Badge>
+        {/* Main Problem Deep-Dive Block (Preserving cardRef for GSAP scroll trigger) */}
+        <div ref={cardRef} className="space-y-6">
+          {/* Eyebrow Header */}
+          <div className="border-b border-white/[0.08] pb-3 sm:pb-4 flex items-center justify-between text-xs text-slate-400">
+            <span className="text-slate-300 font-serif italic text-sm">Algorithmic Formulation</span>
+            <span className="text-slate-400 text-xs">Physical Passability vs. Water Presence</span>
+          </div>
 
-              <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          {/* 2-Column Problem & Calibration Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
+            {/* Left Column: Algorithmic Narrative */}
+            <div className="lg:col-span-8 space-y-4 sm:space-y-5 text-left">
+              <h3 className="text-2xl sm:text-4xl lg:text-5xl text-white font-normal tracking-tight leading-[1.08]" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
                 De-conflating Flood Probability from Physical Road Closure
               </h3>
 
-              <p className="text-xs sm:text-sm md:text-base leading-relaxed text-slate-300 font-normal">
-                Standard flood models naively multiply water presence by road closure, creating
-                crippling false alarms or lethal blind spots. ImpactMap AI solved this by engineering
-                a{' '}
-                <strong className="text-cyan-300 font-semibold">
-                  two-stage calibrated Monte Carlo solver
-                </strong>
-                : LightGBM estimates pure surface inundation against Sentinel-1 SAR observations,
-                while a discrete stochastic graph walker samples real physical passability across
-                10,000 runs. Decision-makers see water risk, physical cutoff, and access loss as three
-                transparent, unmixed quantities.
+              <p className="text-sm sm:text-base leading-relaxed text-slate-300/85 max-w-2xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Standard flood models naively multiply water presence by road closure, creating crippling false alarms or lethal blind spots. ImpactMap AI solved this by engineering a <span className="text-white font-medium">two-stage calibrated Monte Carlo solver</span>: LightGBM estimates pure surface inundation against Sentinel-1 SAR observations, while a discrete stochastic graph walker samples real physical passability across 10,000 runs.
+              </p>
+
+              <p className="text-base sm:text-lg text-slate-300 italic font-serif" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                &ldquo;Decision-makers see water risk, physical cutoff, and access loss as three transparent, unmixed quantities.&rdquo;
               </p>
             </div>
 
-            {/* Calibration Error Metric Badge */}
+            {/* Right Column: Calibration Benchmark Ledger (Preserving metricRef) */}
             <div
               ref={metricRef}
-              className="rounded-xl sm:rounded-2xl border border-cyan-500/30 bg-black/70 p-4 sm:p-5 text-center min-w-[170px] sm:min-w-[210px] w-full md:w-auto shadow-[0_0_24px_rgba(6,182,212,0.15)] flex-shrink-0"
+              className="lg:col-span-4 w-full rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] space-y-3"
             >
-              <p className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-slate-400">
-                Calibration Error
+              <p className="text-xs uppercase tracking-wider text-slate-400 font-mono">
+                Calibration Benchmark
               </p>
-              <p className="font-display text-3xl sm:text-4xl font-black text-cyan-400 mt-1">
-                0.023 ECE
-              </p>
-              <div className="mt-1.5 inline-flex items-center gap-1 text-[11px] sm:text-xs text-emerald-400 font-mono">
-                <CheckCircle2 size={13} />
-                <span>48% tighter than raw baseline</span>
+
+              <div>
+                <p className="text-3xl sm:text-4xl lg:text-5xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                  0.023 ECE
+                </p>
+                <p className="mt-1 text-xs text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Expected Calibration Error against Sentinel-1 SAR observations
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-white/[0.08] space-y-1 text-xs text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-slate-300">48% variance reduction over raw flood baselines</p>
+                <p className="text-slate-500 text-[11px]">Leave-one-event-out holdout validation</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Tech Stack Matrix (4 Cards) */}
+        {/* Tech Stack Matrix (Clean Architectural Specification Columns, Preserving techGridRef) */}
         <div
           ref={techGridRef}
-          className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+          className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
         >
           {TECH_STACK.map((stack) => (
             <div
               key={stack.category}
-              className="hardest-tech-card group rounded-xl sm:rounded-2xl border border-slate-800/80 bg-[#080d19]/80 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-cyan-500/40 hover:bg-[#0b1324] hover:shadow-[0_4px_20px_rgba(6,182,212,0.12)]"
+              className="hardest-tech-card group border-l border-white/10 pl-4 sm:pl-5 py-1 space-y-1.5 transition-all duration-300 hover:border-white/30"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider text-cyan-400">
+                <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {stack.category}
                 </span>
-                <span className="transition-transform duration-300 group-hover:scale-110">
+                <span className="text-slate-500 transition-colors group-hover:text-slate-300">
                   {stack.icon}
                 </span>
               </div>
-              <p className="mt-2 font-display text-sm sm:text-base font-bold text-white group-hover:text-cyan-200 transition-colors">
+              <p className="text-base sm:text-lg text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
                 {stack.tech}
               </p>
-              <p className="mt-1 text-[11px] sm:text-xs text-slate-400 font-normal">
+              <p className="text-xs text-slate-400 leading-snug" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {stack.desc}
               </p>
             </div>

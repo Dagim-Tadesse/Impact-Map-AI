@@ -26,13 +26,14 @@ import {
   Server,
   Zap,
 } from 'lucide-react';
-import { TiltedGridHero } from '@/components/ui/tilted-grid-hero';
 import StepInsideCrisisZoom from '@/components/landing/StepInsideCrisisZoom';
 import HorizontalSolutionShowcase from '@/components/landing/HorizontalSolutionShowcase';
 import RadialOrbitalTimeline, { type TimelineItem } from '@/components/ui/radial-orbital-timeline';
 import Timeline, { type JourneyItem } from '@/components/ui/timeline';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { HardestTechnicalProblem } from '@/components/landing/HardestTechnicalProblem';
+import { RotatingGlobe } from '@/components/ui/RotatingGlobe';
+import { FlowingParticleBackdrop } from '@/components/landing/FlowingParticleBackdrop';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 if (typeof window !== 'undefined') {
@@ -41,22 +42,9 @@ if (typeof window !== 'undefined') {
 
 /* ── Asset URLs & Unsplash Curated Photography ── */
 const U = (id: string, w = 1200) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
-const U_HERO = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=380&q=60`;
-
-/* ── Single Unified Background Image for Hero ── */
+/* ── Unified Continuous Background Image across entire Landing Page ── */
 const HERO_BG_IMAGE = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80';
 
-/* ── PC 3D Cylinder Rotating Image Tiles ── */
-const HERO_GRID = [
-  { src: U_HERO('photo-1446776811953-b23d57bd21aa'), alt: 'Orbital satellite radar monitoring flood zones' },
-  { src: U_HERO('photo-1451187580459-43490279c0fa'), alt: 'High resolution digital elevation model topology' },
-  { src: U_HERO('photo-1465447142348-e9952c393450'), alt: 'Flooded critical transport artery in East Africa' },
-  { src: U_HERO('photo-1547683905-f686c993aae5'), alt: 'Sudden flash flood stormfront over river basin' },
-  { src: U_HERO('photo-1524661135-423995f22d0b'), alt: 'Emergency logistics coordination in remote sector' },
-  { src: U_HERO('photo-1489392191049-fc10c97e64b6'), alt: 'Critical bridge infrastructure crossing water channel' },
-  { src: U_HERO('photo-1519494026892-80bbd2d6fd0d'), alt: 'Rural clinic and emergency healthcare compound' },
-  { src: U_HERO('photo-1584438784894-089d6a62b8fa'), alt: 'Medical humanitarian aid delivery convoy' },
-];
 
 /* ── Architecture Pipeline Stages (Horizontal Timeline) ── */
 const ARCH_TOP: JourneyItem[] = [
@@ -261,119 +249,159 @@ export function LandingPage({
   };
 
   return (
-    <main className="min-h-screen bg-[#060a14] text-slate-100 selection:bg-cyan-500 selection:text-black">
+    <main className="relative min-h-screen bg-[#060a14] text-slate-200 selection:bg-amber-400/30 selection:text-white">
+      {/* ── Continuous Global Backdrop (Fixed across entire Landing Page) ── */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src={HERO_BG_IMAGE}
+          alt="Earth orbital satellite radar monitoring flood zones"
+          className="h-full w-full object-cover object-center opacity-30 scale-105"
+          loading="eager"
+          fetchPriority="high"
+        />
+        {/* Global Ambient Radial Illumination */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at 30% 25%, rgba(251,191,36,0.07), transparent 60%), radial-gradient(ellipse at 75% 60%, rgba(56,189,248,0.05), transparent 65%), radial-gradient(circle at 50% 90%, rgba(244,63,94,0.03), transparent 50%)',
+          }}
+        />
+        {/* Atmospheric fine stipple texture */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        {/* Smooth unified vertical vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060a14]/60 via-[#060a14]/30 to-[#060a14]/80" />
+      </div>
+
+      {/* ── Continuous Flowing Particles Layer (Fixed across entire Landing Page) ── */}
+      <FlowingParticleBackdrop particleCount={165} />
+
       {/* ── Floating Curved Navigation Bar ── */}
       <LandingNavbar onLaunchLive={handleLaunchDemo} />
 
       {/* ── Scroll Progress Indicator ── */}
       <div
         ref={scrollBarRef}
-        className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-cyan-500 via-sky-400 to-emerald-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+        className="fixed inset-x-0 top-0 z-50 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-amber-400 via-orange-300 to-rose-400"
       />
 
-      {/* ── Section 1: Hero (Single Background Image + PC 3D Cylinder / Mobile Static) ── */}
-      <section className="relative min-h-screen w-full bg-[#060a14] overflow-hidden">
-        {/* ── Single Unified Background Image for Hero ── */}
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <img
-            src={HERO_BG_IMAGE}
-            alt="Orbital satellite radar monitoring flood zones"
-            className="h-full w-full object-cover object-center opacity-30 scale-100"
-            loading="eager"
-            fetchPriority="high"
-          />
-          {/* Ambient radial glows & cybernetic grid matching rest of page */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(ellipse at 50% 35%, rgba(6,182,212,0.22), rgba(2,132,199,0.1) 45%, transparent 75%), radial-gradient(ellipse at 20% 80%, rgba(14,165,233,0.12), transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(6,182,212,0.1), transparent 50%)',
-            }}
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-[0.035]"
-            style={{
-              backgroundImage: 'radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)',
-              backgroundSize: '24px 24px',
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#060a14]/60 via-transparent to-[#060a14]" />
-        </div>
+      {/* ── Section 1: Hero (Unified Content + Rotating 3D Globe) ── */}
+      <section className="relative min-h-screen w-full bg-transparent overflow-hidden z-10">
+        {/* ── Unified Hero Content (Left: Copy + Cards | Right: Rotating 3D Globe) ── */}
+        <div className="relative z-10 flex min-h-screen w-full items-center px-4 sm:px-6 lg:px-12 pt-20 sm:pt-24 pb-12 sm:pb-16">
+          <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
+            {/* Left Column: Title, Narrative Pitch, Action Buttons, and Metric Cards */}
+            <div className="lg:col-span-7 space-y-6 sm:space-y-7 text-left">
+              <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] leading-[0.93] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                Impact<em className="text-amber-300/90 font-normal">Map</em>
+              </h1>
 
-        {/* ── PC / Desktop View: 3D Cylinder Rotating Animation over Single Background Image ── */}
-        <div className="hidden md:block absolute inset-0 z-[1] pointer-events-none">
-          <TiltedGridHero
-            images={HERO_GRID}
-            className="h-screen w-full bg-transparent"
-            speed={4.5}
-            curve={70}
-            tileHeight={42}
-            aspectRatio={16 / 9}
-            axis={50}
-          />
-        </div>
+              <p className="max-w-xl text-base sm:text-lg lg:text-xl leading-relaxed text-slate-300/90 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Predict critical supply corridor failure and deploy emergency relief—<span className="text-white font-medium">before convoys get trapped or hospitals get cut off</span>.
+              </p>
 
-        {/* ── Unified Hero Content (Title, Pitch, CTAs, Metric Cards) ── */}
-        <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-evenly px-4 sm:px-6 pt-14 sm:pt-20 pb-6 sm:pb-8 text-center md:justify-center md:pb-12">
-          <div className="max-w-4xl space-y-3 sm:space-y-6 px-2 sm:px-4">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-black tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]">
-              ImpactMap <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-teal-300 bg-clip-text text-transparent">AI</span>
-            </h1>
-            <p className="mx-auto max-w-2xl text-balance text-xs sm:text-lg md:text-xl font-normal leading-relaxed text-slate-100 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]">
-              <strong className="font-bold text-white">ImpactMap AI</strong> helps humanitarian aid coordinators predict critical supply corridor failure and deploy emergency relief <strong className="font-bold text-cyan-300 underline decoration-cyan-400/60 underline-offset-4">without convoys getting trapped or hospitals cut off</strong>.
-            </p>
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
+                <button
+                  type="button"
+                  onClick={handleLaunchDemo}
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  <Sparkles size={15} className="text-amber-600 transition-transform group-hover:rotate-12" />
+                  <span>Launch Live Explorer</span>
+                  <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" />
+                </button>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 pt-1 sm:pt-2">
-              <button
-                type="button"
-                onClick={handleLaunchDemo}
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-bold text-slate-950 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_32px_rgba(6,182,212,0.6)] active:scale-95"
-              >
-                <Sparkles size={15} className="transition-transform group-hover:rotate-12" />
-                <span>Launch Live Explorer</span>
-                <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" />
-              </button>
-
-              <a
-                href={codeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/90 px-4 py-2.5 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-100 backdrop-blur-md transition-all duration-200 hover:border-cyan-400 hover:bg-slate-800 hover:text-white"
-              >
-                <Github size={15} />
-                <span>View Code</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Metrics Bar */}
-          <div className="grid w-full max-w-3xl grid-cols-2 gap-2.5 sm:gap-3 sm:grid-cols-4 pt-4 sm:pt-4">
-            {[
-              { label: 'Road Links Scored', value: '3,420', sub: 'Inundation exposure' },
-              { label: 'Cascade Speed', value: '< 48ms', sub: 'Topological solver' },
-              { label: 'Clinics Protected', value: '89', sub: 'Critical referral centers' },
-              { label: 'Calibration ECE', value: '0.023', sub: 'Sentinel-1 benchmark' },
-            ].map((m) => (
-              <div key={m.label} className="rounded-xl border border-white/10 bg-[#070c18]/90 p-3 sm:p-3 backdrop-blur-md shadow-lg">
-                <p className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-slate-300">{m.label}</p>
-                <p className="mt-1 font-display text-lg sm:text-lg font-bold text-cyan-300">{m.value}</p>
-                <p className="text-[10px] sm:text-[11px] text-slate-400">{m.sub}</p>
+                <a
+                  href={codeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-200 backdrop-blur-md transition-all duration-200 hover:border-white/30 hover:bg-white/10 hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  <Github size={15} />
+                  <span>View Code</span>
+                </a>
               </div>
-            ))}
+
+              {/* Metric Cards Ledger (Integrated on the Left underneath the copy) */}
+              <div className="pt-3 sm:pt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                {/* Card 1 */}
+                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
+                    Road Links
+                  </p>
+                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                    3,420
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    Scored per 100m
+                  </p>
+                </div>
+
+                {/* Card 2 */}
+                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
+                    Cascade Speed
+                  </p>
+                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                    &lt; 48ms
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    Topological solver
+                  </p>
+                </div>
+
+                {/* Card 3 */}
+                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
+                    Clinics Protected
+                  </p>
+                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                    89
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    Referral centers
+                  </p>
+                </div>
+
+                {/* Card 4 */}
+                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
+                    Calibration ECE
+                  </p>
+                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                    0.023
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    SAR ground truth
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Rotating 3D Globe with Awash Basin Logistics Hub */}
+            <div className="lg:col-span-5 w-full flex items-center justify-center">
+              <RotatingGlobe className="w-full h-[360px] sm:h-[440px] lg:h-[520px]" />
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── Section 2: The Problem (Step Inside Crisis Zoom-In Scroll Animation) ── */}
-      <section id="crisis" className="relative bg-[#060a14] z-10">
+      <section id="crisis" className="relative bg-transparent z-10">
         <StepInsideCrisisZoom />
       </section>
 
       {/* ── Section 3: The Solution (Pinned 5-Card Horizontal Scroll Showcase) ── */}
-      <section id="solution" className="relative bg-[#060a14] z-10">
+      <section id="solution" className="relative bg-transparent z-10">
         <HorizontalSolutionShowcase onLaunchDemo={handleLaunchDemo} />
       </section>
 
@@ -381,7 +409,7 @@ export function LandingPage({
       <HardestTechnicalProblem />
 
       {/* ── Section 5: How It Works (System Architecture - Horizontal Timeline) ── */}
-      <section id="architecture" className="relative bg-[#060a14] z-10">
+      <section id="architecture" className="relative bg-transparent z-10">
         <Timeline
           heading="From Raindrops to Relief Convoys"
           title="Pipeline"
@@ -389,7 +417,7 @@ export function LandingPage({
           topItems={ARCH_TOP}
           bottomItems={ARCH_BOTTOM}
           activeColor="#06b6d4"
-          backgroundColor="#060a14"
+          backgroundColor="transparent"
           textColor="#f8fafc"
           mutedTextColor="#94a3b8"
           imageUrl={U('photo-1451187580459-43490279c0fa', 1200)}
@@ -398,13 +426,13 @@ export function LandingPage({
       </section>
 
       {/* ── Section 5: The Team (Interactive Orbital Graph + 3D Tilt Cards) ── */}
-      <section id="team" className="py-12 sm:py-20 bg-[#05080f] relative border-t border-white/5 z-10">
+      <section id="team" className="py-12 sm:py-20 bg-transparent relative z-10">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="text-center space-y-2 sm:space-y-4">
-            <h2 className="font-display text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-5xl md:text-6xl tracking-tight text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
               Meet the Team
             </h2>
-            <p className="mx-auto max-w-xl text-xs sm:text-base text-slate-300">
+            <p className="mx-auto max-w-xl text-xs sm:text-base text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Engineering solutions at the intersection of remote sensing, network topology, and humanitarian crisis intelligence.
             </p>
           </div>
@@ -417,12 +445,12 @@ export function LandingPage({
       </section>
 
       {/* ── Section 6: Final CTA & Footer ── */}
-      <footer className="border-t border-slate-800 bg-[#04060a] px-4 sm:px-6 py-12 sm:py-20 text-center relative overflow-hidden z-10">
+      <footer className="border-t border-white/[0.06] bg-transparent px-4 sm:px-6 py-12 sm:py-20 text-center relative overflow-hidden z-10">
         <div className="mx-auto max-w-4xl space-y-5 sm:space-y-8">
-          <h2 className="font-display text-3xl sm:text-6xl md:text-7xl font-black tracking-tight text-white">
+          <h2 className="text-3xl sm:text-6xl md:text-7xl tracking-tight text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
             <TextRoll text="Ready to Stress Test?" />
           </h2>
-          <p className="mx-auto max-w-lg text-xs sm:text-base text-slate-300">
+          <p className="mx-auto max-w-lg text-xs sm:text-base text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Launch the live interactive digital twin now, test what-if bridge barricades, and export field-ready SitReps.
           </p>
 
@@ -430,7 +458,7 @@ export function LandingPage({
             <button
               type="button"
               onClick={handleLaunchDemo}
-              className="rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-8 py-3.5 text-sm font-bold text-slate-950 shadow-[0_0_24px_rgba(6,182,212,0.4)] transition hover:scale-105 hover:from-cyan-300 hover:to-sky-300 active:scale-95"
+              className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-slate-900 transition hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
               Launch Live Explorer
             </button>
@@ -439,7 +467,7 @@ export function LandingPage({
               href={codeUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-6 py-3.5 text-sm font-medium text-slate-300 backdrop-blur transition hover:border-cyan-400 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-medium text-slate-300 backdrop-blur transition hover:border-white/25 hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
               <Github size={16} />
               <span>GitHub Repo</span>
@@ -449,7 +477,7 @@ export function LandingPage({
               <button
                 type="button"
                 onClick={onOpenAbout}
-                className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition underline underline-offset-4"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-white transition underline decoration-white/20 underline-offset-4 hover:decoration-white/50" style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 <span>Read Full Methodology</span>
                 <ArrowUpRight size={14} />
@@ -457,7 +485,7 @@ export function LandingPage({
             )}
           </div>
 
-          <div className="border-t border-white/5 pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-mono gap-4">
+          <div className="border-t border-white/[0.04] pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             <p>© 2026 ImpactMap AI • Open Source Humanitarian Digital Twin</p>
             <p>Awash Basin Topological Corridor Intelligence</p>
           </div>
