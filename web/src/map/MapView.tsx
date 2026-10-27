@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
-import { Box, Compass, Sparkles, Layers } from 'lucide-react';
+import { Box, Compass, Sparkles, Layers, Users, Hospital, Activity, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../state/useAppStore';
 import { getConfig } from '../config';
 import { paintSegmentsChunked } from './paintResults';
@@ -39,6 +39,7 @@ export const MapView: React.FC = () => {
     currentCacheKey,
     is3DView,
     toggle3DView,
+    setActiveTab,
   } = useAppStore();
 
   const { data: resultSummary } = useResultSummaryQuery(currentCacheKey);
@@ -67,6 +68,19 @@ export const MapView: React.FC = () => {
 
   const toggle3DMode = () => {
     toggle3DView();
+  };
+
+  const handleResetFocus = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.flyTo({
+      center: AWASH_CENTER,
+      zoom: 8.5,
+      pitch: is3DView ? 54 : 0,
+      bearing: is3DView ? -18 : 0,
+      duration: 1000,
+      essential: true,
+    });
   };
 
   // 1. Initialize MapLibre GL
@@ -855,6 +869,16 @@ export const MapView: React.FC = () => {
 
       {/* Floating 3D Perspective & Layer Mode HUD (Top Right on Map) */}
       <div className="absolute top-4 right-14 z-20 flex items-center gap-2">
+        {/* Reset Camera Focus Button */}
+        <button
+          onClick={handleResetFocus}
+          className="min-h-[44px] px-3 py-1.5 rounded-xl border glass-panel border-white/15 text-slate-300 hover:text-white flex items-center gap-1.5 text-xs font-semibold backdrop-blur-xl shadow-lg transition-all active:scale-95"
+          title="Reset Camera to Basin Overview"
+        >
+          <Compass className="w-4 h-4 text-cyan-400" />
+          <span className="hidden sm:inline font-mono">Reset Focus</span>
+        </button>
+
         {/* 3D Isometric View Mode Toggle */}
         <button
           onClick={toggle3DMode}
@@ -899,6 +923,64 @@ export const MapView: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Floating Real-Time Telemetry HUD Ticker (Bottom Left on Map) */}
+      {resultSummary && (
+        <div className="absolute bottom-6 left-4 z-20 max-w-xs sm:max-w-sm glass-panel p-3.5 rounded-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl animate-fade-in flex flex-col gap-2.5">
+          <div className="flex items-center justify-between border-b border-white/10 pb-2">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+              </span>
+              <span className="text-[11px] font-mono tracking-wider uppercase text-cyan-300 font-bold">
+                Basin Telemetry
+              </span>
+            </div>
+            {resultSummary.execution_mode && (
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-200">
+                {resultSummary.execution_mode === 'live_model' ? '⚡ LIVE ENGINE' : resultSummary.execution_mode.toUpperCase()}
+              </span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 text-left">
+            <div className="bg-white/5 rounded-xl p-2 border border-white/5">
+              <div className="flex items-center gap-1 text-[11px] text-slate-400 mb-0.5">
+                <Users className="w-3.5 h-3.5 text-rose-400" />
+                <span>Cut Off</span>
+              </div>
+              <div className="text-base font-bold font-mono text-rose-300">
+                {Math.round(resultSummary.region_totals?.people_cut_off?.mean ?? (resultSummary as any).isolated_population ?? 0).toLocaleString()}
+              </div>
+              <div className="text-[10px] text-slate-400">residents</div>
+            </div>
+
+            <div className="bg-white/5 rounded-xl p-2 border border-white/5">
+              <div className="flex items-center gap-1 text-[11px] text-slate-400 mb-0.5">
+                <Hospital className="w-3.5 h-3.5 text-amber-400" />
+                <span>Isolated</span>
+              </div>
+              <div className="text-base font-bold font-mono text-amber-300">
+                {typeof resultSummary.region_totals?.facilities_isolated_expected === 'number'
+                  ? resultSummary.region_totals.facilities_isolated_expected.toFixed(1)
+                  : typeof (resultSummary as any).isolated_facilities_count === 'number'
+                  ? (resultSummary as any).isolated_facilities_count.toFixed(1)
+                  : '0'}
+              </div>
+              <div className="text-[10px] text-slate-400">clinics/hospitals</div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setActiveTab('results')}
+            className="w-full mt-0.5 py-1.5 px-3 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all group"
+          >
+            <span>View Facility SitRep</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
