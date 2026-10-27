@@ -446,12 +446,14 @@ export const ResultsTab: React.FC = () => {
                   />
 
                   <div className="text-right">
-                    <div className="text-[10px] text-slate-400">Population Impact</div>
+                    <div className="text-[10px] text-slate-400" title="Total population in the surrounding woredas relying on this facility">
+                      Catchment Serviced
+                    </div>
                     <div className="text-xs font-bold font-mono text-slate-200">
                       {fac.people_affected_est
                         ? Math.round(fac.people_affected_est).toLocaleString()
                         : '0'}{' '}
-                      <span className="text-[10px] text-slate-400 font-normal">est.</span>
+                      <span className="text-[10px] text-slate-400 font-normal">pop</span>
                     </div>
                   </div>
                 </div>
@@ -481,12 +483,18 @@ export const ResultsTab: React.FC = () => {
                 {expandedFacilityId === fac.facility_id && (
                   <div className="mt-2 p-2 rounded-lg bg-black/40 border border-white/5 text-[10px] font-mono space-y-1 animate-in fade-in duration-150">
                     <div className="flex justify-between text-slate-300">
-                      <span>• Isolation Risk:</span>
+                      <span>• Isolation Risk (P):</span>
                       <span className="text-cyan-400">{(fac.p_isolation * 100).toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between text-slate-300">
-                      <span>• People Cut Off:</span>
-                      <span className="text-rose-400">{Math.round(fac.people_affected_est || 0).toLocaleString()}</span>
+                      <span>• Catchment Population:</span>
+                      <span className="text-slate-200">{Math.round(fac.people_affected_est || 0).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>• Expected Cut-Off (P × Pop):</span>
+                      <span className="text-rose-400 font-bold">
+                        ~{Math.round((fac.p_isolation || 0) * (fac.people_affected_est || 0)).toLocaleString()} people
+                      </span>
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>• Baseline Travel:</span>
