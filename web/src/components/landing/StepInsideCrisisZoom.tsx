@@ -18,11 +18,6 @@ export default function StepInsideCrisisZoom() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Respect motion preference: full zoom for most users, a gentler opacity
-    // crossfade (no scale/translate) for reduced-motion so the effect still
-    // plays and the layers never overlap into an unreadable stack.
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -33,16 +28,6 @@ export default function StepInsideCrisisZoom() {
           scrub: 1,
         },
       });
-
-      if (prefersReducedMotion) {
-        // 1. CRISIS dissolves in place (opacity only)
-        tl.to(portalTextRef.current, { opacity: 0, ease: 'none', duration: 0.4 }, 0);
-        tl.to(bgGlowRef.current, { opacity: 0.4, ease: 'none', duration: 1 }, 0);
-        // 2. Briefing fades in only after CRISIS is gone (no overlap)
-        tl.fromTo(contentRef.current, { opacity: 0 }, { opacity: 1, ease: 'none', duration: 0.6 }, 0.4);
-
-        return;
-      }
 
       // 1. Zoom in and pierce through the giant CRISIS typography (pure GPU scale & opacity)
       tl.to(

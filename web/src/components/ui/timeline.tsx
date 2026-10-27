@@ -62,12 +62,6 @@ export default function Timeline({
     const slider = wholeSliderRef.current;
     if (!section || !slider) return;
 
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
-      gsap.set(".journey-line", { width: "100%" });
-      return;
-    }
-
     const mm = gsap.matchMedia();
 
     // ── Desktop / PC (>= 1024px): Smooth Horizontal Scrub with Dynamic Pop-Out Stage Entrances ──

@@ -110,10 +110,6 @@ export default function HorizontalSolutionShowcase({
     const track = trackRef.current;
     if (!section || !track) return;
 
-    // Check reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const ctx = gsap.context(() => {
       const getScrollDistance = () => {
         const extra = window.innerWidth < 640 ? 40 : 100;

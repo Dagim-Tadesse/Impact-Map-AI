@@ -236,10 +236,19 @@ export function LandingPage({
     // Calibrate all pinned scroll animations across Crisis, Solution, and Architecture
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 120);
+    }, 150);
+
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener('load', onLoad);
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
 
     return () => {
       window.removeEventListener('scroll', updateProgress);
+      window.removeEventListener('load', onLoad);
       clearTimeout(timer);
     };
   }, []);
