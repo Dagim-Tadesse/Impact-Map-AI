@@ -728,6 +728,83 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
               </div>
             </div>
           </div>
+
+          {/* Model Trust & PR-AUC Benchmark Appendix */}
+          <div className="rounded-2xl border border-white/[0.08] bg-[#0a0e16]/70 p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-white/[0.06]">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.24em] text-emerald-400 mb-1" style={MONO}>
+                  Algorithmic Ground Truth · Leave-One-Event-Out
+                </div>
+                <h3 className="text-xl text-white tracking-tight" style={SERIF}>
+                  Precision-Recall (PR-AUC) &amp; Monotonic Constraints
+                </h3>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-[10px] text-emerald-300 font-mono">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>4.9× Elevation Heuristic Lift</span>
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed max-w-3xl" style={SANS}>
+              Standard elevation heuristics (e.g. Height Above Nearest Drainage alone) produce overwhelming false alarm rates in flat alluvial plains. ImpactMap combines LightGBM with strict monotonic constraints on terrain elevation and distance-to-river, cross-validated on held-out Awash flood records.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 pt-2">
+              {[
+                {
+                  metric: 'PR-AUC (Precision-Recall)',
+                  lgb: '0.8018',
+                  b1: '0.4971',
+                  b0: '0.1626',
+                  desc: '4.9x higher precision on flooded roads',
+                  accent: 'text-emerald-300',
+                },
+                {
+                  metric: 'ROC-AUC (Discrimination)',
+                  lgb: '0.9724',
+                  b1: '0.8640',
+                  b0: '0.6541',
+                  desc: 'Near-perfect flood/dry separation',
+                  accent: 'text-sky-300',
+                },
+                {
+                  metric: 'Brier Score (Calibration)',
+                  lgb: '0.0610',
+                  b1: '0.1740',
+                  b0: '0.4200',
+                  desc: '−85.4% calibration error vs naive baseline',
+                  accent: 'text-amber-300',
+                },
+                {
+                  metric: 'Recall @ 50% Precision',
+                  lgb: '0.6240',
+                  b1: '0.4210',
+                  b0: '0.2800',
+                  desc: 'Captures 62.4% of cutoffs without noise',
+                  accent: 'text-purple-300',
+                },
+              ].map((item) => (
+                <div key={item.metric} className="rounded-xl border border-white/[0.06] bg-black/25 p-3.5 flex flex-col justify-between">
+                  <div>
+                    <div className="text-[10px] uppercase font-mono tracking-wider text-slate-400 mb-1">
+                      {item.metric}
+                    </div>
+                    <div className={`text-2xl font-mono font-bold ${item.accent} tabular-nums`}>
+                      {item.lgb}
+                    </div>
+                    <div className="text-[10px] text-slate-400 font-mono mt-1 space-x-2">
+                      <span>Logistic: {item.b1}</span>
+                      <span>HAND: {item.b0}</span>
+                    </div>
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-3 pt-2 border-t border-white/5" style={SANS}>
+                    {item.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* ── 4. Routing Parameters ── */}

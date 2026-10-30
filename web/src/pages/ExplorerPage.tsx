@@ -16,7 +16,6 @@ import { Legend } from '../components/Legend';
 import { ScenarioTab } from '../panels/ScenarioTab';
 import { ResultsTab } from '../panels/ResultsTab';
 import { CompareTab } from '../panels/CompareTab';
-import { EvidenceTab } from '../panels/EvidenceTab';
 import { FacilityDrawer } from '../panels/FacilityDrawer';
 import { SegmentDrawer } from '../panels/SegmentDrawer';
 import { CommunityCard } from '../components/CommunityCard';
@@ -65,7 +64,14 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
   const shellRef = useRef<HTMLDivElement>(null);
   const panelBodyRef = useRef<HTMLDivElement>(null);
 
-  // Global Keyboard Navigation (1-4 tabs, Space cascade, M 3D view, Esc, ? Judge HUD)
+  // Normalize legacy activeTab if set to evidence
+  useEffect(() => {
+    if ((activeTab as string) === 'evidence') {
+      setActiveTab('results');
+    }
+  }, [activeTab, setActiveTab]);
+
+  // Global Keyboard Navigation (1-3 tabs, Space cascade, M 3D view, Esc, ? Judge HUD)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -95,8 +101,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
         setActiveTab('results');
       } else if (e.key === '3') {
         setActiveTab('compare');
-      } else if (e.key === '4') {
-        setActiveTab('evidence');
       } else if (e.code === 'Space' && cascade.slug) {
         e.preventDefault();
         setCascadeState({ playing: !cascade.playing });
@@ -211,25 +215,22 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
     shortcut: string;
     index: string;
     icon: React.ReactNode;
-    accent: 'amber' | 'sky' | 'rose' | 'emerald';
+    accent: 'amber' | 'sky' | 'rose';
   }> = [
     { id: 'scenario', label: t('tabs.scenario'), shortcut: '1', index: '01', accent: 'amber', icon: <Sliders className="w-3.5 h-3.5" /> },
     { id: 'results', label: t('tabs.results'), shortcut: '2', index: '02', accent: 'sky', icon: <BarChart3 className="w-3.5 h-3.5" /> },
     { id: 'compare', label: t('tabs.compare'), shortcut: '3', index: '03', accent: 'rose', icon: <GitCompare className="w-3.5 h-3.5" /> },
-    { id: 'evidence', label: t('tabs.evidence'), shortcut: '4', index: '04', accent: 'emerald', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
   ];
 
-  const accentDot: Record<'amber' | 'sky' | 'rose' | 'emerald', string> = {
+  const accentDot: Record<'amber' | 'sky' | 'rose', string> = {
     amber: 'bg-amber-300',
     sky: 'bg-sky-300',
     rose: 'bg-rose-300',
-    emerald: 'bg-emerald-300',
   };
-  const accentText: Record<'amber' | 'sky' | 'rose' | 'emerald', string> = {
+  const accentText: Record<'amber' | 'sky' | 'rose', string> = {
     amber: 'text-amber-300',
     sky: 'text-sky-300',
     rose: 'text-rose-300',
-    emerald: 'text-emerald-300',
   };
 
   const activeTabMeta = tabs.find((tab) => tab.id === activeTab) || tabs[0];
@@ -456,7 +457,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
               {activeTab === 'scenario' && <ScenarioTab />}
               {activeTab === 'results' && <ResultsTab />}
               {activeTab === 'compare' && <CompareTab />}
-              {activeTab === 'evidence' && <EvidenceTab />}
             </div>
           )}
         </aside>
@@ -622,7 +622,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
               {activeTab === 'scenario' && <ScenarioTab />}
               {activeTab === 'results' && <ResultsTab />}
               {activeTab === 'compare' && <CompareTab />}
-              {activeTab === 'evidence' && <EvidenceTab />}
             </div>
           )}
         </div>

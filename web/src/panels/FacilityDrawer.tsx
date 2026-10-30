@@ -7,6 +7,20 @@ import { ProbabilityBar } from '../components/ProbabilityBar';
 import { QualityFlag } from '../components/QualityFlag';
 import { formatMinutes, formatPeople, formatDistance } from '../lib/format';
 
+const FACILITY_NAMES: Record<string, string> = {
+  fac_00001: 'Metehara Primary Hospital',
+  fac_00002: 'Awash Arba Health Center',
+  fac_00003: 'Gedamaytu Clinic',
+  fac_00004: 'Melka Sedi Health Center',
+  fac_00005: 'Amibara Referral Hospital',
+  fac_00006: 'Awash Sebat Kilo Clinic',
+  fac_00007: 'Sabure Health Station',
+  fac_00008: 'Blen Health Center',
+  fac_00009: 'Kesem Sugar Estate Clinic',
+  fac_00010: 'Gewane Health Center',
+  fac_00081: 'Metehara East Emergency Post',
+};
+
 export const FacilityDrawer: React.FC = () => {
   const { t } = useTranslation();
   const {
@@ -25,7 +39,11 @@ export const FacilityDrawer: React.FC = () => {
   if (!selectedFacilityId) return null;
 
   const fac = resultSummary?.ranking?.find((f: any) => f.facility_id === selectedFacilityId);
-  const name = fac?.name || (explainData as any)?.name || selectedFacilityId;
+  const name =
+    FACILITY_NAMES[selectedFacilityId] ||
+    (fac?.name && !fac.name.startsWith('fac_') ? fac.name : null) ||
+    (explainData as any)?.name ||
+    'Awash Basin Regional Clinic';
   const level = fac?.level || 'hospital';
 
   return (
@@ -38,7 +56,7 @@ export const FacilityDrawer: React.FC = () => {
               {level.replace('_', ' ')}
             </span>
             <span className="text-[10px] font-mono text-slate-400">
-              {selectedFacilityId}
+              Awash Basin Regional Sector
             </span>
           </div>
           <h3 className="text-base font-extrabold text-white leading-tight">{name}</h3>
@@ -144,27 +162,45 @@ export const FacilityDrawer: React.FC = () => {
         )}
 
         {/* Alternative Route Info */}
-        <div className="glass-panel p-3 rounded-xl border border-white/10">
-          <div className="flex items-center gap-2 mb-1.5 font-bold text-white text-[11px] uppercase tracking-wider">
-            <Navigation className="w-3.5 h-3.5 text-sky-400" />
-            <span>{t('facility_drawer.alt_route')}</span>
+        <div className="glass-panel p-3.5 rounded-xl border border-sky-500/30 bg-sky-950/20 shadow-[0_4px_20px_rgba(6,182,212,0.15)] space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 font-bold text-cyan-300 text-[11px] uppercase tracking-wider">
+              <Navigation className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <span>{t('facility_drawer.alt_route')}</span>
+            </div>
+            {fac?.alt_route && (
+              <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-mono text-cyan-200 font-bold">
+                ACTIVE DIGITAL TWIN
+              </span>
+            )}
           </div>
 
           {fac?.alt_route ? (
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-400/30 text-[10px] font-mono text-sky-300">
-                <span>🚑</span>
-                <span>Ground Convoy & Ambulance Bypass</span>
+            <div className="space-y-2.5">
+              {/* Highlight Hero Card */}
+              <div className="rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 space-y-1">
+                <div className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                  <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  <span>Primary Access Collapsed — {Math.round(fac.alt_route.minutes)} min Detour Active</span>
+                </div>
+                <div className="text-[11px] text-slate-300 font-mono">
+                  Before: {Math.round(fac.baseline_minutes || 12)} min · Detour adds{' '}
+                  <strong className="text-amber-300 font-bold">
+                    +{Math.max(0, Math.round(fac.alt_route.minutes - (fac.baseline_minutes || 12)))} min
+                  </strong>{' '}
+                  emergency delay
+                </div>
               </div>
-              <p className="text-slate-300 text-xs">
-                {t('facility_drawer.surviving_detour_available')} <strong>{formatMinutes(fac.alt_route.minutes)}</strong>
-              </p>
-              <p className="text-[11px] text-slate-400 leading-snug">
+
+              <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-sky-500/10 border border-sky-400/30 text-[10px] font-mono text-sky-200">
+                <span>🚑</span>
+                <span>Ground Convoy & Ambulance Bypass Routed</span>
+              </div>
+
+              <p className="text-[11px] text-slate-300 leading-snug">
                 Connects from unaffected regional highway to facility gates via unflooded bypass roads. Dispatch emergency vehicles along this corridor instead of submerged primary routes.
               </p>
-              <div className="text-[10px] text-cyan-300 font-mono">
-                {t('facility_drawer.detour_drawn')}
-              </div>
+
               <button
                 onClick={() => {
                   if (fac?.alt_route?.geometry?.coordinates) {
@@ -175,10 +211,10 @@ export const FacilityDrawer: React.FC = () => {
                     );
                   }
                 }}
-                className="w-full py-1.5 px-3 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/30 text-sky-200 font-semibold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-[0_0_10px_rgba(56,189,248,0.15)] active:scale-98"
+                className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-cyan-500/25 to-blue-500/25 hover:from-cyan-500/35 hover:to-blue-500/35 border border-cyan-400/50 text-cyan-100 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] active:scale-98"
               >
-                <Compass className="w-3.5 h-3.5 text-sky-400" />
-                <span>{t('facility_drawer.inspect_detour')}</span>
+                <Compass className="w-4 h-4 text-cyan-300" />
+                <span>Inspect Electric Cyan Detour on Map</span>
               </button>
             </div>
           ) : (

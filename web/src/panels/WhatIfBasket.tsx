@@ -26,7 +26,8 @@ export const WhatIfBasket: React.FC = () => {
 
   const totalOverrides = whatIf.forced_closed.length + whatIf.forced_open.length;
 
-  if (totalOverrides === 0 && drawerOpen !== 'whatif') {
+  // Do not spawn floating bottom box when the segment drawer is open, keep action localized in drawer
+  if (selectedSegmentId !== null || (totalOverrides === 0 && drawerOpen !== 'whatif')) {
     return null;
   }
 

@@ -96,11 +96,13 @@ export const MapView: React.FC = () => {
           'osm-tiles': {
             type: 'raster',
             tiles: [
-              'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+              'https://a.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png',
+              'https://b.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png',
+              'https://c.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png',
             ],
             tileSize: 256,
-            maxzoom: 14,
-            attribution: '© Esri, HERE, Garmin, OpenStreetMap contributors',
+            maxzoom: 18,
+            attribution: '© CartoDB, © OpenStreetMap contributors',
           },
         },
         layers: [
@@ -179,7 +181,7 @@ export const MapView: React.FC = () => {
       });
 
       // 3. Add Layers
-      // 3D Hillshade Layer for Awash Mountain Ridges (Realistic Neutral Topography, Not Neon Blue)
+      // 3D Hillshade Layer for Awash Mountain Ridges (Tangible Topography)
       map.addLayer({
         id: 'hills',
         type: 'hillshade',
@@ -187,10 +189,10 @@ export const MapView: React.FC = () => {
         layout: { visibility: 'visible' },
         paint: {
           'hillshade-shadow-color': '#020617',
-          'hillshade-highlight-color': '#475569',
+          'hillshade-highlight-color': '#64748b',
           'hillshade-accent-color': '#1e293b',
           'hillshade-illumination-direction': 315,
-          'hillshade-exaggeration': 0.45,
+          'hillshade-exaggeration': 0.65,
         },
       });
 
@@ -203,7 +205,40 @@ export const MapView: React.FC = () => {
         // Fallback gracefully
       }
 
-      // Road Risk Layer (Exact Work Division A3 Contract)
+      // At-Risk Road Glow Halo (Projector-Ready Vivid Warning)
+      map.addLayer({
+        id: 'roads-risk-glow',
+        type: 'line',
+        source: 'roads',
+        paint: {
+          'line-color': [
+            'step',
+            ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
+            'rgba(0,0,0,0)',
+            0.15,
+            'rgba(245, 158, 11, 0.35)', // Amber caution glow
+            0.35,
+            'rgba(239, 68, 68, 0.55)',  // Coral warning glow
+            0.6,
+            'rgba(220, 38, 38, 0.75)',  // Critical red glow
+          ],
+          'line-width': [
+            'step',
+            ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
+            0,
+            0.15,
+            5.5,
+            0.35,
+            7.5,
+            0.6,
+            10.5,
+          ],
+          'line-blur': 3,
+          'line-opacity': 0.85,
+        },
+      });
+
+      // Road Risk Layer (High Contrast Projector Legibility)
       map.addLayer({
         id: 'roads-risk',
         type: 'line',
@@ -212,20 +247,20 @@ export const MapView: React.FC = () => {
           'line-color': [
             'step',
             ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
-            '#64748b', // Open / safe road (slate gray)
+            'rgba(148, 163, 184, 0.42)', // Open / safe road (slate-400 visible contrast, not invisible dark grey)
             0.05,
             '#fde047', // 5-20% caution (yellow)
             0.2,
-            '#f97316', // 20-40% moderate flood (orange)
+            '#f59e0b', // 20-40% moderate flood (vivid warning amber)
             0.4,
-            '#ef4444', // 40-70% high flood risk (red)
+            '#ef4444', // 40-70% high flood risk (bright coral red)
             0.7,
-            '#b91c1c', // >70% critical / submerged (dark red)
+            '#dc2626', // >70% critical / submerged (bold crimson)
           ],
           'line-width': [
             'step',
             ['coalesce', ['feature-state', layerMode === 'closure' ? 'closure_prob' : 'exposure_prob'], 0],
-            1.5,
+            1.5, // Bumped from 0.75px
             0.05,
             2.5,
             0.2,
@@ -233,9 +268,9 @@ export const MapView: React.FC = () => {
             0.4,
             4.5,
             0.7,
-            5.5,
+            6.0,
           ],
-          'line-opacity': 0.9,
+          'line-opacity': 0.95,
         },
       });
 
@@ -246,7 +281,7 @@ export const MapView: React.FC = () => {
         source: 'roads',
         paint: {
           'line-color': '#22d3ee',
-          'line-width': 6,
+          'line-width': 7,
           'line-opacity': 0.95,
           'line-blur': 1,
         },
@@ -260,7 +295,7 @@ export const MapView: React.FC = () => {
         source: 'roads',
         paint: {
           'line-color': '#10b981',
-          'line-width': 5.5,
+          'line-width': 6,
           'line-opacity': 0.95,
           'line-blur': 0.5,
         },
@@ -274,23 +309,36 @@ export const MapView: React.FC = () => {
         source: 'roads',
         paint: {
           'line-color': '#ef4444',
-          'line-width': 5,
+          'line-width': 5.5,
           'line-dasharray': [2, 1],
           'line-opacity': 0.95,
         },
         filter: ['match', ['get', 'segment_id'], [-9999], true, false],
       });
 
-      // Alternative Surviving Route (Cyan Dashed Line)
+      // Alternative Surviving Route Glow (Electric Neon Underlay)
+      map.addLayer({
+        id: 'alt-route-glow',
+        type: 'line',
+        source: 'alt-route',
+        paint: {
+          'line-color': '#06b6d4',
+          'line-width': 10,
+          'line-blur': 4,
+          'line-opacity': 0.7,
+        },
+      });
+
+      // Alternative Surviving Route (Bold Electric Cyan Line)
       map.addLayer({
         id: 'alt-route-line',
         type: 'line',
         source: 'alt-route',
         paint: {
-          'line-color': '#06b6d4',
-          'line-width': 4.5,
-          'line-dasharray': [2, 1.5],
-          'line-opacity': 0.95,
+          'line-color': '#22d3ee',
+          'line-width': 5,
+          'line-dasharray': [2.5, 1.2],
+          'line-opacity': 1.0,
         },
       });
 
@@ -302,14 +350,14 @@ export const MapView: React.FC = () => {
         layout: {
           'symbol-placement': 'line-center',
           'text-field': '⚡ Surviving Emergency Detour Route',
-          'text-size': 11,
+          'text-size': 12,
           'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-          'text-offset': [0, -1.2],
+          'text-offset': [0, -1.3],
         },
         paint: {
           'text-color': '#22d3ee',
           'text-halo-color': '#020617',
-          'text-halo-width': 2.5,
+          'text-halo-width': 3,
         },
       });
 
@@ -360,6 +408,36 @@ export const MapView: React.FC = () => {
             1,
             0.35,
           ],
+        },
+      });
+
+      // Critical Facility Pulsing Ping Halo (Focuses Judges Eyes on Crisis Nodes)
+      map.addLayer({
+        id: 'facilities-critical-pulse',
+        type: 'circle',
+        source: 'facilities',
+        paint: {
+          'circle-radius': [
+            'step',
+            ['coalesce', ['feature-state', 'p_isolation'], 0],
+            0,
+            0.35,
+            22,
+            0.6,
+            28,
+          ],
+          'circle-color': 'rgba(239, 68, 68, 0.22)',
+          'circle-stroke-width': [
+            'step',
+            ['coalesce', ['feature-state', 'p_isolation'], 0],
+            0,
+            0.35,
+            2.5,
+            0.6,
+            3.5,
+          ],
+          'circle-stroke-color': '#ef4444',
+          'circle-opacity': 0.85,
         },
       });
 
@@ -584,15 +662,15 @@ export const MapView: React.FC = () => {
     map.setPaintProperty('roads-risk', 'line-color', [
       'step',
       ['coalesce', ['feature-state', prop], 0],
-      '#64748b',
+      'rgba(148, 163, 184, 0.42)',
       0.05,
       '#fde047',
       0.2,
-      '#f97316',
+      '#f59e0b',
       0.4,
       '#ef4444',
       0.7,
-      '#b91c1c',
+      '#dc2626',
     ]);
 
     map.setPaintProperty('roads-risk', 'line-width', [
@@ -606,8 +684,33 @@ export const MapView: React.FC = () => {
       0.4,
       4.5,
       0.7,
-      5.5,
+      6.0,
     ]);
+
+    if (map.getLayer('roads-risk-glow')) {
+      map.setPaintProperty('roads-risk-glow', 'line-color', [
+        'step',
+        ['coalesce', ['feature-state', prop], 0],
+        'rgba(0,0,0,0)',
+        0.15,
+        'rgba(245, 158, 11, 0.35)',
+        0.35,
+        'rgba(239, 68, 68, 0.55)',
+        0.6,
+        'rgba(220, 38, 38, 0.75)',
+      ]);
+      map.setPaintProperty('roads-risk-glow', 'line-width', [
+        'step',
+        ['coalesce', ['feature-state', prop], 0],
+        0,
+        0.15,
+        5.5,
+        0.35,
+        7.5,
+        0.6,
+        10.5,
+      ]);
+    }
   }, [layerMode, mapLoaded]);
 
   // Batch Paint Segments when segmentsData arrives
