@@ -39,7 +39,8 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
   const navLinks = [
     { label: 'Crisis', id: 'crisis', icon: Shield },
     { label: 'Capabilities', id: 'solution', icon: Layers },
-    { label: 'Architecture', id: 'architecture', icon: Cpu },
+    { label: 'Stakeholders', id: 'users', icon: Users },
+    { label: 'Engine', id: 'architecture', icon: Cpu },
     { label: 'Team', id: 'team', icon: Users },
   ];
 

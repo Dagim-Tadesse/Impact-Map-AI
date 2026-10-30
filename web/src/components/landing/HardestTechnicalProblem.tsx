@@ -126,8 +126,8 @@ export function HardestTechnicalProblem() {
         <div ref={cardRef} className="space-y-6">
           {/* Eyebrow Header */}
           <div className="border-b border-white/[0.08] pb-3 sm:pb-4 flex items-center justify-between text-xs text-slate-400">
-            <span className="text-slate-300 font-serif italic text-sm">Algorithmic Formulation</span>
-            <span className="text-slate-400 text-xs">Physical Passability vs. Water Presence</span>
+            <span className="text-amber-300 font-serif italic text-sm">The Technical Innovation</span>
+            <span className="text-slate-400 text-xs font-mono">WHY EXISTING TOOLS FAIL</span>
           </div>
 
           {/* 2-Column Problem & Calibration Split */}
@@ -135,39 +135,46 @@ export function HardestTechnicalProblem() {
             {/* Left Column: Algorithmic Narrative */}
             <div className="lg:col-span-8 space-y-4 sm:space-y-5 text-left">
               <h3 className="text-2xl sm:text-4xl lg:text-5xl text-white font-normal tracking-tight leading-[1.08]" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                De-conflating Flood Probability from Physical Road Closure
+                Separating Water Presence From Physical Access Loss
               </h3>
 
+              <p className="text-sm sm:text-base leading-relaxed text-slate-300/90 max-w-2xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Traditional flood systems naively assume that where there is water, roads are closed—and where it is dry, roads are open. But on the ground, a relief convoy can safely ford 5cm of sheetflow, while a dry hospital whose only wadi bridge collapsed 10 kilometers away is <span className="text-white font-medium">100% cut off</span>.
+              </p>
+
               <p className="text-sm sm:text-base leading-relaxed text-slate-300/85 max-w-2xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Standard flood models naively multiply water presence by road closure, creating crippling false alarms or lethal blind spots. ImpactMap AI solved this by engineering a <span className="text-white font-medium">two-stage calibrated Monte Carlo solver</span>: LightGBM estimates pure surface inundation against Sentinel-1 SAR observations, while a discrete stochastic graph walker samples real physical passability across 10,000 runs.
+                ImpactMap AI decoupled this problem with a <span className="text-amber-300 font-medium">two-tier architecture</span>: first calculating physical inundation probability across Copernicus 30m terrain, then executing a 10,000-pass Monte Carlo stochastic percolation solver across the full road network graph.
               </p>
 
               <p className="text-base sm:text-lg text-slate-300 italic font-serif" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                &ldquo;Decision-makers see water risk, physical cutoff, and access loss as three transparent, unmixed quantities.&rdquo;
+                &ldquo;Responders see water exposure, road closure risk, and population cutoff as transparent, unmixed quantities.&rdquo;
               </p>
             </div>
 
             {/* Right Column: Calibration Benchmark Ledger (Preserving metricRef) */}
             <div
               ref={metricRef}
-              className="lg:col-span-4 w-full rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] space-y-3"
+              className="lg:col-span-4 w-full rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] space-y-4"
             >
               <p className="text-xs uppercase tracking-wider text-slate-400 font-mono">
-                Calibration Benchmark
+                Performance Benchmark
               </p>
 
               <div>
                 <p className="text-3xl sm:text-4xl lg:text-5xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                  0.023 ECE
+                  &lt; 0.6s
                 </p>
-                <p className="mt-1 text-xs text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  Expected Calibration Error against Sentinel-1 SAR observations
+                <p className="mt-1 text-xs text-slate-300 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Live Monte Carlo Simulation Speed
+                </p>
+                <p className="mt-0.5 text-[11px] text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Runs 10,000 network graph realizations across 15,336 segments in real-time
                 </p>
               </div>
 
               <div className="pt-3 border-t border-white/[0.08] space-y-1 text-xs text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                <p className="text-slate-300">48% variance reduction over raw flood baselines</p>
-                <p className="text-slate-500 text-[11px]">Leave-one-event-out holdout validation</p>
+                <p className="text-slate-300 font-medium">0.023 Expected Calibration Error</p>
+                <p className="text-slate-400 text-[11px]">Validated against Copernicus Sentinel-1 SAR imagery</p>
               </div>
             </div>
           </div>

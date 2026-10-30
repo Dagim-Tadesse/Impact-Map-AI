@@ -35,63 +35,63 @@ interface SolutionCard {
 const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: 'sol-1',
-    badge: '01 • HYDRO-MET ENGINE',
-    title: 'Stress Storms in Real-Time',
+    badge: '01 • HYDROLOGICAL INGESTION',
+    title: 'Connects Rain & Elevation to Real Roads',
     headline: 'Real-Time Hydrologic Exposure',
     description:
-      'Input millimeter precipitation, storm duration, and antecedent soil moisture. The calibrated LightGBM model calculates flood exposure across all 3,420 road links in under 50 milliseconds.',
+      'Floods do not happen in the abstract. ImpactMap AI overlays Copernicus 30m digital elevation, river channel proximity, and storm rainfall directly onto 15,336 OpenStreetMap road segments to calculate precise flood exposure.',
     image: U_CARD('photo-1446776811953-b23d57bd21aa'),
     accent: 'cyan',
     icon: Zap,
-    tags: ['Sentinel-1 SAR Ground Truth', '< 48ms Execution', '3,420 Road Links Scored'],
+    tags: ['Copernicus 30m DEM', '15,336 Road Segments', 'HAND Hydrology'],
   },
   {
     id: 'sol-2',
-    badge: '02 • CASCADE PROPAGATION',
-    title: 'Hour-by-Hour Network Cascade',
-    headline: 'Topological Vulnerability Solver',
+    badge: '02 • CASCADE TOPOLOGY SOLVER',
+    title: 'Predicts Cut-Off Villages & Isolated Clinics',
+    headline: 'Topological Disruption Engine',
     description:
-      'Watch failures domino through the Awash transportation graph. Rank-delta indicators show which towns degrade from accessible, to 4x detour delay, to complete health isolation.',
+      'Standard GPS apps only find individual driving detours. ImpactMap AI analyzes systemic access consequence across the entire basin, predicting which communities become completely cut off and which hospitals lose referral links.',
     image: U_CARD('photo-1524661135-423995f22d0b'),
     accent: 'sky',
     icon: Cpu,
-    tags: ['10,000 Monte Carlo Iterations', 'NetworkX Directed Graph', '89 Clinics Monitored'],
+    tags: ['Monte Carlo Graph Solver', 'Cutoff Population Modeling', '28 Health Facilities'],
   },
   {
     id: 'sol-3',
-    badge: '03 • WHAT-IF SANDBOX',
-    title: 'Counterfactual Intervention Sandbox',
-    headline: 'Test Sandbags & Mobile Bridges',
+    badge: '03 • WHAT-IF INTERVENTION SANDBOX',
+    title: 'Test Interventions Before Dispatching Trucks',
+    headline: 'Sandbag & Bridge Defense Simulator',
     description:
-      'Test where a single sandbag barricade or mobile Bailey bridge pays back the most access. Pin road links open or closed and instantly inspect how many people retain hospital connectivity.',
+      'Field commanders test counterfactual civil defense actions before committing equipment. Click any wadi bottleneck (like Road #7466), assume it protected with sandbags, and watch Gedamaytu Health Center risk drop from 65% to 0%.',
     image: U_CARD('photo-1519494026892-80bbd2d6fd0d'),
     accent: 'emerald',
     icon: Sparkles,
-    tags: ['Immediate Population ROI', 'Interactive Re-routing', 'Bridge Culvert Defense'],
+    tags: ['Actionable Resource ROI', 'Culvert & Bridge Defense', '< 0.6s Live Re-simulation'],
   },
   {
     id: 'sol-4',
-    badge: '04 • SATELLITE GROUND GATE',
-    title: 'Calibrated SAR Classification',
-    headline: 'Isotonic Inundation Honesty',
+    badge: '04 • EXPLAINABLE TERRAIN DRIVERS',
+    title: 'Transparent Physical Ground Evidence',
+    headline: 'Zero Black-Box Hallucination',
     description:
-      'De-conflates water presence from physical road closure. Calibrated against Copernicus Sentinel-1 SAR observations to achieve an industry-leading 0.023 Expected Calibration Error.',
+      'Disaster responders must verify why a road is flagged. ImpactMap AI provides verifiable physical drivers for every segment: distance to Awash river mainstem (0m), drainage height (0.0m HAND), and slope runoff concentration.',
     image: U_CARD('photo-1451187580459-43490279c0fa'),
     accent: 'purple',
     icon: ShieldCheck,
-    tags: ['0.023 ECE Precision', 'Leave-One-Event-Out Validation', 'Zero Hallucination'],
+    tags: ['Auditable Terrain Telemetry', 'River Channel Proximity', 'Physical Ground Truth'],
   },
   {
     id: 'sol-5',
-    badge: '05 • TACTICAL ZERO-CONNECTIVITY',
-    title: 'Offline PWA & Bilingual Field SitReps',
-    headline: 'Zero-Cloud Field Convoys',
+    badge: '05 • TACTICAL FIELD DEPLOYMENT',
+    title: 'Offline Edge PWA & Bilingual SitReps',
+    headline: 'Zero-Connectivity Disaster Edge',
     description:
-      'Engineered for tactical teams operating in zero-cell-reception zones. Generates offline bilingual Amharic/English PDF dispatch manifests directly in browser memory without cloud dependence.',
+      'Engineered for tactical teams operating in zero-cell-reception zones. Generates one-click bilingual (English/Amharic) SitRep briefing reports directly in browser storage without cloud dependence.',
     image: U_CARD('photo-1584438784894-089d6a62b8fa'),
     accent: 'amber',
     icon: FileText,
-    tags: ['100% Offline Edge Cache', 'Amharic / English UN-OCHA', 'IndexedDB Persistence'],
+    tags: ['100% Offline Edge Cache', 'Bilingual English/Amharic', 'UN-OCHA SitRep Ready'],
   },
 ];
 
@@ -154,16 +154,16 @@ export default function HorizontalSolutionShowcase({
       <div className="relative flex h-screen min-h-[580px] max-h-[960px] w-full flex-col justify-between pt-16 sm:pt-20 pb-3 sm:pb-6">
         {/* Section Header */}
         <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 text-center space-y-2 sm:space-y-2.5">
-          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            <span>OPERATIONAL CAPABILITIES</span>
+          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-widest text-amber-300 font-mono">
+            <span>WHAT THE SYSTEM DOES</span>
             <span className="text-white/20">•</span>
-            <span>HIGH-STRESS CRISIS COMMAND</span>
+            <span>FIVE CORE CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl tracking-tight text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-            Five Breakthrough Capabilities
+            How ImpactMap AI Solves the Crisis
           </h2>
-          <p className="mx-auto max-w-xl text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Continuous topological intelligence from remote satellite radar down to offline convoy manifests.
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-300/85 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Transforming raw rainfall and satellite radar into life-saving access intelligence across 15,336 road segments.
           </p>
         </div>
 

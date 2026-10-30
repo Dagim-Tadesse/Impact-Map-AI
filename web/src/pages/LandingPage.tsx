@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import StepInsideCrisisZoom from '@/components/landing/StepInsideCrisisZoom';
 import HorizontalSolutionShowcase from '@/components/landing/HorizontalSolutionShowcase';
+import { TargetUsersSection } from '@/components/landing/TargetUsersSection';
 import RadialOrbitalTimeline, { type TimelineItem } from '@/components/ui/radial-orbital-timeline';
 import Timeline, { type JourneyItem } from '@/components/ui/timeline';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
@@ -52,19 +53,19 @@ const ARCH_TOP: JourneyItem[] = [
     id: 'arch-1',
     year: 'Stage 01',
     month: 'Hydrologic Ingestion',
-    content: 'CHIRPS rainfall telemetry, 24h storm hyetographs, and antecedent soil moisture indices initialize the basin state vector.',
+    content: 'CHIRPS precipitation telemetry, storm rainfall curves, and Copernicus 30m DEM slope gradients initialize the basin state.',
   },
   {
     id: 'arch-3',
     year: 'Stage 03',
     month: 'Cascade Topology Solver',
-    content: 'Monte Carlo Dijkstra runs 10,000 passes across 3,420 road links to uncover failure cascades and bridge bottlenecks.',
+    content: 'Monte Carlo percolation runs 10,000 passes across 15,336 road links to calculate population cutoffs and bridge failure cascades.',
   },
   {
     id: 'arch-5',
     year: 'Stage 05',
-    month: 'Ground Truth Verification',
-    content: 'Leave-one-event-out holdouts benchmark predictions against real SAR floods, maintaining statistical honesty.',
+    month: 'Field SitRep Generation',
+    content: 'Generates one-click structured situation reports (SitReps) in English and Amharic for UN-OCHA, EDRMC, and field convoy drivers.',
   },
 ];
 
@@ -72,14 +73,14 @@ const ARCH_BOTTOM: JourneyItem[] = [
   {
     id: 'arch-2',
     year: 'Stage 02',
-    month: 'Calibrated Inundation',
-    content: 'Isotonically calibrated LightGBM evaluates Sentinel-1 SAR backscatter to compute true water exposure per 100m segment (ECE 0.023).',
+    month: 'Road Inundation Modeling',
+    content: 'Calibrated LightGBM models water exposure per road segment using Height Above Nearest Drainage (HAND) and river proximity (0.023 ECE).',
   },
   {
     id: 'arch-4',
     year: 'Stage 04',
     month: 'What-If Interventions',
-    content: 'Field commanders pin critical culverts and sandbag barriers to test counterfactual access gains before dispatching trucks.',
+    content: 'Field commanders test counterfactual civil defense actions (sandbagging or mobile bridges) to restore connectivity before dispatching trucks.',
   },
 ];
 
@@ -309,12 +310,18 @@ export function LandingPage({
           <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
             {/* Left Column: Title, Narrative Pitch, Action Buttons, and Metric Cards */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-7 text-left">
-              <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] leading-[0.93] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                Impact<em className="text-amber-300/90 font-normal">Map</em>
+              {/* Pilot Eyebrow */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/25 bg-amber-400/10 px-3.5 py-1 text-[11px] font-mono uppercase tracking-widest text-amber-300">
+                <Sparkles size={12} className="text-amber-400" />
+                <span>Awash Basin Pilot • Anticipatory Disaster Intelligence</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-6xl lg:text-[5.2rem] leading-[0.94] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                When Floods Surge, <em className="text-amber-300/90 font-normal">Who Loses Access?</em>
               </h1>
 
               <p className="max-w-xl text-base sm:text-lg lg:text-xl leading-relaxed text-slate-300/90 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Predict critical supply corridor failure and deploy emergency relief—<span className="text-white font-medium">before convoys get trapped or hospitals get cut off</span>.
+                Satellite images show where water is. <span className="text-white font-medium">ImpactMap AI</span> models what happens next: which road corridors fail, which hospitals get isolated, and which bridges disaster teams must reinforce first.
               </p>
 
               {/* Action Buttons */}
@@ -340,57 +347,57 @@ export function LandingPage({
                 </a>
               </div>
 
-              {/* Metric Cards Ledger (Integrated on the Left underneath the copy) */}
+              {/* Metric Cards Ledger (Grounded in real Awash Basin dataset) */}
               <div className="pt-3 sm:pt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {/* Card 1 */}
                 <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
                   <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Road Links
+                    Road Network
                   </p>
                   <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    3,420
+                    15,336
                   </p>
                   <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Scored per 100m
+                    Basin segments mapped
                   </p>
                 </div>
 
                 {/* Card 2 */}
                 <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
                   <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Cascade Speed
+                    Health Lifelines
                   </p>
                   <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    &lt; 48ms
+                    28
                   </p>
                   <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Topological solver
+                    Clinics &amp; hospitals
                   </p>
                 </div>
 
                 {/* Card 3 */}
                 <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
                   <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Clinics Protected
+                    Cut-Off Population
                   </p>
                   <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    89
+                    62,000+
                   </p>
                   <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Referral centers
+                    Anticipatory modeling
                   </p>
                 </div>
 
                 {/* Card 4 */}
                 <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
                   <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Calibration ECE
+                    What-If Engine
                   </p>
                   <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    0.023
+                    &lt; 0.6s
                   </p>
                   <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    SAR ground truth
+                    Instant bridge testing
                   </p>
                 </div>
               </div>
@@ -414,7 +421,10 @@ export function LandingPage({
         <HorizontalSolutionShowcase onLaunchDemo={handleLaunchDemo} />
       </section>
 
-      {/* ── Section 4: The Hardest Technical Problem Solved ── */}
+      {/* ── Section 4: Target Stakeholders & End Goal ── */}
+      <TargetUsersSection onLaunchDemo={handleLaunchDemo} />
+
+      {/* ── Section 5: The Hardest Technical Problem Solved ── */}
       <HardestTechnicalProblem />
 
       {/* ── Section 5: How It Works (System Architecture - Horizontal Timeline) ── */}
