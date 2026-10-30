@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { EyeOff, Truck, AlertTriangle } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -131,18 +132,37 @@ export default function StepInsideCrisisZoom() {
                 Satellite maps show where water is. <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-200">They cannot tell you who loses access.</span>
               </h2>
 
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-200 max-w-xl font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                When seasonal floods surge across the Awash Basin, emergency commanders face a lethal blind spot. A blue flood pixel on a screen does not reveal if an ambulance can still reach <span className="text-white font-semibold">Gedamaytu Health Center</span>, or whether a single collapsed wadi culvert will strand an entire community without food or medicine.
-              </p>
+              {/* 3 Scan-Friendly Pain Points */}
+              <div className="space-y-2.5 pt-1">
+                <div className="flex items-start gap-3 rounded-xl border border-slate-700/60 bg-[#161B26] p-3 shadow-md">
+                  <div className="h-8 w-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 shrink-0 mt-0.5">
+                    <EyeOff size={16} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">5–7 Day Satellite Blind Spot</h4>
+                    <p className="text-xs text-slate-200 leading-snug">Monsoon clouds blind optical satellites during peak flood surge.</p>
+                  </div>
+                </div>
 
-              {/* Field Evidence Pull Note */}
-              <div className="border-l-2 border-amber-400 pl-4 py-2 text-xs text-slate-200 bg-[#161B26]/80 rounded-r-lg border border-slate-700/40" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                <p className="text-slate-100">
-                  &ldquo;Optical satellites stay blinded by cloud cover for 5 to 7 days during active storm crests. Convoys drive blindly into submerged traps, while critical clinics are cut off without warning.&rdquo;
-                </p>
-                <p className="mt-1.5 text-[10px] text-amber-300 uppercase tracking-wider font-semibold">
-                  — The Real Humanitarian Dilemma
-                </p>
+                <div className="flex items-start gap-3 rounded-xl border border-slate-700/60 bg-[#161B26] p-3 shadow-md">
+                  <div className="h-8 w-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+                    <Truck size={16} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">Blind Aid Convoys</h4>
+                    <p className="text-xs text-slate-200 leading-snug">Relief trucks drive blindly into submerged wadi dead ends without passability data.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 rounded-xl border border-slate-700/60 bg-[#161B26] p-3 shadow-md">
+                  <div className="h-8 w-8 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-300 shrink-0 mt-0.5">
+                    <AlertTriangle size={16} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">Single Choke Point Failure</h4>
+                    <p className="text-xs text-slate-200 leading-snug">Closing one low bridge (#7466) leaves Gedamaytu 100% cut off—even if the clinic is dry.</p>
+                  </div>
+                </div>
               </div>
             </div>
 

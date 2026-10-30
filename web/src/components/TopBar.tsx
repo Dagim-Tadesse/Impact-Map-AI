@@ -8,7 +8,8 @@ import {
   Play,
   MoreVertical,
   Globe,
-  Sparkles,
+  Activity,
+  Compass,
   BookOpen,
   FileSearch,
   Award,
@@ -103,7 +104,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <>
             <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-0.5 shrink-0">
               <span className="flex h-full w-full items-center justify-center rounded-full bg-[#080d1a]">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400 transition-transform group-hover:rotate-12" />
+                <Activity className="w-3.5 h-3.5 text-amber-400" />
               </span>
             </span>
             <span className="flex flex-col leading-tight">
@@ -288,7 +289,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           aria-label={t('app.platform_tour')}
           className={`${ghostTrigger} hidden md:inline-flex`}
         >
-          <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0 transition-transform group-hover:rotate-12" />
+          <Compass className="w-3.5 h-3.5 text-amber-300 shrink-0" />
           <span className="hidden lg:inline">{t('app.platform_tour')}</span>
         </button>
 
@@ -313,7 +314,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               {/* Mobile-only controls */}
               <div className="md:hidden">
                 <DropdownItem
-                  icon={<Sparkles className="w-3.5 h-3.5 text-amber-300" />}
+                  icon={<Compass className="w-3.5 h-3.5 text-amber-300" />}
                   label={t('app.platform_tour')}
                   onClick={() => {
                     close();

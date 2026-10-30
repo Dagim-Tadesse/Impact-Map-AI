@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Sparkles,
   Menu,
   X,
   ChevronRight,
@@ -10,6 +9,8 @@ import {
   Layers,
   Cpu,
   Users,
+  Activity,
+  ArrowRight,
 } from 'lucide-react';
 
 interface LandingNavbarProps {
@@ -53,7 +54,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
         }`}
       >
         {/* Main Curved Floating Pill Navigation */}
-        <div className="relative flex items-center justify-between rounded-full border border-white/10 bg-[#0a0e16]/85 px-3.5 sm:px-5 py-2 sm:py-2.5 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.65)]">
+        <div className="relative flex items-center justify-between rounded-full border border-slate-700/60 bg-[#161B26]/90 px-3.5 sm:px-5 py-2 sm:py-2.5 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.65)]">
           {/* Brand Logo & Name */}
           <button
             type="button"
@@ -62,16 +63,16 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
             }}
             className="group flex items-center gap-2 text-left focus:outline-none"
           >
-            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-0.5">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-[#080d1a]">
-                <Sparkles size={14} className="text-amber-400 transition-transform group-hover:rotate-12" />
+            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 p-0.5 border border-cyan-400/40">
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-[#0d1424]">
+                <Activity size={15} className="text-cyan-400 transition-transform group-hover:scale-110" />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-sm sm:text-base tracking-tight text-white leading-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                Impact<em className="text-amber-300/80">Map</em>
+              <span className="text-sm sm:text-base font-bold tracking-tight text-white leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                Impact<span className="text-cyan-400">Map</span>
               </span>
-              <span className="text-[9px] text-slate-500 tracking-wider" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <span className="text-[9px] text-slate-300 font-mono tracking-wider font-semibold">
                 AWASH BASIN
               </span>
             </div>
@@ -84,7 +85,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
                 key={link.id}
                 type="button"
                 onClick={() => scrollToSection(link.id)}
-                className="rounded-full px-3 py-1 text-xs font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white focus:outline-none" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                className="rounded-full px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:bg-white/10 hover:text-white focus:outline-none font-sans"
               >
                 {link.label}
               </button>
@@ -99,11 +100,10 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
               onClick={() => {
                 onLaunchLive();
               }}
-              className="group relative hidden sm:inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-900 transition-all hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
+              className="group relative hidden sm:inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-bold text-slate-900 transition-all hover:scale-105 hover:bg-slate-100 active:scale-95 shadow-md" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
             >
-              <Sparkles size={13} className="text-amber-600 transition-transform group-hover:rotate-12" />
+              <ArrowRight size={13} className="text-slate-900 transition-transform group-hover:translate-x-0.5" />
               <span>Launch Live</span>
-              <ChevronRight size={13} className="transition-transform group-hover:translate-x-0.5" />
             </button>
 
             {/* Mobile Hamburger Menu Button */}
@@ -149,7 +149,7 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
                 }}
                 className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1 text-xs font-semibold text-slate-900" style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
-                <Sparkles size={12} className="text-amber-600" />
+                <ArrowRight size={12} className="text-slate-900" />
                 <span>Launch Live</span>
               </button>
             </div>

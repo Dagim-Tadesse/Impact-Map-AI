@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
-  Zap,
+  Layers,
   CheckCircle2,
   ShieldCheck,
   Cpu,
   Radio,
   FileText,
   RotateCcw,
-  Sparkles,
+  Sliders,
 } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
@@ -36,38 +36,38 @@ const SOLUTION_CARDS: SolutionCard[] = [
   {
     id: 'sol-1',
     badge: '01 • HYDROLOGICAL INGESTION',
-    title: 'Connects Rain & Elevation to Real Roads',
+    title: 'Rain & Elevation on Real Roads',
     headline: 'Real-Time Hydrologic Exposure',
     description:
-      'Floods do not happen in the abstract. ImpactMap AI overlays Copernicus 30m digital elevation, river channel proximity, and storm rainfall directly onto 15,336 OpenStreetMap road segments to calculate precise flood exposure.',
+      'Fuses Copernicus 30m terrain, river proximity, and rainfall directly onto 15,336 OpenStreetMap road segments to compute exact flood probability.',
     image: U_CARD('photo-1446776811953-b23d57bd21aa'),
     accent: 'cyan',
-    icon: Zap,
-    tags: ['Copernicus 30m DEM', '15,336 Road Segments', 'HAND Hydrology'],
+    icon: Layers,
+    tags: ['Copernicus 30m DEM', '15,336 Road Links', 'HAND Hydrology'],
   },
   {
     id: 'sol-2',
     badge: '02 • CASCADE TOPOLOGY SOLVER',
-    title: 'Predicts Cut-Off Villages & Isolated Clinics',
+    title: 'Predicts Cut-Off Communities',
     headline: 'Topological Disruption Engine',
     description:
-      'Standard GPS apps only find individual driving detours. ImpactMap AI analyzes systemic access consequence across the entire basin, predicting which communities become completely cut off and which hospitals lose referral links.',
+      'Models systemic downstream access loss across the Awash Basin—identifying which villages are cut off and which clinics lose medical referral lifelines.',
     image: U_CARD('photo-1524661135-423995f22d0b'),
     accent: 'sky',
     icon: Cpu,
-    tags: ['Monte Carlo Graph Solver', 'Cutoff Population Modeling', '28 Health Facilities'],
+    tags: ['Monte Carlo Percolation', 'Cutoff Population', '28 Clinics Monitored'],
   },
   {
     id: 'sol-3',
     badge: '03 • WHAT-IF INTERVENTION SANDBOX',
-    title: 'Test Interventions Before Dispatching Trucks',
+    title: 'Test Interventions Before Dispatching',
     headline: 'Sandbag & Bridge Defense Simulator',
     description:
-      'Field commanders test counterfactual civil defense actions before committing equipment. Click any wadi bottleneck (like Road #7466), assume it protected with sandbags, and watch Gedamaytu Health Center risk drop from 65% to 0%.',
+      'Click any bottleneck wadi (like Road #7466), assume it protected with sandbags, and watch Gedamaytu Health Center risk plunge from 65% to 0%.',
     image: U_CARD('photo-1519494026892-80bbd2d6fd0d'),
     accent: 'emerald',
-    icon: Sparkles,
-    tags: ['Actionable Resource ROI', 'Culvert & Bridge Defense', '< 0.6s Live Re-simulation'],
+    icon: Sliders,
+    tags: ['Instant Access ROI', 'Civil Defense Sandbagging', '< 0.6s Re-simulation'],
   },
   {
     id: 'sol-4',
@@ -75,11 +75,11 @@ const SOLUTION_CARDS: SolutionCard[] = [
     title: 'Transparent Physical Ground Evidence',
     headline: 'Zero Black-Box Hallucination',
     description:
-      'Disaster responders must verify why a road is flagged. ImpactMap AI provides verifiable physical drivers for every segment: distance to Awash river mainstem (0m), drainage height (0.0m HAND), and slope runoff concentration.',
+      'Every road segment explains its physical drivers: distance to Awash river mainstem (0m), low drainage height (0.0m HAND), and catchment slope gradient.',
     image: U_CARD('photo-1451187580459-43490279c0fa'),
     accent: 'purple',
     icon: ShieldCheck,
-    tags: ['Auditable Terrain Telemetry', 'River Channel Proximity', 'Physical Ground Truth'],
+    tags: ['Zero Hallucination', 'River Proximity (0m)', 'Physical Ground Truth'],
   },
   {
     id: 'sol-5',
@@ -87,11 +87,11 @@ const SOLUTION_CARDS: SolutionCard[] = [
     title: 'Offline Edge PWA & Bilingual SitReps',
     headline: 'Zero-Connectivity Disaster Edge',
     description:
-      'Engineered for tactical teams operating in zero-cell-reception zones. Generates one-click bilingual (English/Amharic) SitRep briefing reports directly in browser storage without cloud dependence.',
+      'Functions 100% offline at the disaster edge. Generates one-click bilingual (English/Amharic) SitRep briefing manifests directly in browser storage.',
     image: U_CARD('photo-1584438784894-089d6a62b8fa'),
     accent: 'amber',
     icon: FileText,
-    tags: ['100% Offline Edge Cache', 'Bilingual English/Amharic', 'UN-OCHA SitRep Ready'],
+    tags: ['100% Offline Edge PWA', 'Bilingual English/Amharic', 'UN-OCHA Formatted'],
   },
 ];
 

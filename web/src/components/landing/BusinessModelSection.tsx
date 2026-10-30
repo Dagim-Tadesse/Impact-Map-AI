@@ -5,11 +5,8 @@ import {
   Briefcase,
   Building,
   Truck,
-  HeartHandshake,
   CheckCircle2,
   ShieldCheck,
-  Zap,
-  Globe2,
 } from 'lucide-react';
 
 interface ModelTier {
@@ -28,30 +25,28 @@ const TIERS: ModelTier[] = [
     tier: 'Tier 01',
     badge: 'GOVERNMENT & UN SLA',
     title: 'Institutional Defense SLA',
-    target: 'EDRMC • Regional Water & Disaster Bureaus • UN-OCHA Horn of Africa',
+    target: 'EDRMC • Regional Disaster Bureaus • UN-OCHA Horn of Africa',
     description:
-      'Long-term operational deployment contract integrating continuous remote sensing feeds into national emergency operations centers.',
+      'Mission-critical deployment integrating satellite telemetry directly into national emergency command centers.',
     deliverables: [
       'Custom basin-wide hydrological calibration (HAND & Sentinel-1 SAR)',
-      'Automated 24h storm hyetograph & CHIRPS precipitation ingestion',
-      'Dedicated on-premise emergency command center hardware',
+      'Automated 24h storm hyetograph & CHIRPS rainfall ingestion',
       'Guaranteed 24/7 SLA during active Kiremt and Belg flood crests',
     ],
-    pricing: 'Institutional Annual Contract / Gov Disaster Budget',
+    pricing: 'Institutional Contract / Gov Disaster Budget',
     accent: 'amber',
   },
   {
     tier: 'Tier 02',
     badge: 'HUMANITARIAN FLEET API',
     title: 'Fleet Logistics Integration',
-    target: 'WFP • Ethiopian Red Cross Society • MSF • Logistics Clusters',
+    target: 'WFP • Red Cross Society • MSF • Logistics Clusters',
     description:
-      'High-throughput routing API for 30-ton relief trucks, evaluating bridge axle-load limits and flood clearance before convoys dispatch.',
+      'Routing API for 30-ton relief trucks to avoid collapsed bridges and impassable water depths.',
     deliverables: [
       'Real-time corridor failure & detour penalty optimization API',
       'Heavy-convoy bridge passability & clearance scoring',
       'Automated route hazard alerts for dispatch drivers',
-      'Integration into existing humanitarian ERPs (Logistics Cluster / PAL)',
     ],
     pricing: 'Per-fleet / API Usage Licensing',
     accent: 'sky',
@@ -60,13 +55,12 @@ const TIERS: ModelTier[] = [
     tier: 'Tier 03',
     badge: 'LOCAL PUBLIC GOOD',
     title: 'Community Field Edge',
-    target: 'Woreda Administrators • Kebele Leaders • Local Health Extension Workers',
+    target: 'Woreda Administrators • Kebele Leaders • Health Extension Workers',
     description:
-      'Zero-barrier public good ensuring frontline responders in remote villages receive life-saving cutoff alerts even without cell towers.',
+      '100% free offline PWA ensuring frontline responders receive life-saving cutoff alerts without cell towers.',
     deliverables: [
-      '100% free lightweight offline PWA SitRep viewer for field tablets',
+      '100% free offline PWA SitRep viewer for field tablets',
       'One-click bilingual Amharic & English emergency PDF manifests',
-      'Automated SMS emergency dispatch & local radio broadcast relays',
       'Open-source core algorithms ensuring regional data sovereignty',
     ],
     pricing: '100% Free Public Good / Philanthropic Grants',

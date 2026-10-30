@@ -5,7 +5,7 @@ import {
   Database,
   Layers,
   Cpu,
-  Sparkles,
+  SlidersHorizontal,
   FileText,
   ArrowRight,
   Workflow,
@@ -27,7 +27,7 @@ const STAGES: Stage[] = [
     badge: 'REMOTE SENSING & HYDROLOGY',
     title: 'Hydro-Meteorological Ingestion',
     description:
-      'Ingests CHIRPS rainfall telemetry, 24h storm hyetographs, and Copernicus 30m Digital Elevation Models to calculate basin slope and drainage accumulation.',
+      'Ingests satellite rainfall and 30m elevation models to compute basin runoff accumulation.',
     tags: ['Copernicus 30m DEM', 'CHIRPS Ingestion', 'Antecedent Moisture'],
     icon: Database,
   },
@@ -36,7 +36,7 @@ const STAGES: Stage[] = [
     badge: 'CALIBRATED EXPOSURE',
     title: 'Road Segment Inundation Modeling',
     description:
-      'Isotonically calibrated LightGBM assesses Height Above Nearest Drainage (HAND) and river mainstem proximity across all 15,336 OpenStreetMap road links.',
+      'Evaluates physical flood depth and submersion risk across all 15,336 road segments.',
     tags: ['15,336 Road Links', 'HAND Hydrology', '0.023 ECE Precision'],
     icon: Layers,
   },
@@ -45,7 +45,7 @@ const STAGES: Stage[] = [
     badge: 'TOPOLOGY SOLVER',
     title: 'Monte Carlo Cascade Percolation',
     description:
-      'A directed stochastic graph walker executes 10,000 passes across the transportation graph to calculate hospital isolation probabilities and population cutoffs.',
+      'Executes 10,000 Monte Carlo graph passes to calculate hospital isolation probabilities.',
     tags: ['10,000 Iterations', 'NetworkX Directed Graph', '28 Clinics Monitored'],
     icon: Cpu,
   },
@@ -54,16 +54,16 @@ const STAGES: Stage[] = [
     badge: 'DECISION ENGINE',
     title: 'What-If Counterfactual Sandbox',
     description:
-      'Field commanders pin critical road bottlenecks open or closed to test the access ROI of sandbagging, culvert clearing, or mobile Bailey bridges in real time.',
+      'Simulates defense actions (sandbags, bridge reinforcement) to restore access in <0.6s.',
     tags: ['< 0.6s Re-simulation', 'Sandbag Prioritization', 'Bottleneck Isolation'],
-    icon: Sparkles,
+    icon: SlidersHorizontal,
   },
   {
     number: '05',
     badge: 'TACTICAL DISPATCH',
     title: 'Bilingual Field SitRep Briefing',
     description:
-      'Generates one-click structured Situation Reports (PDF, CSV, GeoJSON) in English and Amharic for UN-OCHA and EDRMC, functioning 100% offline at the disaster edge.',
+      'Exports 1-click bilingual Situation Reports (English/Amharic) for UN-OCHA and EDRMC offline.',
     tags: ['Bilingual Amharic/English', '100% Offline PWA', 'UN-OCHA Formatted'],
     icon: FileText,
   },

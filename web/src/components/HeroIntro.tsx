@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, ChevronDown, ChevronUp, Layers, Cpu, Compass, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, Layers, Cpu, Compass, Radio, Play } from 'lucide-react';
 import gsap from 'gsap';
 import { use3dTilt } from '../lib/use3dTilt';
 import { useTranslation } from 'react-i18next';
@@ -143,7 +143,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
           className="group inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#0a0e16]/85 px-4 py-2 text-[11px] font-medium text-slate-300 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-amber-300/40 hover:bg-[#0a0e16]/95 hover:text-white min-h-[44px]"
           style={SANS}
         >
-          <Sparkles className="w-3.5 h-3.5 text-amber-300 transition-transform group-hover:rotate-12" />
+          <Radio className="w-3.5 h-3.5 text-cyan-400" />
           <span className="hidden sm:inline">{t('app.mission_briefing')}</span>
           <span className="sm:hidden">{t('app.briefing_short')}</span>
           <ChevronDown className="w-3.5 h-3.5 text-slate-500 transition-transform group-hover:translate-y-0.5" />
@@ -293,7 +293,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95"
               style={SANS}
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600 transition-transform group-hover:rotate-12" />
+              <Play className="w-3.5 h-3.5 text-slate-900 fill-slate-900" />
               <span>{t('hero.launch_replay')}</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>

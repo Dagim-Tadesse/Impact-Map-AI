@@ -15,7 +15,6 @@ import {
   Activity,
   Cpu,
   ChevronRight,
-  Sparkles,
   Radio,
   MapPin,
   CheckCircle2,
@@ -24,7 +23,6 @@ import {
   Database,
   ArrowRight,
   Server,
-  Zap,
 } from 'lucide-react';
 import StepInsideCrisisZoom from '@/components/landing/StepInsideCrisisZoom';
 import HorizontalSolutionShowcase from '@/components/landing/HorizontalSolutionShowcase';
@@ -277,8 +275,8 @@ export function LandingPage({
             {/* Left Column: Title, Narrative Pitch, Action Buttons, and Metric Cards */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-7 text-left">
               {/* Pilot Eyebrow */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-amber-300">
-                <Sparkles size={13} className="text-amber-400" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-cyan-300">
+                <Radio size={13} className="text-cyan-400" />
                 <span>ANTICIPATORY DISASTER INTELLIGENCE • AWASH BASIN, ETHIOPIA</span>
               </div>
 
@@ -298,11 +296,10 @@ export function LandingPage({
                 <button
                   type="button"
                   onClick={handleLaunchDemo}
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95 shadow-[0_10px_25px_rgba(255,255,255,0.2)]" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-bold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-slate-100 active:scale-95 shadow-[0_10px_25px_rgba(255,255,255,0.2)]" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
-                  <Sparkles size={15} className="text-amber-600 transition-transform group-hover:rotate-12" />
+                  <ArrowRight size={15} className="text-slate-900 transition-transform group-hover:translate-x-1" />
                   <span>Launch Live Explorer</span>
-                  <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" />
                 </button>
 
                 <a

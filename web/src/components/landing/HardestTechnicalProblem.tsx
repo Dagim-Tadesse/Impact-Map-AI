@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, Cpu, Layers, Activity, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Cpu, Layers, Activity, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 if (typeof window !== 'undefined') {
@@ -132,26 +132,58 @@ export function HardestTechnicalProblem() {
 
           {/* 2-Column Problem & Calibration Split */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
-            {/* Left Column: Algorithmic Narrative */}
+            {/* Left Column: Direct Comparison Breakdown (Scannable in 3 seconds) */}
             <div className="lg:col-span-8 space-y-4 sm:space-y-5 text-left">
-              <h3
-                className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.08]"
-                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
-              >
-                Separating Water Presence From Physical Access Loss
-              </h3>
+              <div>
+                <h3
+                  className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.08]"
+                  style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+                >
+                  Water Presence ≠ Road Isolation
+                </h3>
+                <p className="mt-2 text-sm sm:text-base text-cyan-300 font-medium">
+                  Traditional satellite maps track wet pixels. ImpactMap AI tracks true road reachability.
+                </p>
+              </div>
 
-              <p className="text-sm sm:text-base leading-relaxed text-slate-200 max-w-2xl font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Traditional flood systems naively assume that where there is water, roads are closed—and where it is dry, roads are open. But on the ground, a relief convoy can safely ford 5cm of sheetflow, while a dry hospital whose only wadi bridge collapsed 10 kilometers away is <span className="text-white font-semibold">100% cut off</span>.
-              </p>
+              {/* 2-Column Direct Comparison Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                {/* Legacy Card */}
+                <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4 space-y-2">
+                  <div className="flex items-center gap-2 text-rose-400 font-mono text-xs font-bold uppercase tracking-wider">
+                    <span className="h-2 w-2 rounded-full bg-rose-500" />
+                    <span>Legacy Satellite Maps</span>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-slate-200">
+                    <li className="flex items-start gap-2">
+                      <span className="text-rose-400 font-bold">✕</span>
+                      <span><strong>False alarms:</strong> Treats 5cm shallow sheetflow as impassable.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-rose-400 font-bold">✕</span>
+                      <span><strong>Blind to cutoffs:</strong> Clinic stays green even if its only bridge 10km away washed out.</span>
+                    </li>
+                  </ul>
+                </div>
 
-              <p className="text-sm sm:text-base leading-relaxed text-slate-200 max-w-2xl font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                ImpactMap AI decoupled this problem with a <span className="text-amber-300 font-semibold">two-tier architecture</span>: first calculating physical inundation probability across Copernicus 30m terrain, then executing a 10,000-pass Monte Carlo stochastic percolation solver across the full road network graph.
-              </p>
-
-              <p className="text-base sm:text-lg text-slate-100 italic" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                &ldquo;Responders see water exposure, road closure risk, and population cutoff as transparent, unmixed quantities.&rdquo;
-              </p>
+                {/* ImpactMap AI Card */}
+                <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/5 p-4 space-y-2">
+                  <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                    <span>ImpactMap AI Decoupled Engine</span>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-slate-200">
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span><strong>Hydrology depth model:</strong> Evaluates actual water depth vs 4x4 clearance.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span><strong>10,000 Monte Carlo passes:</strong> Pinpoints the exact choke point isolating 62,400 people.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             {/* Right Column: Calibration Benchmark Ledger (Preserving metricRef) */}
