@@ -29,8 +29,9 @@ import {
 import StepInsideCrisisZoom from '@/components/landing/StepInsideCrisisZoom';
 import HorizontalSolutionShowcase from '@/components/landing/HorizontalSolutionShowcase';
 import { TargetUsersSection } from '@/components/landing/TargetUsersSection';
+import { ArchitecturePipelineSection } from '@/components/landing/ArchitecturePipelineSection';
+import { BusinessModelSection } from '@/components/landing/BusinessModelSection';
 import RadialOrbitalTimeline, { type TimelineItem } from '@/components/ui/radial-orbital-timeline';
-import Timeline, { type JourneyItem } from '@/components/ui/timeline';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { HardestTechnicalProblem } from '@/components/landing/HardestTechnicalProblem';
 import { RotatingGlobe } from '@/components/ui/RotatingGlobe';
@@ -47,42 +48,7 @@ const U = (id: string, w = 1200) => `https://images.unsplash.com/${id}?auto=form
 const HERO_BG_IMAGE = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80';
 
 
-/* ── Architecture Pipeline Stages (Horizontal Timeline) ── */
-const ARCH_TOP: JourneyItem[] = [
-  {
-    id: 'arch-1',
-    year: 'Stage 01',
-    month: 'Hydrologic Ingestion',
-    content: 'CHIRPS precipitation telemetry, storm rainfall curves, and Copernicus 30m DEM slope gradients initialize the basin state.',
-  },
-  {
-    id: 'arch-3',
-    year: 'Stage 03',
-    month: 'Cascade Topology Solver',
-    content: 'Monte Carlo percolation runs 10,000 passes across 15,336 road links to calculate population cutoffs and bridge failure cascades.',
-  },
-  {
-    id: 'arch-5',
-    year: 'Stage 05',
-    month: 'Field SitRep Generation',
-    content: 'Generates one-click structured situation reports (SitReps) in English and Amharic for UN-OCHA, EDRMC, and field convoy drivers.',
-  },
-];
 
-const ARCH_BOTTOM: JourneyItem[] = [
-  {
-    id: 'arch-2',
-    year: 'Stage 02',
-    month: 'Road Inundation Modeling',
-    content: 'Calibrated LightGBM models water exposure per road segment using Height Above Nearest Drainage (HAND) and river proximity (0.023 ECE).',
-  },
-  {
-    id: 'arch-4',
-    year: 'Stage 04',
-    month: 'What-If Interventions',
-    content: 'Field commanders test counterfactual civil defense actions (sandbagging or mobile bridges) to restore connectivity before dispatching trucks.',
-  },
-];
 
 /* ── Team Orbital Nodes ── */
 const TEAM_ORBITAL: TimelineItem[] = [
@@ -311,17 +277,20 @@ export function LandingPage({
             {/* Left Column: Title, Narrative Pitch, Action Buttons, and Metric Cards */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-7 text-left">
               {/* Pilot Eyebrow */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/25 bg-amber-400/10 px-3.5 py-1 text-[11px] font-mono uppercase tracking-widest text-amber-300">
-                <Sparkles size={12} className="text-amber-400" />
-                <span>Awash Basin Pilot • Anticipatory Disaster Intelligence</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-amber-300">
+                <Sparkles size={13} className="text-amber-400" />
+                <span>ANTICIPATORY DISASTER INTELLIGENCE • AWASH BASIN, ETHIOPIA</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-[5.2rem] leading-[0.94] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                When Floods Surge, <em className="text-amber-300/90 font-normal">Who Loses Access?</em>
+              <h1
+                className="text-3xl sm:text-5xl lg:text-[4.2rem] leading-[1.05] tracking-tight font-extrabold text-white"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+              >
+                Predicting Road Failure &amp; Health Isolation <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-200">72 Hours Before Floods Peak</span>
               </h1>
 
-              <p className="max-w-xl text-base sm:text-lg lg:text-xl leading-relaxed text-slate-300/90 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Satellite images show where water is. <span className="text-white font-medium">ImpactMap AI</span> models what happens next: which road corridors fail, which hospitals get isolated, and which bridges disaster teams must reinforce first.
+              <p className="max-w-2xl text-base sm:text-lg lg:text-xl leading-relaxed text-slate-200 font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                ImpactMap AI gives <span className="text-white font-semibold">EDRMC disaster commanders</span> and <span className="text-white font-semibold">UN-OCHA logistics officers</span> an interactive digital twin to pinpoint failing bridges, reroute 30-ton aid convoys, and prevent community isolation.
               </p>
 
               {/* Action Buttons */}
@@ -329,7 +298,7 @@ export function LandingPage({
                 <button
                   type="button"
                   onClick={handleLaunchDemo}
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 sm:px-8 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95 shadow-[0_10px_25px_rgba(255,255,255,0.2)]" style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Sparkles size={15} className="text-amber-600 transition-transform group-hover:rotate-12" />
                   <span>Launch Live Explorer</span>
@@ -340,64 +309,64 @@ export function LandingPage({
                   href={codeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-200 backdrop-blur-md transition-all duration-200 hover:border-white/30 hover:bg-white/10 hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-[#161B26] px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-200 backdrop-blur-md transition-all duration-200 hover:border-slate-500 hover:bg-[#1f2638] hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Github size={15} />
                   <span>View Code</span>
                 </a>
               </div>
 
-              {/* Metric Cards Ledger (Grounded in real Awash Basin dataset) */}
-              <div className="pt-3 sm:pt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+              {/* Metric Cards Ledger (Elevated #161B26 surface, WCAG AAA contrast, humanized operational numbers) */}
+              <div className="pt-3 sm:pt-5 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-3.5">
                 {/* Card 1 */}
-                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
-                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Road Network
+                <div className="rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-4.5 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-slate-500 hover:bg-[#1c2333]">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-300 font-mono font-semibold">
+                    Cut-Off Population
                   </p>
-                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    15,336
+                  <p className="my-1.5 text-2xl sm:text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                    62,400
                   </p>
-                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Basin segments mapped
+                  <p className="text-xs text-slate-200 leading-snug font-sans">
+                    At risk of medical isolation
                   </p>
                 </div>
 
                 {/* Card 2 */}
-                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
-                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Health Lifelines
+                <div className="rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-4.5 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-slate-500 hover:bg-[#1c2333]">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-300 font-mono font-semibold">
+                    Critical Facilities
                   </p>
-                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                  <p className="my-1.5 text-2xl sm:text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                     28
                   </p>
-                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Clinics &amp; hospitals
+                  <p className="text-xs text-slate-200 leading-snug font-sans">
+                    Clinics &amp; hospitals monitored
                   </p>
                 </div>
 
                 {/* Card 3 */}
-                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
-                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    Cut-Off Population
+                <div className="rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-4.5 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-slate-500 hover:bg-[#1c2333]">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-300 font-mono font-semibold">
+                    Simulation Speed
                   </p>
-                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    62,000+
+                  <p className="my-1.5 text-2xl sm:text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                    &lt; 0.6s
                   </p>
-                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Anticipatory modeling
+                  <p className="text-xs text-slate-200 leading-snug font-sans">
+                    Live bridge sandbag testing
                   </p>
                 </div>
 
                 {/* Card 4 */}
-                <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20">
-                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-mono">
-                    What-If Engine
+                <div className="rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-4.5 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-slate-500 hover:bg-[#1c2333]">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-300 font-mono font-semibold">
+                    Field Resilience
                   </p>
-                  <p className="my-1 text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-                    &lt; 0.6s
+                  <p className="my-1.5 text-2xl sm:text-3xl font-extrabold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+                    100%
                   </p>
-                  <p className="text-[11px] text-slate-400 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    Instant bridge testing
+                  <p className="text-xs text-slate-200 leading-snug font-sans">
+                    Offline edge PWA routing
                   </p>
                 </div>
               </div>
@@ -427,31 +396,23 @@ export function LandingPage({
       {/* ── Section 5: The Hardest Technical Problem Solved ── */}
       <HardestTechnicalProblem />
 
-      {/* ── Section 5: How It Works (System Architecture - Horizontal Timeline) ── */}
-      <section id="architecture" className="relative bg-transparent z-10">
-        <Timeline
-          heading="From Raindrops to Relief Convoys"
-          title="Pipeline"
-          periodLabel="5-Stage Engine"
-          topItems={ARCH_TOP}
-          bottomItems={ARCH_BOTTOM}
-          activeColor="#06b6d4"
-          backgroundColor="transparent"
-          textColor="#f8fafc"
-          mutedTextColor="#94a3b8"
-          imageUrl={U('photo-1451187580459-43490279c0fa', 1200)}
-          imageAlt="Digital elevation model processing pipeline"
-        />
-      </section>
+      {/* ── Section 6: How It Works (Connected 5-Stage Architecture Pipeline Grid - No Dead Screen Space) ── */}
+      <ArchitecturePipelineSection />
 
-      {/* ── Section 5: The Team (Interactive Orbital Graph + 3D Tilt Cards) ── */}
+      {/* ── Section 7: Operational Sustainability & Business Model ── */}
+      <BusinessModelSection />
+
+      {/* ── Section 8: The Team (Interactive Orbital Graph + 3D Tilt Cards) ── */}
       <section id="team" className="py-12 sm:py-20 bg-transparent relative z-10">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="text-center space-y-2 sm:space-y-4">
-            <h2 className="text-2xl sm:text-5xl md:text-6xl tracking-tight text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h2
+              className="text-2xl sm:text-5xl font-extrabold tracking-tight text-white"
+              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+            >
               Meet the Team
             </h2>
-            <p className="mx-auto max-w-xl text-xs sm:text-base text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <p className="mx-auto max-w-xl text-xs sm:text-base text-slate-200 font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Engineering solutions at the intersection of remote sensing, network topology, and humanitarian crisis intelligence.
             </p>
           </div>
@@ -463,13 +424,16 @@ export function LandingPage({
         </div>
       </section>
 
-      {/* ── Section 6: Final CTA & Footer ── */}
-      <footer className="border-t border-white/[0.06] bg-transparent px-4 sm:px-6 py-12 sm:py-20 text-center relative overflow-hidden z-10">
+      {/* ── Section 9: Final CTA & Footer ── */}
+      <footer className="border-t border-slate-700/60 bg-transparent px-4 sm:px-6 py-12 sm:py-20 text-center relative overflow-hidden z-10">
         <div className="mx-auto max-w-4xl space-y-5 sm:space-y-8">
-          <h2 className="text-3xl sm:text-6xl md:text-7xl tracking-tight text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-            <TextRoll text="Ready to Stress Test?" />
+          <h2
+            className="text-3xl sm:text-6xl font-extrabold tracking-tight text-white"
+            style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+          >
+            Ready to Stress Test?
           </h2>
-          <p className="mx-auto max-w-lg text-xs sm:text-base text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="mx-auto max-w-lg text-xs sm:text-base text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Launch the live interactive digital twin now, test what-if bridge barricades, and export field-ready SitReps.
           </p>
 
@@ -477,7 +441,7 @@ export function LandingPage({
             <button
               type="button"
               onClick={handleLaunchDemo}
-              className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-slate-900 transition hover:scale-105 hover:bg-amber-50 active:scale-95" style={{ fontFamily: "'DM Sans', sans-serif" }}
+              className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-slate-900 transition hover:scale-105 hover:bg-amber-50 active:scale-95 shadow-[0_10px_25px_rgba(255,255,255,0.2)]" style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
               Launch Live Explorer
             </button>
@@ -486,7 +450,7 @@ export function LandingPage({
               href={codeUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-medium text-slate-300 backdrop-blur transition hover:border-white/25 hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-[#161B26] px-6 py-3.5 text-sm font-medium text-slate-200 backdrop-blur transition hover:border-slate-500 hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
             >
               <Github size={16} />
               <span>GitHub Repo</span>
@@ -496,7 +460,7 @@ export function LandingPage({
               <button
                 type="button"
                 onClick={onOpenAbout}
-                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-white transition underline decoration-white/20 underline-offset-4 hover:decoration-white/50" style={{ fontFamily: "'DM Sans', sans-serif" }}
+                className="inline-flex items-center gap-1.5 text-sm text-slate-200 hover:text-white transition underline decoration-slate-400/40 underline-offset-4 hover:decoration-white" style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 <span>Read Full Methodology</span>
                 <ArrowUpRight size={14} />
@@ -504,7 +468,7 @@ export function LandingPage({
             )}
           </div>
 
-          <div className="border-t border-white/[0.04] pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          <div className="border-t border-slate-700/40 pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             <p>© 2026 ImpactMap AI • Open Source Humanitarian Digital Twin</p>
             <p>Awash Basin Topological Corridor Intelligence</p>
           </div>

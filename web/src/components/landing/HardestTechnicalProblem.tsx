@@ -125,28 +125,31 @@ export function HardestTechnicalProblem() {
         {/* Main Problem Deep-Dive Block (Preserving cardRef for GSAP scroll trigger) */}
         <div ref={cardRef} className="space-y-6">
           {/* Eyebrow Header */}
-          <div className="border-b border-white/[0.08] pb-3 sm:pb-4 flex items-center justify-between text-xs text-slate-400">
-            <span className="text-amber-300 font-serif italic text-sm">The Technical Innovation</span>
-            <span className="text-slate-400 text-xs font-mono">WHY EXISTING TOOLS FAIL</span>
+          <div className="border-b border-white/[0.08] pb-3 sm:pb-4 flex items-center justify-between text-xs text-slate-300">
+            <span className="text-amber-300 font-mono text-xs uppercase tracking-wider">The Technical Innovation</span>
+            <span className="text-slate-300 text-xs font-mono font-semibold">WHY EXISTING TOOLS FAIL</span>
           </div>
 
           {/* 2-Column Problem & Calibration Split */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start">
             {/* Left Column: Algorithmic Narrative */}
             <div className="lg:col-span-8 space-y-4 sm:space-y-5 text-left">
-              <h3 className="text-2xl sm:text-4xl lg:text-5xl text-white font-normal tracking-tight leading-[1.08]" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+              <h3
+                className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.08]"
+                style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+              >
                 Separating Water Presence From Physical Access Loss
               </h3>
 
-              <p className="text-sm sm:text-base leading-relaxed text-slate-300/90 max-w-2xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                Traditional flood systems naively assume that where there is water, roads are closed—and where it is dry, roads are open. But on the ground, a relief convoy can safely ford 5cm of sheetflow, while a dry hospital whose only wadi bridge collapsed 10 kilometers away is <span className="text-white font-medium">100% cut off</span>.
+              <p className="text-sm sm:text-base leading-relaxed text-slate-200 max-w-2xl font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Traditional flood systems naively assume that where there is water, roads are closed—and where it is dry, roads are open. But on the ground, a relief convoy can safely ford 5cm of sheetflow, while a dry hospital whose only wadi bridge collapsed 10 kilometers away is <span className="text-white font-semibold">100% cut off</span>.
               </p>
 
-              <p className="text-sm sm:text-base leading-relaxed text-slate-300/85 max-w-2xl" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                ImpactMap AI decoupled this problem with a <span className="text-amber-300 font-medium">two-tier architecture</span>: first calculating physical inundation probability across Copernicus 30m terrain, then executing a 10,000-pass Monte Carlo stochastic percolation solver across the full road network graph.
+              <p className="text-sm sm:text-base leading-relaxed text-slate-200 max-w-2xl font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                ImpactMap AI decoupled this problem with a <span className="text-amber-300 font-semibold">two-tier architecture</span>: first calculating physical inundation probability across Copernicus 30m terrain, then executing a 10,000-pass Monte Carlo stochastic percolation solver across the full road network graph.
               </p>
 
-              <p className="text-base sm:text-lg text-slate-300 italic font-serif" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+              <p className="text-base sm:text-lg text-slate-100 italic" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 &ldquo;Responders see water exposure, road closure risk, and population cutoff as transparent, unmixed quantities.&rdquo;
               </p>
             </div>
@@ -154,27 +157,27 @@ export function HardestTechnicalProblem() {
             {/* Right Column: Calibration Benchmark Ledger (Preserving metricRef) */}
             <div
               ref={metricRef}
-              className="lg:col-span-4 w-full rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] space-y-4"
+              className="lg:col-span-4 w-full rounded-2xl border border-slate-700/60 bg-[#161B26] p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] space-y-4"
             >
-              <p className="text-xs uppercase tracking-wider text-slate-400 font-mono">
+              <p className="text-xs uppercase tracking-wider text-slate-300 font-mono font-semibold">
                 Performance Benchmark
               </p>
 
               <div>
-                <p className="text-3xl sm:text-4xl lg:text-5xl text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                <p className="text-3xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                   &lt; 0.6s
                 </p>
-                <p className="mt-1 text-xs text-slate-300 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="mt-1 text-xs text-slate-200 font-semibold" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   Live Monte Carlo Simulation Speed
                 </p>
-                <p className="mt-0.5 text-[11px] text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="mt-0.5 text-[11px] text-slate-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   Runs 10,000 network graph realizations across 15,336 segments in real-time
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/[0.08] space-y-1 text-xs text-slate-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                <p className="text-slate-300 font-medium">0.023 Expected Calibration Error</p>
-                <p className="text-slate-400 text-[11px]">Validated against Copernicus Sentinel-1 SAR imagery</p>
+              <div className="pt-3 border-t border-white/[0.08] space-y-1 text-xs text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-slate-100 font-semibold">0.023 Expected Calibration Error</p>
+                <p className="text-slate-300 text-[11px]">Validated against Copernicus Sentinel-1 SAR imagery</p>
               </div>
             </div>
           </div>
@@ -188,20 +191,20 @@ export function HardestTechnicalProblem() {
           {TECH_STACK.map((stack) => (
             <div
               key={stack.category}
-              className="hardest-tech-card group border-l border-white/10 pl-4 sm:pl-5 py-1 space-y-1.5 transition-all duration-300 hover:border-white/30"
+              className="hardest-tech-card group border-l border-slate-600 pl-4 sm:pl-5 py-1 space-y-1.5 transition-all duration-300 hover:border-cyan-400"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-300" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {stack.category}
                 </span>
-                <span className="text-slate-500 transition-colors group-hover:text-slate-300">
+                <span className="text-slate-400 transition-colors group-hover:text-cyan-300">
                   {stack.icon}
                 </span>
               </div>
-              <p className="text-base sm:text-lg text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+              <p className="text-base sm:text-lg text-white font-bold tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                 {stack.tech}
               </p>
-              <p className="text-xs text-slate-400 leading-snug" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <p className="text-xs text-slate-200 leading-snug font-sans">
                 {stack.desc}
               </p>
             </div>

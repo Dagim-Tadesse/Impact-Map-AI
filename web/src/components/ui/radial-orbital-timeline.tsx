@@ -275,15 +275,15 @@ export default function RadialOrbitalTimeline({
 
         {/* Member Detail HUD Card for Mobile */}
         {activeMember && (
-          <div className="relative z-20 w-full max-w-[340px] rounded-2xl border border-white/10 bg-[#0a0e16]/95 p-4 text-center backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] mt-1">
-            <h3 className="text-lg font-normal text-white tracking-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+          <div className="relative z-20 w-full max-w-[340px] rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 text-center backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.7)] mt-1">
+            <h3 className="text-lg font-bold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
               {activeMember.title}
             </h3>
-            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-amber-300" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {activeMember.date}
             </p>
 
-            <p className="mt-2 text-xs leading-relaxed text-slate-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <p className="mt-2 text-xs leading-relaxed text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               {activeMember.content}
             </p>
 
@@ -292,8 +292,7 @@ export default function RadialOrbitalTimeline({
                 {activeMember.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-md border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-slate-400"
-                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    className="rounded-md border border-slate-700 bg-slate-800/80 px-1.5 py-0.5 text-[9px] text-slate-200 font-mono"
                   >
                     {tag}
                   </span>
@@ -307,7 +306,7 @@ export default function RadialOrbitalTimeline({
                   href={activeMember.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                  className="inline-flex items-center gap-1 rounded-full border border-slate-600 bg-slate-800 px-3 py-1 text-[11px] font-medium text-slate-200 hover:border-slate-400 hover:text-white transition"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Github size={11} />
@@ -319,7 +318,7 @@ export default function RadialOrbitalTimeline({
                   href={activeMember.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300 hover:border-white/30 hover:text-white transition"
+                  className="inline-flex items-center gap-1 rounded-full border border-slate-600 bg-slate-800 px-3 py-1 text-[11px] font-medium text-slate-200 hover:border-slate-400 hover:text-white transition"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Linkedin size={11} />
@@ -357,34 +356,34 @@ export default function RadialOrbitalTimeline({
 
       {/* ── Active Member Center Stage HUD ── */}
       {activeMember && (
-        <div className="relative z-20 w-[90vw] max-w-[340px] sm:max-w-[390px] rounded-3xl border border-white/10 bg-[#0a0e16]/90 p-5 sm:p-6 text-center backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-300">
+        <div className="relative z-20 w-[90vw] max-w-[340px] sm:max-w-[390px] rounded-3xl border border-slate-700/60 bg-[#161B26] p-5 sm:p-6 text-center backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] transition-all duration-300">
           {/* Monogram Avatar with Pulsing Ring and Role Icon Badge */}
           <div className="relative mx-auto h-20 w-20 sm:h-22 sm:w-22 flex items-center justify-center">
-            <div className="relative h-full w-full rounded-full border-2 border-white/30 bg-gradient-to-b from-[#141b2a] via-[#0d131f] to-[#070b14] flex flex-col items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
-              <span className="text-2xl sm:text-3xl font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+            <div className="relative h-full w-full rounded-full border-2 border-white/30 bg-gradient-to-b from-[#1e2638] via-[#161B26] to-[#0f131c] flex flex-col items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
+              <span className="text-2xl sm:text-3xl font-extrabold text-white" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                 {getInitials(activeMember.title)}
               </span>
-              <span className="mt-0.5 text-[9px] font-medium tracking-widest text-slate-400 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <span className="mt-0.5 text-[9px] font-semibold tracking-widest text-slate-300 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                 {activeMember.category.split(' ')[0]}
               </span>
             </div>
             {ActiveIconDesktop && (
-              <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-white/30 bg-[#0a0e16] shadow-md">
-                <ActiveIconDesktop size={14} className="text-slate-300" />
+              <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-slate-600 bg-[#161B26] shadow-md">
+                <ActiveIconDesktop size={14} className="text-amber-300" />
               </div>
             )}
           </div>
 
           {/* Name & Role */}
-          <h3 className="mt-3.5 text-2xl font-normal text-white tracking-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+          <h3 className="mt-3.5 text-xl sm:text-2xl font-bold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
             {activeMember.title}
           </h3>
-          <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-amber-300" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {activeMember.date}
           </p>
 
           {/* Bio Content */}
-          <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             {activeMember.content}
           </p>
 

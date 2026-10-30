@@ -40,7 +40,8 @@ export function LandingNavbar({ onLaunchLive }: LandingNavbarProps) {
     { label: 'Crisis', id: 'crisis', icon: Shield },
     { label: 'Capabilities', id: 'solution', icon: Layers },
     { label: 'Stakeholders', id: 'users', icon: Users },
-    { label: 'Engine', id: 'architecture', icon: Cpu },
+    { label: 'Pipeline', id: 'architecture', icon: Cpu },
+    { label: 'Model', id: 'sustainability', icon: Users },
     { label: 'Team', id: 'team', icon: Users },
   ];
 

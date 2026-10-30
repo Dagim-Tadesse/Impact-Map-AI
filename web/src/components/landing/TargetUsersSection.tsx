@@ -73,38 +73,38 @@ export function TargetUsersSection({ onLaunchDemo }: { onLaunchDemo?: () => void
           </div>
 
           <h2
-            className="text-3xl sm:text-5xl md:text-6xl tracking-tight text-white font-normal"
-            style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight"
+            style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
           >
-            Turning Flood Data Into <em className="text-amber-300 font-serif italic">Decisive Action</em>
+            Turning Flood Data Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-200 to-amber-100">Decisive Action</span>
           </h2>
 
           <p
-            className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-300/85"
+            className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-200"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
-            Our mission is to shift humanitarian flood management from <span className="text-white font-medium">reactive crisis recovery</span> to <span className="text-amber-300 font-medium">anticipatory access protection</span>—giving decision-makers the exact intelligence needed to protect lives before waters rise.
+            Our mission is to shift humanitarian flood management from <span className="text-white font-semibold">reactive crisis recovery</span> to <span className="text-amber-300 font-semibold">anticipatory access protection</span>—giving decision-makers the exact intelligence needed to protect lives before waters rise.
           </p>
         </div>
 
         {/* 4 User Personas Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
           {USER_PERSONAS.map((p, idx) => {
             const Icon = p.icon;
             return (
               <div
                 key={idx}
-                className="group relative rounded-2xl border border-white/[0.08] bg-[#0a0e16]/85 p-6 sm:p-7 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 hover:bg-[#0e1420]/90 flex flex-col justify-between"
+                className="group relative rounded-2xl border border-slate-700/60 bg-[#161B26] p-6 sm:p-7 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-slate-500 hover:bg-[#1a2130] flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   {/* Top Bar with Badge & Icon */}
                   <div className="flex items-center justify-between gap-3">
                     <span
-                      className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400 px-2.5 py-0.5 rounded-full border border-white/[0.08] bg-white/[0.03]"
+                      className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-200 px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.04] font-semibold"
                     >
                       {p.badge}
                     </span>
-                    <div className="h-9 w-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-300 group-hover:text-amber-300 transition-colors">
+                    <div className="h-9 w-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-200 group-hover:text-amber-300 transition-colors">
                       <Icon size={18} />
                     </div>
                   </div>
@@ -112,33 +112,33 @@ export function TargetUsersSection({ onLaunchDemo }: { onLaunchDemo?: () => void
                   {/* Title & Organization */}
                   <div>
                     <h3
-                      className="text-xl sm:text-2xl text-white font-normal"
-                      style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                      className="text-xl sm:text-2xl font-bold text-white tracking-tight"
+                      style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                     >
                       {p.role}
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5 font-sans">
+                    <p className="text-xs text-slate-300 mt-0.5 font-sans font-medium">
                       {p.organization}
                     </p>
                   </div>
 
                   {/* The Problem / Question */}
-                  <div className="rounded-xl border border-white/[0.06] bg-black/20 p-3.5 space-y-1">
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-rose-300/80">
+                  <div className="rounded-xl border border-white/[0.08] bg-black/30 p-3.5 space-y-1">
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-rose-300 font-semibold">
                       The Critical Decision
                     </p>
-                    <p className="text-xs sm:text-sm text-slate-200 leading-snug italic font-sans">
+                    <p className="text-xs sm:text-sm text-slate-100 leading-snug italic font-sans">
                       &ldquo;{p.question}&rdquo;
                     </p>
                   </div>
 
                   {/* What ImpactMap AI Delivers */}
                   <div className="space-y-1.5 pt-1">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
                       <CheckCircle2 size={14} />
                       <span>How ImpactMap AI Solves It</span>
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
                       {p.solution}
                     </p>
                   </div>
@@ -157,16 +157,16 @@ export function TargetUsersSection({ onLaunchDemo }: { onLaunchDemo?: () => void
         </div>
 
         {/* Bottom Banner: Transition to Demo */}
-        <div className="mt-8 sm:mt-12 rounded-2xl border border-amber-400/20 bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-transparent p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl">
-          <div className="space-y-1 text-center sm:text-left">
+        <div className="mt-8 sm:mt-12 rounded-2xl border border-slate-700/80 bg-[#161B26] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
+          <div className="space-y-1.5 text-center sm:text-left">
             <h4
-              className="text-xl sm:text-2xl text-white font-normal"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+              className="text-xl sm:text-2xl font-bold text-white tracking-tight"
+              style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
             >
               Built For Field Operations, Not Theoretical Research
             </h4>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-sans">
-              Designed with input from regional emergency responders in the Afar and Oromia zones. Operates 100% offline at the disaster edge.
+            <p className="text-xs sm:text-sm text-slate-200 max-w-xl font-sans">
+              Designed with direct operational input from regional emergency responders in the Afar and Oromia zones. Operates 100% offline at the disaster edge.
             </p>
           </div>
 

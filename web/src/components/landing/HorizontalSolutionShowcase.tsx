@@ -159,10 +159,13 @@ export default function HorizontalSolutionShowcase({
             <span className="text-white/20">•</span>
             <span>FIVE CORE CAPABILITIES</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl tracking-tight text-white font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+          <h2
+            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight"
+            style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+          >
             How ImpactMap AI Solves the Crisis
           </h2>
-          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-300/85 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-200 leading-relaxed font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Transforming raw rainfall and satellite radar into life-saving access intelligence across 15,336 road segments.
           </p>
         </div>
@@ -181,8 +184,8 @@ export default function HorizontalSolutionShowcase({
                   key={card.id}
                   className={`w-[85vw] sm:w-[420px] md:w-[460px] lg:w-[480px] flex-shrink-0 rounded-2xl border transition-all duration-300 flex flex-col justify-between overflow-hidden backdrop-blur-xl ${
                     idx === activeCardIndex
-                      ? 'border-white/20 bg-[#0d121c]/95 shadow-[0_20px_50px_rgba(0,0,0,0.65)]'
-                      : 'border-white/[0.08] bg-[#0a0e16]/85 hover:border-white/15'
+                      ? 'border-cyan-400/60 bg-[#1e2638] shadow-[0_20px_50px_rgba(0,0,0,0.7)]'
+                      : 'border-slate-700/60 bg-[#161B26] hover:border-slate-500'
                   }`}
                 >
                   {/* Seamless Bleed Image Header */}
@@ -192,25 +195,28 @@ export default function HorizontalSolutionShowcase({
                       alt={card.title}
                       className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e16] via-black/20 to-black/30" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#161B26] via-black/20 to-black/30" />
 
                     {/* Minimal Top Header Marks */}
-                    <div className="absolute top-3 left-4 inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-wider text-slate-300/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <div className="absolute top-3 left-4 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-200" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       <span>{card.badge.replace(/^\d+\s*•\s*/, '')}</span>
                     </div>
 
-                    <div className="absolute top-2.5 right-4 text-xl sm:text-2xl text-white/50 font-normal" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                    <div className="absolute top-2.5 right-4 text-xl sm:text-2xl text-white/70 font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                       0{idx + 1}
                     </div>
                   </div>
 
                   {/* Card Content Area (No nested boxes) */}
-                  <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl text-white font-normal leading-snug" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                      <h3
+                        className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight leading-snug"
+                        style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
+                      >
                         {card.title}
                       </h3>
-                      <p className="mt-2 text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      <p className="mt-2 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
                         {card.description}
                       </p>
                     </div>
