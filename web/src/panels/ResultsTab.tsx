@@ -30,6 +30,33 @@ const SERIF: React.CSSProperties = { fontFamily: "'Instrument Serif', Georgia, s
 const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
 const SANS: React.CSSProperties = { fontFamily: "'DM Sans', sans-serif" };
 
+const FACILITY_NAMES: Record<string, string> = {
+  fac_00001: 'Sabure Rural Clinic',
+  fac_00002: 'Kesem Health Post',
+  fac_00003: 'Bolen Clinic',
+  fac_00004: 'Debre Berhan Referral Hospital',
+  fac_00005: 'Awash Valley Primary Clinic',
+  fac_00006: 'Gewane Health Post',
+  fac_00007: 'Metehara Health Center',
+  fac_00008: 'Awash Sebat General Hospital',
+  fac_00009: 'Awash Arba Health Center',
+  fac_00010: 'Gedamaytu Health Center',
+  fac_00011: 'Doho Rural Clinic',
+  fac_00012: 'Amibara Primary Hospital',
+  fac_00013: 'Melka Sedi Health Center',
+  fac_00014: 'Meteka Clinic',
+  fac_00015: 'Aqaqi Health Post',
+  fac_00016: 'Melka Werer Health Center',
+  fac_00017: 'Metehara Sugar Hospital',
+  fac_00018: 'Garamuleta Health Post',
+  fac_00029: 'Halidebi Clinic',
+};
+
+function getFacilityDisplayName(id: string, name?: string): string {
+  if (name && name !== 'Unnamed Health Facility') return name;
+  return FACILITY_NAMES[id] || (name || id.replace('fac_', 'Facility #'));
+}
+
 const SectionKicker: React.FC<{ eyebrow: string; title: string; meta?: React.ReactNode }> = ({
   eyebrow,
   title,
@@ -352,8 +379,20 @@ export const ResultsTab: React.FC = () => {
             eyebrow="Isolated Facilities"
             icon={<Hospital className="w-3.5 h-3.5 text-sky-300" />}
             accent="sky"
-            value={totals?.facilities_isolated_expected ? totals.facilities_isolated_expected.toFixed(1) : '0.0'}
-            caption={t('results.expected_value')}
+            value={
+              totals?.facilities_isolated_expected
+                ? totals.facilities_isolated_expected >= 1
+                  ? `${Math.floor(totals.facilities_isolated_expected)} to ${Math.ceil(totals.facilities_isolated_expected)}`
+                  : totals.facilities_isolated_expected > 0
+                  ? '0 to 1'
+                  : '0'
+                : '0'
+            }
+            caption={
+              totals?.facilities_isolated_expected && totals.facilities_isolated_expected > 0
+                ? `(Expected: ${totals.facilities_isolated_expected.toFixed(1)} under simulation)`
+                : t('results.expected_value')
+            }
           />
         </div>
 
@@ -464,16 +503,28 @@ export const ResultsTab: React.FC = () => {
                       {fac.rank}
                     </span>
                     <div className="min-w-0">
-                      <h4 className="text-sm text-white group-hover:text-sky-100 transition-colors leading-tight" style={SERIF}>
-                        {fac.name}
+                      <h4 className="text-sm font-bold text-white group-hover:text-sky-100 transition-colors leading-tight">
+                        {getFacilityDisplayName(fac.facility_id, fac.name)}
                       </h4>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex flex-wrap items-center gap-2 mt-1.5">
                         <span
-                          className="text-[9px] uppercase tracking-[0.2em] text-sky-300"
-                          style={MONO}
+                          className="text-[9px] uppercase tracking-[0.2em] text-sky-300 font-mono font-semibold"
                         >
                           {fac.level.replace('_', ' ')}
                         </span>
+                        {fac.p_isolation >= 0.5 ? (
+                          <span className="text-[9px] font-bold tracking-wider uppercase font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                            CRITICAL CUTOFF
+                          </span>
+                        ) : fac.p_isolation >= 0.2 ? (
+                          <span className="text-[9px] font-bold tracking-wider uppercase font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                            DISRUPTED
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-bold tracking-wider uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                            ACCESSIBLE
+                          </span>
+                        )}
                         <QualityFlag
                           flag={fac.quality_flag}
                           poorBaseline={fac.poor_baseline_access}
@@ -485,44 +536,54 @@ export const ResultsTab: React.FC = () => {
                   <RankDelta delta={fac.rank_delta} />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-white/[0.05]">
-                  <ProbabilityBar
-                    prob={fac.p_isolation}
-                    p10={fac.p10}
-                    p90={fac.p90}
-                    showWhiskers={true}
-                  />
+                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-white/[0.08]">
+                  <div>
+                    <div className="flex items-center justify-between text-[9px] uppercase tracking-wider font-mono text-slate-400 mb-1">
+                      <span className="font-semibold text-slate-300">Isolation Risk</span>
+                      <span className="text-slate-400 font-bold">{(fac.p_isolation * 100).toFixed(0)}%</span>
+                    </div>
+                    <ProbabilityBar
+                      prob={fac.p_isolation}
+                      p10={fac.p10}
+                      p90={fac.p90}
+                      showWhiskers={true}
+                    />
+                  </div>
 
                   <div className="text-right">
                     <div
-                      className="text-[9px] uppercase tracking-[0.22em] text-slate-500 mb-1"
-                      style={MONO}
+                      className="text-[9px] uppercase tracking-[0.22em] text-slate-400 mb-1 font-mono font-semibold"
                       title="Total population in the surrounding woredas relying on this facility"
                     >
-                      Catchment Serviced
+                      Pop. at Risk
                     </div>
                     <div className="flex items-baseline justify-end gap-1">
-                      <span className="text-base text-white tabular-nums" style={SERIF}>
+                      <span className="text-base text-white tabular-nums font-bold">
                         {fac.people_affected_est
                           ? Math.round(fac.people_affected_est).toLocaleString()
                           : '0'}
                       </span>
-                      <span className="text-[9px] uppercase tracking-wider text-slate-500" style={MONO}>
-                        pop
+                      <span className="text-[9px] uppercase tracking-wider text-slate-400 font-mono">
+                        people
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-white/[0.05] flex items-center justify-between">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-[9px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+                <div className="pt-3 mt-3 border-t border-white/[0.08] flex items-center justify-between">
+                  <div className="flex items-baseline gap-1.5 font-mono">
+                    <span className="text-[9px] uppercase tracking-[0.22em] text-slate-400 font-semibold">
                       Priority
                     </span>
-                    <span className="text-lg text-white tabular-nums" style={SERIF}>
-                      {fac.priority_score ? fac.priority_score.toFixed(1) : (fac.p_isolation * 100).toFixed(0)}
+                    <span className="text-sm font-bold text-white tabular-nums">
+                      {fac.score ? Math.round(fac.score * 100) : Math.round(fac.p_isolation * 100)}
                     </span>
-                    <span className="text-[10px] text-slate-500" style={MONO}>/100</span>
+                    <span className="text-[10px] text-slate-400">/100</span>
+                    <span className={`text-[10px] font-bold ml-1.5 ${
+                      fac.p_isolation >= 0.5 ? 'text-rose-400' : fac.p_isolation >= 0.2 ? 'text-amber-400' : 'text-emerald-400'
+                    }`}>
+                      ({fac.p_isolation >= 0.5 ? 'High Urgency' : fac.p_isolation >= 0.2 ? 'Moderate' : 'Low'})
+                    </span>
                   </div>
 
                   <button
@@ -530,8 +591,7 @@ export const ResultsTab: React.FC = () => {
                       e.stopPropagation();
                       setExpandedFacilityId(expandedFacilityId === fac.facility_id ? null : fac.facility_id);
                     }}
-                    className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-slate-500 hover:text-sky-300 transition-colors"
-                    style={MONO}
+                    className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-slate-400 hover:text-sky-300 transition-colors font-mono font-semibold"
                   >
                     <span>{expandedFacilityId === fac.facility_id ? 'Hide' : 'Breakdown'}</span>
                     <Info className="w-3 h-3" />

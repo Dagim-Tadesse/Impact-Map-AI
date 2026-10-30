@@ -250,16 +250,16 @@ export default function Timeline({
       {/* ── Section Header (Pinned at top of frame) ── */}
       <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 text-center space-y-2 shrink-0 z-10">
         {badge && (
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-300" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            <Settings2 size={12} className="text-slate-400" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3.5 py-1 text-[10px] sm:text-[11px] uppercase tracking-widest text-cyan-300 font-mono">
+            <Layers size={12} className="text-cyan-400" />
             <span>{badge}</span>
           </div>
         )}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
           {heading}
         </h2>
         {subheading && (
-          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-200 leading-relaxed font-normal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             {subheading}
           </p>
         )}
@@ -272,31 +272,31 @@ export default function Timeline({
           className="flex items-center gap-6 sm:gap-10 px-6 sm:px-12 w-max will-change-transform relative"
         >
           {/* Card 0: Telemetry Overview Hero Card */}
-          <div className="arch-input-card w-[280px] sm:w-[340px] shrink-0 rounded-2xl border border-white/[0.08] bg-[#0a0e16]/90 p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transform-gpu will-change-transform">
-            <div className="relative h-28 sm:h-36 w-full overflow-hidden rounded-xl border border-white/10 bg-slate-900">
+          <div className="arch-input-card w-[280px] sm:w-[340px] shrink-0 rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl transform-gpu will-change-transform">
+            <div className="relative h-28 sm:h-36 w-full overflow-hidden rounded-xl border border-slate-700/60 bg-slate-900">
               <img
                 src={imageUrl}
                 alt={imageAlt}
                 draggable={false}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e16] via-transparent to-transparent" />
-              <div className="absolute bottom-2 left-2.5 inline-flex items-center gap-1.5 rounded-md bg-black/70 px-2 py-0.5 text-[9px] sm:text-[10px] text-slate-300 border border-white/10" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                <Layers size={11} className="text-slate-400" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#161B26] via-transparent to-transparent" />
+              <div className="absolute bottom-2 left-2.5 inline-flex items-center gap-1.5 rounded-md bg-black/80 px-2 py-0.5 text-[9px] sm:text-[10px] text-cyan-300 border border-slate-700/60 font-mono">
+                <Layers size={11} className="text-cyan-400" />
                 <span>INPUT TELEMETRY</span>
               </div>
             </div>
-            <h3 className="mt-3 text-base sm:text-lg font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-              Raw Satellite Observations
+            <h3 className="mt-3 text-base sm:text-lg font-bold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+              Satellite &amp; Terrain Inputs
             </h3>
-            <p className="mt-1 text-xs text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Sentinel-1 SAR synthetic aperture radar, CHIRPS 5km precipitation, and Copernicus 30m digital elevation slope.
+            <p className="mt-1 text-xs text-slate-200 leading-relaxed font-sans">
+              Sentinel-1 SAR synthetic aperture radar, CHIRPS rainfall telemetry, and Copernicus 30m digital elevation slope.
             </p>
           </div>
 
           {/* Continuous Center Timeline Line */}
           <div className="absolute left-[300px] sm:left-[360px] right-[280px] sm:right-[340px] top-1/2 -translate-y-1/2 h-1 rounded-full bg-white/[0.06] border border-white/[0.04] pointer-events-none">
-            <div className="journey-line h-full w-0 rounded-full bg-gradient-to-r from-white/30 via-amber-200/50 to-white/60 shadow-[0_0_12px_rgba(255,255,255,0.15)]" />
+            <div className="journey-line h-full w-0 rounded-full bg-gradient-to-r from-cyan-400/50 via-sky-300/60 to-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.3)]" />
           </div>
 
           {/* The 5 Architecture Pipeline Stages */}
@@ -312,19 +312,19 @@ export default function Timeline({
                 {/* ── Top Half ── */}
                 <div className="h-[155px] sm:h-[180px] flex flex-col justify-end">
                   {isTop && (
-                    <div className="arch-stage-card relative rounded-2xl border border-white/[0.08] bg-[#0a0e16]/90 p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/20 transition-all transform-gpu will-change-transform">
+                    <div className="arch-stage-card relative rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl hover:border-cyan-500/50 hover:bg-[#1a2230] transition-all transform-gpu will-change-transform">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] sm:text-[11px] font-medium text-slate-300 tracking-wider uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                        <span className="text-[10px] sm:text-[11px] font-bold text-cyan-400 tracking-wider uppercase font-mono">
                           {item.year}
                         </span>
-                        <span className="text-[9px] font-medium text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded-full border border-white/[0.06]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                          PIPELINE
+                        <span className="text-[9px] font-semibold text-slate-300 bg-white/[0.04] px-2 py-0.5 rounded-full border border-slate-700/60 font-mono">
+                          STAGE PIPELINE
                         </span>
                       </div>
-                      <h4 className="mt-1.5 text-base sm:text-lg font-normal text-white leading-snug" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                      <h4 className="mt-1.5 text-base sm:text-lg font-bold text-white leading-snug tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                         {item.month}
                       </h4>
-                      <p className="mt-1.5 text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      <p className="mt-1.5 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
                         {item.content}
                       </p>
                     </div>
@@ -335,33 +335,33 @@ export default function Timeline({
                 <div className="relative h-6 flex items-center justify-center my-auto">
                   {/* Vertical connecting stems */}
                   {isTop ? (
-                    <div className="arch-stage-stem origin-bottom absolute bottom-3 w-px h-6 sm:h-8 bg-gradient-to-t from-white/30 to-transparent transform-gpu will-change-transform" />
+                    <div className="arch-stage-stem origin-bottom absolute bottom-3 w-px h-6 sm:h-8 bg-gradient-to-t from-cyan-400/50 to-transparent transform-gpu will-change-transform" />
                   ) : (
-                    <div className="arch-stage-stem origin-top absolute top-3 w-px h-6 sm:h-8 bg-gradient-to-b from-white/30 to-transparent transform-gpu will-change-transform" />
+                    <div className="arch-stage-stem origin-top absolute top-3 w-px h-6 sm:h-8 bg-gradient-to-b from-cyan-400/50 to-transparent transform-gpu will-change-transform" />
                   )}
 
                   {/* Pulsing Center Node */}
-                  <div className="arch-stage-node relative z-20 size-5 sm:size-6 rounded-full bg-[#0a0e16] border-2 border-white/40 flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.2)] transform-gpu will-change-transform">
-                    <div className="size-2 rounded-full bg-amber-300/80" />
+                  <div className="arch-stage-node relative z-20 size-5 sm:size-6 rounded-full bg-[#161B26] border-2 border-cyan-400/80 flex items-center justify-center shadow-[0_0_12px_rgba(6,182,212,0.4)] transform-gpu will-change-transform">
+                    <div className="size-2 rounded-full bg-cyan-300 animate-pulse" />
                   </div>
                 </div>
 
                 {/* ── Bottom Half ── */}
                 <div className="h-[155px] sm:h-[180px] flex flex-col justify-start">
                   {!isTop && (
-                    <div className="arch-stage-card relative rounded-2xl border border-white/[0.08] bg-[#0a0e16]/90 p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/20 transition-all transform-gpu will-change-transform">
+                    <div className="arch-stage-card relative rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl hover:border-cyan-500/50 hover:bg-[#1a2230] transition-all transform-gpu will-change-transform">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] sm:text-[11px] font-medium text-slate-300 tracking-wider uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                        <span className="text-[10px] sm:text-[11px] font-bold text-cyan-400 tracking-wider uppercase font-mono">
                           {item.year}
                         </span>
-                        <span className="text-[9px] font-medium text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded-full border border-white/[0.06]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                          PIPELINE
+                        <span className="text-[9px] font-semibold text-slate-300 bg-white/[0.04] px-2 py-0.5 rounded-full border border-slate-700/60 font-mono">
+                          STAGE PIPELINE
                         </span>
                       </div>
-                      <h4 className="mt-1.5 text-base sm:text-lg font-normal text-white leading-snug" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+                      <h4 className="mt-1.5 text-base sm:text-lg font-bold text-white leading-snug tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
                         {item.month}
                       </h4>
-                      <p className="mt-1.5 text-xs sm:text-sm text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      <p className="mt-1.5 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
                         {item.content}
                       </p>
                     </div>
@@ -372,18 +372,18 @@ export default function Timeline({
           })}
 
           {/* Card Final: Output Convoy Milestone Card */}
-          <div className="arch-output-card w-[260px] sm:w-[320px] shrink-0 rounded-2xl border border-white/[0.08] bg-[#0a0e16]/90 p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transform-gpu will-change-transform">
-            <div className="inline-flex items-center gap-1.5 rounded-md bg-white/[0.06] px-2 py-0.5 text-[9px] sm:text-[10px] font-medium text-slate-300 border border-white/10" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              <CheckCircle2 size={11} className="text-slate-400" />
+          <div className="arch-output-card w-[260px] sm:w-[320px] shrink-0 rounded-2xl border border-slate-700/60 bg-[#161B26] p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl transform-gpu will-change-transform">
+            <div className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold text-emerald-300 border border-emerald-500/30 font-mono">
+              <CheckCircle2 size={11} className="text-emerald-400" />
               <span>OUTPUT GATEWAY</span>
             </div>
-            <h3 className="mt-3 text-base sm:text-lg font-normal text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+            <h3 className="mt-3 text-base sm:text-lg font-bold text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
               Tactical Relief Convoys
             </h3>
-            <p className="mt-1 text-xs text-slate-400 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Safe routing corridors, 89 regional clinics connected, zero trapped vehicles, and bilingual field SitReps.
+            <p className="mt-1 text-xs text-slate-200 leading-relaxed font-sans">
+              Safe routing corridors, 28 clinics connected, 0 trapped vehicles, and bilingual field SitReps for UN-OCHA &amp; EDRMC.
             </p>
-            <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-slate-400" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <div className="mt-3 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-slate-300 font-mono">
               <span>PIPELINE VERIFIED</span>
               <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </div>

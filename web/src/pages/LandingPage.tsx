@@ -27,8 +27,7 @@ import {
 import StepInsideCrisisZoom from '@/components/landing/StepInsideCrisisZoom';
 import HorizontalSolutionShowcase from '@/components/landing/HorizontalSolutionShowcase';
 import { TargetUsersSection } from '@/components/landing/TargetUsersSection';
-import { ArchitecturePipelineSection } from '@/components/landing/ArchitecturePipelineSection';
-import { BusinessModelSection } from '@/components/landing/BusinessModelSection';
+import Timeline, { type JourneyItem } from '@/components/ui/timeline';
 import RadialOrbitalTimeline, { type TimelineItem } from '@/components/ui/radial-orbital-timeline';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { HardestTechnicalProblem } from '@/components/landing/HardestTechnicalProblem';
@@ -42,6 +41,43 @@ if (typeof window !== 'undefined') {
 
 /* ── Asset URLs & Unsplash Curated Photography ── */
 const U = (id: string, w = 1200) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+
+/* ── 5-Stage Architecture Pipeline Journey ── */
+const ARCH_TOP: JourneyItem[] = [
+  {
+    id: 'arch-1',
+    year: 'Stage 01',
+    month: 'Hydro-Telemetry Ingestion',
+    content: 'CHIRPS rainfall and Copernicus 30m DEM slope compute basin runoff accumulation.',
+  },
+  {
+    id: 'arch-3',
+    year: 'Stage 03',
+    month: 'Monte Carlo Topology Solver',
+    content: 'Runs 10,000 graph passes across 15,336 road links to calculate clinic isolation risk.',
+  },
+  {
+    id: 'arch-5',
+    year: 'Stage 05',
+    month: 'Bilingual Field SitRep Briefing',
+    content: 'Generates one-click English/Amharic UN-OCHA situation reports functioning 100% offline.',
+  },
+];
+
+const ARCH_BOTTOM: JourneyItem[] = [
+  {
+    id: 'arch-2',
+    year: 'Stage 02',
+    month: 'Calibrated Road Inundation',
+    content: 'Calculates water depth and wadi crossing submergence risk across all 15,336 road links.',
+  },
+  {
+    id: 'arch-4',
+    year: 'Stage 04',
+    month: 'What-If Intervention Sandbox',
+    content: 'Simulates sandbagging and mobile bridge repairs to evaluate access ROI in < 0.6 seconds.',
+  },
+];
 /* ── Unified Continuous Background Image across entire Landing Page ── */
 const HERO_BG_IMAGE = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80';
 
@@ -393,11 +429,24 @@ export function LandingPage({
       {/* ── Section 5: The Hardest Technical Problem Solved ── */}
       <HardestTechnicalProblem />
 
-      {/* ── Section 6: How It Works (Connected 5-Stage Architecture Pipeline Grid - No Dead Screen Space) ── */}
-      <ArchitecturePipelineSection />
-
-      {/* ── Section 7: Operational Sustainability & Business Model ── */}
-      <BusinessModelSection />
+      {/* ── Section 6: How It Works (Card-by-Card Pinned Scrub Timeline) ── */}
+      <section id="pipeline" className="relative bg-transparent z-10">
+        <Timeline
+          heading="From Raindrops to Relief Convoys"
+          title="Pipeline"
+          periodLabel="5-Stage Engine"
+          badge="HOW IT WORKS • 5-STAGE PIPELINE"
+          subheading="A continuous, verifiable computational pipeline connecting planetary earth observation with physical ground passability."
+          topItems={ARCH_TOP}
+          bottomItems={ARCH_BOTTOM}
+          activeColor="#06b6d4"
+          backgroundColor="transparent"
+          textColor="#f8fafc"
+          mutedTextColor="#94a3b8"
+          imageUrl={U('photo-1451187580459-43490279c0fa', 1200)}
+          imageAlt="Digital elevation model processing pipeline"
+        />
+      </section>
 
       {/* ── Section 8: The Team (Interactive Orbital Graph + 3D Tilt Cards) ── */}
       <section id="team" className="py-12 sm:py-20 bg-transparent relative z-10">

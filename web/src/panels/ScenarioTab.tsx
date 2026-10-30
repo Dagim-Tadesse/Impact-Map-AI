@@ -116,6 +116,7 @@ export const ScenarioTab: React.FC = () => {
   const runScenarioMutation = useRunScenarioMutation();
 
   const {
+    currentCacheKey,
     setCurrentCacheKey,
     setCascadeState,
     setActiveTab,
@@ -313,61 +314,78 @@ export const ScenarioTab: React.FC = () => {
                 ? item.scenario.daily_rain_mm.reduce((a: number, b: number) => a + b, 0)
                 : 0;
 
+              const isActive = currentCacheKey === item.slug;
+
               return (
                 <div
                   key={item.slug}
-                  className={`group relative rounded-xl border p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 ${
-                    isBaseline
-                      ? 'border-sky-400/25 bg-sky-500/[0.04] hover:border-sky-400/40'
-                      : 'border-white/[0.08] bg-[#0a0e16]/70 hover:border-white/[0.18]'
+                  className={`group relative rounded-xl border p-4 backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 ${
+                    isActive
+                      ? 'border-cyan-400/50 bg-[#1a2333] shadow-[0_0_20px_rgba(6,182,212,0.15)] ring-1 ring-cyan-400/40'
+                      : isBaseline
+                      ? 'border-slate-700/60 bg-[#161B26] hover:border-slate-500'
+                      : 'border-slate-700/60 bg-[#161B26] hover:border-slate-500'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div className="min-w-0">
-                      {isBaseline && (
-                        <div
-                          className="text-[9px] uppercase tracking-[0.28em] text-sky-300/90 mb-1"
-                          style={MONO}
-                        >
-                          Comparison Baseline
-                        </div>
-                      )}
+                      <div className="flex items-center gap-2 mb-1">
+                        {isActive && (
+                          <span className="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-wider font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/40">
+                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                            ACTIVE SIMULATION
+                          </span>
+                        )}
+                        {isBaseline && !isActive && (
+                          <div
+                            className="text-[9px] uppercase tracking-[0.28em] text-sky-300 font-mono font-semibold"
+                          >
+                            Comparison Baseline
+                          </div>
+                        )}
+                      </div>
                       <h3
-                        className="text-[18px] text-white leading-snug group-hover:text-amber-100 transition-colors"
-                        style={SERIF}
+                        className="text-base font-bold text-white leading-snug group-hover:text-amber-200 transition-colors tracking-tight"
                       >
                         {item.title}
                       </h3>
                     </div>
                     <span
-                      className={`text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded-full border shrink-0 ${
+                      className={`text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded-full border shrink-0 font-mono font-semibold ${
                         item.badge === 'Replay'
-                          ? 'bg-rose-500/[0.06] text-rose-300 border-rose-400/25'
-                          : 'bg-white/[0.03] text-slate-400 border-white/[0.08]'
+                          ? 'bg-rose-500/10 text-rose-300 border-rose-400/30'
+                          : 'bg-white/[0.04] text-slate-300 border-white/[0.08]'
                       }`}
-                      style={MONO}
                     >
                       {item.badge}
                     </span>
                   </div>
 
-                  <p className="text-[12px] text-slate-400 leading-relaxed mb-3">
+                  <p className="text-[12px] text-slate-200 leading-relaxed mb-2 font-sans">
                     {item.description}
                   </p>
 
-                  <div className="flex items-end justify-between pt-3 border-t border-white/[0.06] gap-3">
+                  {/* 1-Line Plain-English Forecast Impact */}
+                  <div className="text-[11px] text-amber-300/90 bg-amber-400/5 border border-amber-400/20 px-2.5 py-1.5 rounded-lg mb-3 font-medium">
+                    {item.slug === 'awash-2020-replay'
+                      ? 'Simulates 122mm 4-day peak storm deluge across Awash River Basin.'
+                      : item.slug === 'baseline-dry'
+                      ? 'Dry weather baseline with 0mm precipitation; all 15,336 road links passable.'
+                      : `Simulates ${totalRain.toFixed(0)}mm rainfall across ${item.scenario?.daily_rain_mm?.length || 0} days.`}
+                  </div>
+
+                  <div className="flex items-end justify-between pt-2.5 border-t border-white/[0.08] gap-3">
                     <div>
                       <div
-                        className="text-[9px] uppercase tracking-[0.22em] text-slate-500 mb-0.5"
-                        style={MONO}
+                        className="text-[9px] uppercase tracking-[0.22em] text-slate-400 mb-0.5 font-mono"
                       >
                         Total Rainfall
                       </div>
                       <div className="flex items-baseline gap-1">
-                        <span className="text-xl text-white tabular-nums" style={SERIF}>
+                        <span className="text-lg font-bold text-white tabular-nums font-mono">
                           {totalRain.toFixed(0)}
                         </span>
-                        <span className="text-[10px] text-slate-500 uppercase tracking-wider" style={MONO}>
+                        <span className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">
                           mm · {item.scenario?.daily_rain_mm?.length || 0}{t('scenario.days_suffix')}
                         </span>
                       </div>

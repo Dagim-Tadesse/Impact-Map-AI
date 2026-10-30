@@ -4,10 +4,9 @@ import {
   Sliders,
   BarChart3,
   GitCompare,
-  Award,
+  ShieldCheck,
   ChevronLeft,
   Layers,
-  Sparkles,
 } from 'lucide-react';
 import { TopBar } from '../components/TopBar';
 import { HeroIntro } from '../components/HeroIntro';
@@ -217,7 +216,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
     { id: 'scenario', label: t('tabs.scenario'), shortcut: '1', index: '01', accent: 'amber', icon: <Sliders className="w-3.5 h-3.5" /> },
     { id: 'results', label: t('tabs.results'), shortcut: '2', index: '02', accent: 'sky', icon: <BarChart3 className="w-3.5 h-3.5" /> },
     { id: 'compare', label: t('tabs.compare'), shortcut: '3', index: '03', accent: 'rose', icon: <GitCompare className="w-3.5 h-3.5" /> },
-    { id: 'evidence', label: t('tabs.evidence'), shortcut: '4', index: '04', accent: 'emerald', icon: <Award className="w-3.5 h-3.5" /> },
+    { id: 'evidence', label: t('tabs.evidence'), shortcut: '4', index: '04', accent: 'emerald', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
   ];
 
   const accentDot: Record<'amber' | 'sky' | 'rose' | 'emerald', string> = {
@@ -312,10 +311,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
             panelCollapsed ? 'w-16' : 'w-[348px] lg:w-[418px]'
           }`}
           style={{
-            background: 'linear-gradient(180deg, rgba(10,14,22,0.88) 0%, rgba(8,11,18,0.92) 100%)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'linear-gradient(180deg, rgba(22,27,38,0.95) 0%, rgba(18,22,32,0.98) 100%)',
+            border: '1px solid rgba(255,255,255,0.12)',
             boxShadow:
-              '0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 0 rgba(255,255,255,0.04)',
+              '0 24px 60px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255,255,255,0.06)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
           }}
@@ -332,22 +331,21 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
                 <div className="flex items-start justify-between mb-3">
                   <div className="min-w-0">
                     <div
-                      className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.28em] text-slate-500 mb-1"
+                      className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.28em] text-slate-400 mb-1"
                       style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                     >
-                      <span className={`w-1 h-1 rounded-full ${accentDot[activeTabMeta.accent]} animate-pulse`} />
-                      <span>Mission Console</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${accentDot[activeTabMeta.accent]} animate-pulse`} />
+                      <span className="font-semibold text-slate-300">Mission Console</span>
                     </div>
                     <div className="flex items-baseline gap-2">
                       <span
-                        className={`text-xs tabular-nums ${accentText[activeTabMeta.accent]}`}
-                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                        className={`text-xs tabular-nums font-mono font-bold ${accentText[activeTabMeta.accent]}`}
                       >
                         {activeTabMeta.index}
                       </span>
                       <span
-                        className="text-xl text-white leading-none"
-                        style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+                        className="text-lg font-bold text-white tracking-tight leading-none"
+                        style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                       >
                         {activeTabMeta.label}
                       </span>
@@ -557,10 +555,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
             <div className="w-12 h-1.5 bg-white/30 rounded-full mb-1.5" />
             <div className="flex items-center justify-between w-full px-4 text-xs">
               <span
-                className="flex items-center gap-1.5 text-amber-300/90"
+                className="flex items-center gap-1.5 text-slate-300"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                {activeTabMeta.icon}
                 <span className="capitalize font-semibold text-slate-100">
                   {t(`tabs.${activeTab}`)}
                 </span>
