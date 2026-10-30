@@ -267,6 +267,15 @@ def get_scenarios_library():
 
 
 def generate_dynamic_simulation(scenario_dict: Dict[str, Any], cache_key: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    try:
+        summary, segments = execute_scenario(scenario_dict)
+        summary["cache_key"] = cache_key
+        summary["execution_mode"] = "precomputed_demo"
+        segments["cache_key"] = cache_key
+        return summary, segments
+    except Exception as exc:
+        logger.warning(f"execute_scenario in generate_dynamic_simulation failed: {exc}. Using dynamic fallback.")
+
     example_summary = load_example("result_summary.json")
     example_segments = load_example("segments_columnar.json")
 
@@ -288,7 +297,7 @@ def generate_dynamic_simulation(scenario_dict: Dict[str, Any], cache_key: str) -
     intensity += len(forced_closed) * 0.05 - len(forced_open) * 0.05
     intensity = max(0.04, min(intensity, 4.5))
 
-    cut_off_mean = max(450.0, round(14200.0 * intensity, 1))
+    cut_off_mean = max(450.0, round(62054.0 * intensity, 1))
     cut_off_p10 = max(200.0, round(cut_off_mean * 0.72, 1))
     cut_off_p90 = max(600.0, round(cut_off_mean * 1.34, 1))
 
@@ -296,7 +305,7 @@ def generate_dynamic_simulation(scenario_dict: Dict[str, Any], cache_key: str) -
     degraded_p10 = max(600.0, round(degraded_mean * 0.74, 1))
     degraded_p90 = max(1500.0, round(degraded_mean * 1.28, 1))
 
-    isolated_fac_exp = max(0.1, round(3.4 * (intensity ** 0.75), 1))
+    isolated_fac_exp = max(0.1, round(1.4 * (intensity ** 0.75), 1))
 
     ranking = example_summary.get("ranking", [])
     updated_ranking = []
@@ -540,12 +549,14 @@ async def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
         length_m = 650 + (segment_id * 137) % 2200
         hand_min = 1.0 + (segment_id * 3.7) % 25.0
         slope_mean = 0.5 + (segment_id * 1.3) % 8.0
+        dist_river_min = 250.0 + (segment_id * 89) % 3500
         name = f"Awash Corridor {road_class.capitalize()} #{segment_id}"
         props = {
             "road_class": road_class,
             "length_m": length_m,
             "hand_min": round(hand_min, 1),
             "slope_mean": round(slope_mean, 1),
+            "dist_river_min": round(dist_river_min, 1),
             "name": name,
             "quality_flag": "ok"
         }
@@ -563,53 +574,102 @@ async def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
             detail={"code": "NOT_FOUND", "message": f"Result for cache key '{cache_key}' not found"}
         )
 
-    exposure_prob = 0.05
-    closure_prob = 0.05
-    if cached.get("segments"):
+    # Segment physical attributes
+    hand_min = float(props.get("hand_min", 15.0))
+    dist_river_min = float(props.get("dist_river_min", 1200.0))
+    slope_mean = float(props.get("slope_mean", 2.0))
+    length_m = int(props.get("length_m", 1200))
+    road_class = props.get("road_class", "secondary")
+    name = props.get("name") or f"Awash Corridor {road_class.capitalize()} #{segment_id}"
+
+    # Calculate default physical baseline from terrain
+    if hand_min < 2.0 and dist_river_min < 500.0:
+        base_exp = min(0.65, 0.25 + (2.0 - hand_min) * 0.15 + (500.0 - dist_river_min) / 2000.0)
+    elif hand_min < 10.0:
+        base_exp = max(0.01, 0.12 - (hand_min / 100.0))
+    else:
+        base_exp = max(0.001, round(0.02 / (1.0 + hand_min / 20.0), 4))
+
+    exposure_prob = base_exp
+    closure_prob = base_exp
+
+    scenario = cached.get("scenario", {})
+    forced_closed = set(scenario.get("forced_closed", []))
+    forced_open = set(scenario.get("forced_open", []))
+
+    if segment_id in forced_closed:
+        exposure_prob = 1.0
+        closure_prob = 1.0
+    elif segment_id in forced_open:
+        exposure_prob = min(0.05, exposure_prob)
+        closure_prob = 0.0
+    elif cached.get("segments"):
         seg_ids = cached["segments"].get("segment_ids", [])
         if segment_id in seg_ids:
             idx = seg_ids.index(segment_id)
             exposure_prob = cached["segments"]["exposure_prob"][idx]
             closure_prob = cached["segments"]["closure_prob"][idx]
 
-    road_class = props.get("road_class", "secondary")
-    length_m = props.get("length_m", 1200)
-    hand_min = props.get("hand_min", 15.0)
-    slope_mean = props.get("slope_mean", 2.0)
-    name = props.get("name") or f"Awash Corridor {road_class.capitalize()} #{segment_id}"
-
+    # Dynamic reasons based on the segment's actual features
     reasons = []
-    if hand_min < 5.0:
+    if hand_min < 3.0:
+        contrib = round(min(0.55, 0.35 + (3.0 - hand_min) * 0.06), 2)
         reasons.append({
             "feature": "hand_min",
-            "label": f"Low elevation near river drainage (HAND = {hand_min:.1f}m)",
-            "contribution": 0.42
+            "label": f"Critical low drainage elevation (HAND = {hand_min:.1f}m)",
+            "contribution": contrib
+        })
+    elif hand_min > 40.0:
+        reasons.append({
+            "feature": "hand_min",
+            "label": f"High ground safety plateau (HAND = {hand_min:.1f}m above riverbed)",
+            "contribution": 0.12
         })
     else:
         reasons.append({
             "feature": "hand_min",
-            "label": f"Elevated terrain above riverbed (HAND = {hand_min:.1f}m)",
-            "contribution": 0.15
+            "label": f"Moderate elevation buffer (HAND = {hand_min:.1f}m)",
+            "contribution": 0.22
         })
 
-    if exposure_prob > 0.3:
+    if dist_river_min < 300.0:
+        contrib = round(min(0.48, 0.30 + (300.0 - dist_river_min) / 1000.0), 2)
         reasons.append({
-            "feature": "peak_3d",
-            "label": "Heavy rainfall accumulation corridor",
-            "contribution": 0.33
+            "feature": "dist_river",
+            "label": f"Immediate river channel proximity ({dist_river_min:.0f}m from Awash mainstem)",
+            "contribution": contrib
+        })
+    elif dist_river_min > 3000.0:
+        reasons.append({
+            "feature": "dist_river",
+            "label": f"Far inland watershed corridor ({dist_river_min/1000.0:.1f}km to river)",
+            "contribution": 0.10
         })
     else:
         reasons.append({
-            "feature": "peak_3d",
-            "label": "Well-drained watershed ridge",
-            "contribution": 0.20
+            "feature": "dist_river",
+            "label": f"Alluvial floodplain approach ({dist_river_min:.0f}m to drainage)",
+            "contribution": 0.25
         })
 
-    reasons.append({
-        "feature": "slope_mean",
-        "label": f"Terrain slope gradient ({slope_mean:.1f}°)",
-        "contribution": 0.25
-    })
+    if exposure_prob > 0.4:
+        reasons.append({
+            "feature": "precipitation_runoff",
+            "label": "High storm runoff concentration wadi",
+            "contribution": 0.38
+        })
+    elif slope_mean > 5.0:
+        reasons.append({
+            "feature": "slope_mean",
+            "label": f"Steep runoff gradient ({slope_mean:.1f}° slope)",
+            "contribution": 0.28
+        })
+    else:
+        reasons.append({
+            "feature": "slope_mean",
+            "label": f"Gentle valley floor transit ({slope_mean:.1f}° slope)",
+            "contribution": 0.18
+        })
 
     return {
         "segment_id": segment_id,
@@ -624,94 +684,79 @@ async def get_segment_explain(segment_id: int, cache_key: str = Query(...)):
 
 
 FACILITY_DETAILS: Dict[str, Dict[str, Any]] = {
-    "fac_00009": {
-        "name": "Awash Arba Health Center",
-        "why": [
-            {"segment_id": 102, "lift": 0.42, "closure_prob": 0.781, "text": "Critical primary access bridge over Awash tributary"},
-            {"segment_id": 103, "lift": 0.28, "closure_prob": 0.623, "text": "Low-lying junction connecting western corridor"},
-            {"segment_id": 108, "lift": 0.14, "closure_prob": 0.540, "text": "Secondary bypass route segment"}
-        ],
-        "sentences": [
-            "Awash Arba Health Center is likely to be isolated mainly because segment 102 (Awash Arba Secondary Access Road) has high flood exposure risk.",
-            "Closing segment 102 alone increases isolation probability by 42%.",
-            "An alternative southern bypass remains viable but adds 75 minutes of travel time."
-        ]
-    },
-    "fac_00007": {
-        "name": "Metehara Health Center",
-        "why": [
-            {"segment_id": 204, "lift": 0.38, "closure_prob": 0.710, "text": "Lake Beseka shoreline rise sub-corridor"},
-            {"segment_id": 207, "lift": 0.24, "closure_prob": 0.590, "text": "Awash national highway bridge transition"},
-            {"segment_id": 210, "lift": 0.15, "closure_prob": 0.480, "text": "Southern town approach link"}
-        ],
-        "sentences": [
-            "Metehara Health Center faces elevated isolation from Lake Beseka rising waters impacting segment 204.",
-            "Closing segment 204 increases facility isolation by 38%.",
-            "A southern high-ground bypass is viable but extends ambulance transit by 90 minutes."
-        ]
-    },
-    "fac_00013": {
-        "name": "Melka Sedi Health Center",
-        "why": [
-            {"segment_id": 185, "lift": 0.35, "closure_prob": 0.650, "text": "Mid-Awash floodplain backwater crossing"},
-            {"segment_id": 189, "lift": 0.22, "closure_prob": 0.520, "text": "Agricultural canal culvert drainage"}
-        ],
-        "sentences": [
-            "Melka Sedi Health Center access is vulnerable to mid-basin river discharge overtopping segment 185.",
-            "Secondary drainage routes remain clear in moderate rain but flood during peak surge."
-        ]
-    },
     "fac_00010": {
         "name": "Gedamaytu Health Center",
         "why": [
-            {"segment_id": 301, "lift": 0.31, "closure_prob": 0.580, "text": "Northern wadi flash flood crossing"},
-            {"segment_id": 305, "lift": 0.18, "closure_prob": 0.440, "text": "Desert highway connector junction"}
+            {"segment_id": 7466, "lift": 0.65, "closure_prob": 0.650, "text": "Primary 11.7km feeder corridor across northern wadi crossing"},
+            {"segment_id": 7467, "lift": 0.35, "closure_prob": 0.600, "text": "Local clinic approach link to Gedamaytu village"}
         ],
         "sentences": [
-            "Gedamaytu Health Center access crosses dry wadi channels that flood rapidly under storm runoff.",
-            "Detour access via segment 305 adds 28 minutes around northern washouts."
+            "Gedamaytu Health Center access depends entirely on segment #7466 across seasonal wadi channels that flood rapidly under storm runoff.",
+            "Protecting segment #7466 with temporary civil barriers drops isolation risk from 65% down to 0%, reconnecting 24,600 pastoralist residents."
         ]
     },
     "fac_00011": {
         "name": "Doho Rural Clinic",
         "why": [
-            {"segment_id": 412, "lift": 0.40, "closure_prob": 0.620, "text": "Doho hot springs marshland feeder road"},
-            {"segment_id": 415, "lift": 0.25, "closure_prob": 0.510, "text": "Remote dirt track link"}
+            {"segment_id": 14083, "lift": 0.60, "closure_prob": 0.700, "text": "Doho riverfront marshland corridor (HAND = 0.0m, dist_river = 90m)"},
+            {"segment_id": 7910, "lift": 0.30, "closure_prob": 0.520, "text": "Doho hot springs feeder track approach"}
         ],
         "sentences": [
-            "Doho Rural Clinic has severe baseline isolation; feeder roads cross marshy lowlands.",
-            "During storm peaks, ambulance transit requires heavy off-road vehicles."
+            "Doho Rural Clinic has severe baseline isolation due to riverfront marshland flooding along segment #14083.",
+            "Ambulance access during storm peaks requires reinforcing segment #14083 or deploying high-clearance 4WD vehicles."
         ]
     },
-    "fac_00012": {
-        "name": "Amibara Primary Hospital",
+    "fac_00013": {
+        "name": "Melka Sedi Health Center",
         "why": [
-            {"segment_id": 510, "lift": 0.28, "closure_prob": 0.460, "text": "Amibara regional trunk crossing"},
-            {"segment_id": 514, "lift": 0.16, "closure_prob": 0.380, "text": "River dike embankment access"}
+            {"segment_id": 5353, "lift": 0.75, "closure_prob": 0.750, "text": "Melka Sedi 6.4km river lowland access corridor (exposure = 38.3%, HAND = 0.0m)"},
+            {"segment_id": 11156, "lift": 0.25, "closure_prob": 0.550, "text": "Clinic approach bridge link over irrigation canal"}
         ],
         "sentences": [
-            "Amibara Primary Hospital benefits from elevated hospital grounds, but primary road 510 faces shoulder erosion.",
-            "Convoy supply corridors remain navigable via northern bypass."
+            "Melka Sedi Health Center access is severely vulnerable to mid-Awash floodplain backwater overtopping segment #5353.",
+            "Reinforcing the culvert embankment on segment #5353 reduces clinic isolation risk by 75%."
+        ]
+    },
+    "fac_00009": {
+        "name": "Awash Arba Health Center",
+        "why": [
+            {"segment_id": 7491, "lift": 0.55, "closure_prob": 0.600, "text": "Awash Arba feeder link across alluvial floodplain"},
+            {"segment_id": 7492, "lift": 0.25, "closure_prob": 0.450, "text": "Lowland drainage approach corridor"}
+        ],
+        "sentences": [
+            "Awash Arba Health Center access is vulnerable to alluvial floodplain runoff on segment #7491.",
+            "An alternative highland detour route remains open but adds over 60 minutes of transit time."
+        ]
+    },
+    "fac_00007": {
+        "name": "Metehara Health Center",
+        "why": [
+            {"segment_id": 15024, "lift": 0.40, "closure_prob": 0.580, "text": "Metehara urban floodway approach (HAND = 0.0m near Lake Beseka)"},
+            {"segment_id": 15025, "lift": 0.20, "closure_prob": 0.450, "text": "Canal crossing bridge transition"}
+        ],
+        "sentences": [
+            "Metehara Health Center is exposed to Lake Beseka expanding shoreline waters and canal overflows on segment #15024.",
+            "Detour access via the southern highland highway remains viable."
         ]
     },
     "fac_00008": {
         "name": "Awash Sebat General Hospital",
         "why": [
-            {"segment_id": 701, "lift": 0.12, "closure_prob": 0.250, "text": "Main arterial highway bridge approach"}
+            {"segment_id": 3873, "lift": 0.12, "closure_prob": 0.150, "text": "Awash Sebat bridge approach corridor"}
         ],
         "sentences": [
-            "Awash Sebat General Hospital is located on elevated basalt terrain with robust arterial connectivity.",
-            "Direct isolation risk remains low under typical 10-year storm flood levels."
+            "Awash Sebat General Hospital sits on elevated basalt terrain with robust connectivity.",
+            "Direct hospital isolation risk remains low under typical storm flood levels."
         ]
     },
     "fac_00004": {
         "name": "ደብረ ብርሀን ሪፈራል ሆስፒታል",
         "why": [
-            {"segment_id": 810, "lift": 0.05, "closure_prob": 0.100, "text": "Highland plateau highway link"}
+            {"segment_id": 3546, "lift": 0.02, "closure_prob": 0.010, "text": "Highland plateau highway link"}
         ],
         "sentences": [
             "Debre Berhan Referral Hospital sits above 2,800m elevation with negligible direct flood risk.",
-            "Facility serves as key safe receiving hospital for lowland evacuations."
+            "Facility serves as the primary safe receiving referral center for lowland evacuations."
         ]
     }
 }

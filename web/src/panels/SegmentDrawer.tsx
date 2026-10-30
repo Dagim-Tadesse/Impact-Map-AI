@@ -81,14 +81,22 @@ export const SegmentDrawer: React.FC = () => {
           <div className="flex items-center justify-between">
             <span className="text-slate-300">{t('segment_drawer.exposure_prob')}</span>
             <span className="font-mono font-bold text-cyan-400">
-              {formatPercent(explainData?.exposure_prob ?? 0.68)}
+              {isLoading ? (
+                <span className="text-slate-400 text-xs">...</span>
+              ) : (
+                formatPercent(explainData?.exposure_prob ?? 0.0)
+              )}
             </span>
           </div>
 
           <div className="flex items-center justify-between pt-2 border-t border-white/5">
             <span className="text-slate-300">{t('segment_drawer.closure_prob')}</span>
             <span className="font-mono font-bold text-amber-400">
-              {formatPercent(explainData?.closure_prob ?? 0.68)}
+              {isLoading ? (
+                <span className="text-slate-400 text-xs">...</span>
+              ) : (
+                formatPercent(explainData?.closure_prob ?? 0.0)
+              )}
             </span>
           </div>
         </div>
