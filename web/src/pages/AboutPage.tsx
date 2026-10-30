@@ -5,23 +5,18 @@ import {
   ShieldAlert,
   Cpu,
   Layers,
-  Compass,
   CheckCircle2,
   AlertTriangle,
   Search,
-  Code2,
   Copy,
   Check,
-  ExternalLink,
   Activity,
   Zap,
-  Radio,
   Sliders,
   TrendingUp,
-  MapPin,
-  Clock,
   Database,
   Terminal,
+  Sparkles,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -32,9 +27,60 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const SERIF: React.CSSProperties = { fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 };
+const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
+const SANS: React.CSSProperties = { fontFamily: "'DM Sans', sans-serif" };
+
+const ABOUT_BG_IMAGE =
+  'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80';
+
 interface AboutPageProps {
   onBack: () => void;
 }
+
+const SectionHeader: React.FC<{
+  eyebrow: string;
+  accent: 'amber' | 'sky' | 'rose' | 'emerald' | 'cyan';
+  title: string;
+  caption?: string;
+}> = ({ eyebrow, accent, title, caption }) => {
+  const dot: Record<string, string> = {
+    amber: 'bg-amber-300',
+    sky: 'bg-sky-300',
+    rose: 'bg-rose-300',
+    emerald: 'bg-emerald-300',
+    cyan: 'bg-cyan-300',
+  };
+  const text: Record<string, string> = {
+    amber: 'text-amber-300/90',
+    sky: 'text-sky-300/90',
+    rose: 'text-rose-300/90',
+    emerald: 'text-emerald-300/90',
+    cyan: 'text-cyan-300/90',
+  };
+
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-5 border-b border-white/[0.06]">
+      <div>
+        <div className={`flex items-center gap-1.5 mb-2 ${text[accent]}`} style={MONO}>
+          <span className={`w-1 h-1 rounded-full ${dot[accent]} animate-pulse`} />
+          <span className="text-[10px] uppercase tracking-[0.3em]">{eyebrow}</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl text-white leading-tight tracking-tight" style={SERIF}>
+          {title}
+        </h2>
+      </div>
+      {caption && (
+        <p
+          className="text-[11px] sm:text-xs text-slate-500 max-w-md leading-relaxed"
+          style={SANS}
+        >
+          {caption}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
   const { t } = useTranslation();
@@ -45,13 +91,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [copiedCurl, setCopiedCurl] = useState(false);
 
-  // GSAP ScrollTrigger Animations
   useEffect(() => {
-
     if (!containerRef.current) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
-      // 1. Scroll-driven Progress Bar
       if (progressBarRef.current) {
         gsap.to(progressBarRef.current, {
           scaleX: 1,
@@ -65,21 +109,21 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
         });
       }
 
-      // 2. Hero entrance
+      if (reduced) return;
+
       gsap.from('.about-hero-elem', {
         opacity: 0,
-        y: 30,
+        y: 24,
         stagger: 0.08,
         duration: 0.7,
         ease: 'power3.out',
       });
 
-      // 3. Scroll sections reveals
       const scrollSections = gsap.utils.toArray<HTMLElement>('.about-scroll-section');
       scrollSections.forEach((sec) => {
         gsap.from(sec, {
           opacity: 0,
-          y: 40,
+          y: 36,
           duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
@@ -90,15 +134,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
         });
       });
 
-      // 4. Staggered node entrance in pipeline
       const pipelineNodes = gsap.utils.toArray<HTMLElement>('.pipeline-node');
       pipelineNodes.forEach((node) => {
         gsap.from(node, {
           opacity: 0,
-          scale: 0.94,
           y: 20,
           duration: 0.6,
-          ease: 'back.out(1.4)',
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: node,
             start: 'top 88%',
@@ -106,7 +148,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
         });
       });
 
-      // 5. Gauge and meter fills
       const meterBars = gsap.utils.toArray<HTMLElement>('.about-meter-fill');
       meterBars.forEach((bar) => {
         const targetWidth = bar.getAttribute('data-target-width') || '100%';
@@ -212,727 +253,760 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen w-full bg-[#080b12] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200 relative overflow-x-hidden"
+      className="relative min-h-screen w-full bg-[#060a14] text-slate-200 overflow-x-hidden selection:bg-amber-300/30 selection:text-white"
+      style={SANS}
     >
-      {/* 1. Scroll-Driven Progress Line at Top Edge */}
-      <div className="fixed top-0 inset-x-0 h-1 z-50 bg-slate-900/60">
+      {/* Atmospheric backdrop — matches landing */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src={ABOUT_BG_IMAGE}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover object-center opacity-[0.14] scale-105"
+          loading="eager"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at 18% 10%, rgba(251,191,36,0.07), transparent 55%), radial-gradient(ellipse at 82% 72%, rgba(56,189,248,0.06), transparent 60%), radial-gradient(circle at 50% 100%, rgba(244,63,94,0.03), transparent 55%)',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060a14]/70 via-[#060a14]/60 to-[#060a14]/85" />
+      </div>
+
+      {/* Scroll progress bar */}
+      <div className="fixed top-0 inset-x-0 h-[2px] z-50 bg-white/[0.03]">
         <div
           ref={progressBarRef}
-          className="h-full bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-400 origin-left"
+          className="h-full bg-gradient-to-r from-amber-400 via-sky-400 to-emerald-400 origin-left"
           style={{ transform: 'scaleX(0)' }}
         />
       </div>
 
-      {/* 2. Top Navigation Bar (Sticky with Return Button) */}
-      <header className="sticky top-0 z-40 bg-[#080b12]/95 backdrop-blur-2xl border-b border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              onBack();
-            }}
-            className="min-h-[44px] inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors px-3 py-1.5 rounded-xl hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/40"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>{t('about.return_explorer')}</span>
-          </button>
+      {/* Floating nav pill */}
+      <header className="sticky top-0 z-40 px-3 sm:px-6 pt-3 sm:pt-5 pointer-events-none">
+        <div className="mx-auto max-w-6xl pointer-events-auto">
+          <div className="flex items-center justify-between gap-2 rounded-full border border-white/[0.08] bg-[#0a0e16]/85 px-2 sm:px-3.5 py-2 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.6)]">
+            <button
+              onClick={onBack}
+              className="group inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors min-h-[40px]"
+              style={SANS}
+            >
+              <ArrowLeft className="w-3.5 h-3.5 text-amber-300 transition-transform group-hover:-translate-x-0.5" />
+              <span className="hidden sm:inline">{t('about.return_explorer')}</span>
+              <span className="sm:hidden">Back</span>
+            </button>
 
-          <div className="h-5 w-[1px] bg-slate-800 hidden sm:block" />
+            <div className="hidden sm:flex items-center gap-2 min-w-0">
+              <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-0.5 shrink-0">
+                <span className="flex h-full w-full items-center justify-center rounded-full bg-[#080d1a]">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                </span>
+              </span>
+              <span className="text-base text-white leading-none" style={SERIF}>
+                Impact<em className="not-italic text-amber-300/90">Map</em>
+              </span>
+              <span className="h-4 w-px bg-white/10" />
+              <span className="text-[9px] uppercase tracking-[0.24em] text-slate-500" style={MONO}>
+                Methodology
+              </span>
+            </div>
 
-          <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>[ETH-AWASH-BASIN] 09°01'N 40°15'E</span>
+            <div className="flex items-center gap-2">
+              <span
+                className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] text-slate-400"
+                style={MONO}
+              >
+                <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="uppercase tracking-wider">
+                  {t('about.model_label')} · {config.model_version}
+                </span>
+              </span>
+              <span
+                className="hidden lg:inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] text-slate-400 uppercase tracking-wider"
+                style={MONO}
+              >
+                {t('about.data_label')} · {config.data_version}
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2.5 text-xs font-mono">
-          <span className="px-2.5 py-1 rounded-lg bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 font-bold">
-            {t('about.model_label')}: {config.model_version}
-          </span>
-          <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hidden sm:inline">
-            {t('about.data_label')}: {config.data_version}
-          </span>
         </div>
       </header>
 
-      {/* 3. Hero Visual Architecture Stage */}
-      <section className="relative pt-12 pb-16 px-4 sm:px-8 border-b border-slate-800/80 bg-gradient-to-b from-[#0c1424] via-[#090e1a] to-[#080b12] overflow-hidden">
-        {/* Ambient Topographic Grid Waveform */}
-        <div className="absolute inset-0 opacity-15 pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="about-topo-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-                <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="0.7" />
-                <circle cx="24" cy="24" r="1" fill="rgba(56, 189, 248, 0.3)" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#about-topo-grid)" />
-          </svg>
-        </div>
-
-        {/* Animated Radar Scope Graphic in Background */}
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 w-80 h-80 sm:w-96 sm:h-96 opacity-20 pointer-events-none hidden md:block">
-          <svg viewBox="0 0 200 200" className="w-full h-full">
-            <circle cx="100" cy="100" r="90" fill="none" stroke="#0ea5e9" strokeWidth="1" strokeDasharray="4 4" />
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#0ea5e9" strokeWidth="1" strokeDasharray="3 3" />
-            <circle cx="100" cy="100" r="30" fill="none" stroke="#0ea5e9" strokeWidth="1" />
-            <line x1="10" y1="100" x2="190" y2="100" stroke="#0ea5e9" strokeWidth="0.8" opacity="0.6" />
-            <line x1="100" y1="10" x2="100" y2="190" stroke="#0ea5e9" strokeWidth="0.8" opacity="0.6" />
-            <g className="animate-radar-sweep">
-              <line x1="100" y1="100" x2="190" y2="100" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" />
-              <path d="M 100 100 L 190 100 A 90 90 0 0 0 163 36 Z" fill="url(#radar-grad)" opacity="0.4" />
-            </g>
-            <defs>
-              <linearGradient id="radar-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#0284c7" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        <div className="max-w-6xl mx-auto relative z-10 space-y-6">
-          <div className="about-hero-elem inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-medium">
-            <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>OPERATIONAL METHODOLOGY &amp; MATHEMATICAL INTEGRITY DOCTRINE</span>
+      {/* Hero */}
+      <section className="relative z-10 pt-16 sm:pt-24 pb-14 px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl space-y-6">
+          <div className="about-hero-elem inline-flex items-center gap-2" style={MONO}>
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+              Operational Methodology · Scientific Integrity
+            </span>
           </div>
 
-          <h1 className="about-hero-elem text-3xl sm:text-6xl font-black text-white tracking-tight leading-tight">
-            ImpactMap <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-400">AI</span> Scientific Architecture
+          <h1
+            className="about-hero-elem text-5xl sm:text-7xl lg:text-[6rem] leading-[0.95] tracking-tight text-white"
+            style={SERIF}
+          >
+            Scientific
+            <br />
+            <em className="not-italic text-amber-300/90">architecture</em>
           </h1>
 
-          <p className="about-hero-elem text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
+          <p
+            className="about-hero-elem max-w-3xl text-base sm:text-lg leading-relaxed text-slate-300/90"
+            style={SANS}
+          >
             {t('about.hero_desc')}
           </p>
 
-          {/* Real-time Basin Telemetry Nodes (Frameless Crosshair Design) */}
-          <div className="about-hero-elem grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-800">
-            <div className="relative pl-3 border-l-2 border-cyan-400">
-              <div className="text-[11px] font-mono uppercase text-slate-400">Basin Road Links</div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">3,420</div>
-              <div className="text-[11px] text-cyan-400/80 font-mono">Topological graph edges</div>
-            </div>
-
-            <div className="relative pl-3 border-l-2 border-sky-400">
-              <div className="text-[11px] font-mono uppercase text-slate-400">Health Facilities</div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">89</div>
-              <div className="text-[11px] text-sky-400/80 font-mono">Hospitals &amp; Health Centers</div>
-            </div>
-
-            <div className="relative pl-3 border-l-2 border-emerald-400">
-              <div className="text-[11px] font-mono uppercase text-slate-400">Radar Resolution</div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">10m</div>
-              <div className="text-[11px] text-emerald-400/80 font-mono">Copernicus Sentinel-1 SAR</div>
-            </div>
-
-            <div className="relative pl-3 border-l-2 border-amber-400">
-              <div className="text-[11px] font-mono uppercase text-slate-400">Simulation Latency</div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">&lt;950ms</div>
-              <div className="text-[11px] text-amber-400/80 font-mono">200 Monte Carlo draws</div>
-            </div>
+          {/* Hero metric strip */}
+          <div className="about-hero-elem pt-8 border-t border-white/[0.06] grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: 'Basin Road Links', value: '3,420', caption: 'Topological graph edges', accent: 'text-sky-300' },
+              { label: 'Health Facilities', value: '89', caption: 'Hospitals & centers', accent: 'text-amber-300' },
+              { label: 'Radar Resolution', value: '10 m', caption: 'Sentinel-1 SAR', accent: 'text-emerald-300' },
+              { label: 'Simulation Latency', value: '< 950', caption: 'ms · 200 draws', accent: 'text-rose-300' },
+            ].map((m) => (
+              <div
+                key={m.label}
+                className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/60 p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.45)] transition-all duration-300 hover:border-white/[0.16] hover:-translate-y-0.5"
+              >
+                <div
+                  className="text-[9px] uppercase tracking-[0.24em] text-slate-500 mb-1.5"
+                  style={MONO}
+                >
+                  {m.label}
+                </div>
+                <div className={`text-3xl ${m.accent} tabular-nums leading-none`} style={SERIF}>
+                  {m.value}
+                </div>
+                <div className="text-[11px] text-slate-500 mt-2" style={SANS}>
+                  {m.caption}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 4. Main Methodology Narrative (Full-Screen Animated Flow) */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-8 py-12 space-y-16">
+      {/* Main */}
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pb-24 space-y-20">
+        {/* ── 1. Three Non-Mixed Quantities ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="01 · Mathematical Integrity"
+            accent="amber"
+            title="Three non-mixed quantities"
+            caption="To eliminate false certainty in life-or-death flood operations, ImpactMap AI strictly prevents cross-mixing between three distinct stages."
+          />
 
-        {/* SECTION 1: The Interactive Architecture Pipeline (The Three Non-Mixed Quantities) */}
-        <section className="about-scroll-section space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-slate-800 pb-4">
-            <div>
-              <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-                <Layers className="w-4 h-4" />
-                <span>PROTOCOL A4.12 // MATHEMATICAL INTEGRITY PIPELINE</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-                The Three Non-Mixed Quantities
-              </h2>
-            </div>
-            <p className="text-xs font-mono text-slate-400 max-w-md">
-              To eliminate false certainty in life-or-death flood disaster operations, ImpactMap AI strictly prevents cross-mixing between three distinct stages.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                num: '01',
+                tag: 'Calibrated ML',
+                title: 'Flood exposure probability',
+                desc: 'The machine-learning predicted probability (0.00 to 1.00) that standing floodwater intersects a specific road segment. Trained on Copernicus Sentinel-1 SAR and terrain features with strict monotonic constraints on elevation and distance-to-river.',
+                footerIcon: <CheckCircle2 className="w-3.5 h-3.5" />,
+                footerText: 'Only quantity benchmarked against satellite SAR ground truth.',
+                accent: 'sky',
+              },
+              {
+                num: '02',
+                tag: 'Operational Parameter',
+                title: 'Assumed road closure',
+                desc: 'The operational probability that an emergency coordinator treats a flooded road as impassable during vehicle dispatch, scaled by the closure factor k and manual sandbagging / open-close overrides.',
+                footerIcon: <Sliders className="w-3.5 h-3.5" />,
+                footerText: 'Operational assumption, not an empirical observation.',
+                accent: 'amber',
+              },
+              {
+                num: '03',
+                tag: 'Network Graph Math',
+                title: 'Estimated access loss',
+                desc: 'The calculated population severed from hospital emergency surgery or experiencing >2× travel time inflation, computed via 200 Monte Carlo Dijkstra realizations across the basin road graph.',
+                footerIcon: <Cpu className="w-3.5 h-3.5" />,
+                footerText: 'Monte Carlo calculation, not an observed ground census.',
+                accent: 'rose',
+              },
+            ].map((card) => {
+              const accentText =
+                card.accent === 'sky'
+                  ? 'text-sky-300'
+                  : card.accent === 'amber'
+                  ? 'text-amber-300'
+                  : 'text-rose-300';
+              const accentBorderHover =
+                card.accent === 'sky'
+                  ? 'hover:border-sky-300/35'
+                  : card.accent === 'amber'
+                  ? 'hover:border-amber-300/35'
+                  : 'hover:border-rose-300/35';
+              return (
+                <div
+                  key={card.num}
+                  className={`pipeline-node group relative rounded-2xl border border-white/[0.08] bg-[#0a0e16]/70 p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 ${accentBorderHover} hover:-translate-y-0.5 overflow-hidden`}
+                >
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-baseline gap-2">
+                      <span
+                        className={`text-xl ${accentText} tabular-nums leading-none`}
+                        style={SERIF}
+                      >
+                        {card.num}
+                      </span>
+                      <span
+                        className="text-[9px] uppercase tracking-[0.26em] text-slate-500"
+                        style={MONO}
+                      >
+                        {card.tag}
+                      </span>
+                    </div>
+                  </div>
 
-          {/* Connected Telemetry Flow Nodes with Animated SVG Conduit */}
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Animated SVG Stream Conduit Linking the 3 Nodes */}
-            <div className="hidden md:block absolute top-12 inset-x-12 h-1 pointer-events-none z-0">
-              <svg className="w-full h-2" overflow="visible">
-                <line
-                  x1="0"
-                  y1="1"
-                  x2="100%"
-                  y2="1"
-                  stroke="rgba(56, 189, 248, 0.4)"
-                  strokeWidth="2"
-                  strokeDasharray="6 6"
-                  className="animate-flow-dash"
-                />
-              </svg>
-            </div>
+                  <h3 className="text-xl text-white leading-tight mb-3" style={SERIF}>
+                    {card.title}
+                  </h3>
 
-            {/* Pipeline Stage 1 */}
-            <div className="pipeline-node relative z-10 p-6 rounded-2xl bg-gradient-to-b from-[#0f172a] to-[#0a0f1d] border border-cyan-500/30 hover:border-cyan-400/70 transition-all shadow-lg space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 font-mono font-bold text-xs">
-                  01
-                </span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-bold">
-                  Calibrated ML
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">1. Flood Exposure Probability</h3>
-              <div className="text-xs text-slate-300 leading-relaxed">
-                The machine-learning predicted probability (0.00 to 1.00) that standing floodwater intersects a specific road segment. Trained on Copernicus Sentinel-1 SAR and terrain features with strict monotonic constraints on elevation and distance-to-river.
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[11px] font-mono text-cyan-400 font-semibold flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Only quantity benchmarked against satellite SAR ground truth.</span>
-              </div>
-            </div>
+                  <p className="text-[12px] text-slate-400 leading-relaxed mb-4" style={SANS}>
+                    {card.desc}
+                  </p>
 
-            {/* Pipeline Stage 2 */}
-            <div className="pipeline-node relative z-10 p-6 rounded-2xl bg-gradient-to-b from-[#1a140b] to-[#0e0c07] border border-amber-500/30 hover:border-amber-400/70 transition-all shadow-lg space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300 font-mono font-bold text-xs">
-                  02
-                </span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold">
-                  Operational Parameter
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">2. Assumed Road Closure</h3>
-              <div className="text-xs text-slate-300 leading-relaxed">
-                The operational probability that an emergency coordinator treats a flooded road as impassable during vehicle dispatch, scaled by the closure factor <em>k</em> and manual sandbagging / open-close overrides.
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[11px] font-mono text-amber-400 font-semibold flex items-center gap-1.5">
-                <Sliders className="w-3.5 h-3.5" />
-                <span>Operational assumption, not an empirical observation.</span>
-              </div>
-            </div>
-
-            {/* Pipeline Stage 3 */}
-            <div className="pipeline-node relative z-10 p-6 rounded-2xl bg-gradient-to-b from-[#1c0d16] to-[#0f070c] border border-rose-500/30 hover:border-rose-400/70 transition-all shadow-lg space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-400/50 flex items-center justify-center text-rose-300 font-mono font-bold text-xs">
-                  03
-                </span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-rose-950/80 border border-rose-500/40 text-rose-300 font-bold">
-                  Network Graph Math
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">3. Estimated Access Loss</h3>
-              <div className="text-xs text-slate-300 leading-relaxed">
-                The calculated population severed from hospital emergency surgery or experiencing &gt;2x travel time inflation, computed via 200 Monte Carlo Dijkstra realizations across the basin road graph.
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-[11px] font-mono text-rose-400 font-semibold flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Monte Carlo calculation, not an observed ground census.</span>
-              </div>
-            </div>
+                  <div
+                    className={`flex items-start gap-2 pt-3 border-t border-white/[0.06] text-[10px] uppercase tracking-[0.18em] ${accentText}`}
+                    style={MONO}
+                  >
+                    <span className="mt-0.5 shrink-0">{card.footerIcon}</span>
+                    <span>{card.footerText}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        {/* SECTION 2: What This System Is and Is Not (Frameless Tactical Assessment Board) */}
-        <section className="about-scroll-section space-y-6">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-              <Activity className="w-4 h-4" />
-              <span>PROTOCOL A4.01 // SYSTEM BOUNDARY DEFINITION</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-              Operational Scope &amp; Ethical Boundaries
-            </h2>
-          </div>
+        {/* ── 2. Scope & Boundaries ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="02 · Operational Scope"
+            accent="emerald"
+            title="What this system is & is not"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* What It Is */}
-            <div className="p-6 rounded-2xl bg-[#09131a] border border-emerald-500/40 relative overflow-hidden space-y-4 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm tracking-wider uppercase">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Validated Operational Capabilities (What It Is)</span>
-                </div>
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="rounded-2xl border border-emerald-300/20 bg-emerald-500/[0.03] p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.45)]">
+              <div className="flex items-center gap-2 mb-5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                <span
+                  className="text-[10px] uppercase tracking-[0.28em] text-emerald-300/90"
+                  style={MONO}
+                >
+                  Validated capabilities
+                </span>
               </div>
 
-              <ul className="space-y-3 text-xs text-slate-200">
-                <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-400 font-mono font-bold">✓</span>
-                  <div>
-                    <strong className="text-white">Emergency Reconnaissance Prioritization:</strong> Identifies which critical culverts, river crossings, and mountain corridors warrant scout drone or vehicle dispatch first.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-400 font-mono font-bold">✓</span>
-                  <div>
-                    <strong className="text-white">Counterfactual Mitigation Simulator:</strong> Tests the system-wide humanitarian gain of sandbagging or reinforcing any road link before floodwaters peak.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-400 font-mono font-bold">✓</span>
-                  <div>
-                    <strong className="text-white">Calibrated ML Probability:</strong> Rigorously verified with historical Copernicus Sentinel-1 SAR observations, achieving 0.061 Brier score.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-emerald-400 font-mono font-bold">✓</span>
-                  <div>
-                    <strong className="text-white">Disconnected Field Contingency:</strong> Runs locally with offline caching when grid power and cellular base stations collapse.
-                  </div>
-                </li>
+              <ul className="space-y-4 text-[13px] text-slate-300">
+                {[
+                  { h: 'Emergency reconnaissance prioritization', t: 'Identifies which critical culverts, river crossings, and mountain corridors warrant scout drone or vehicle dispatch first.' },
+                  { h: 'Counterfactual mitigation simulator', t: 'Tests the system-wide humanitarian gain of sandbagging or reinforcing any road link before floodwaters peak.' },
+                  { h: 'Calibrated ML probability', t: 'Rigorously verified with historical Copernicus Sentinel-1 SAR observations, achieving 0.061 Brier score.' },
+                  { h: 'Disconnected field contingency', t: 'Runs locally with offline caching when grid power and cellular base stations collapse.' },
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span
+                      className="text-emerald-300/70 tabular-nums shrink-0 mt-0.5"
+                      style={MONO}
+                    >
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <span className="text-white font-medium">{item.h}.</span>{' '}
+                      <span className="text-slate-400">{item.t}</span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* What It Is Not */}
-            <div className="p-6 rounded-2xl bg-[#170e0a] border border-amber-500/40 relative overflow-hidden space-y-4 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-amber-400 font-bold text-sm tracking-wider uppercase">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Explicit System Boundaries (What It Is Not)</span>
-                </div>
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+            <div className="rounded-2xl border border-amber-300/20 bg-amber-500/[0.03] p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.45)]">
+              <div className="flex items-center gap-2 mb-5">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-300" />
+                <span
+                  className="text-[10px] uppercase tracking-[0.28em] text-amber-300/90"
+                  style={MONO}
+                >
+                  Explicit boundaries
+                </span>
               </div>
 
-              <ul className="space-y-3 text-xs text-slate-200">
-                <li className="flex items-start gap-2.5">
-                  <span className="text-amber-400 font-mono font-bold">✕</span>
-                  <div>
-                    <strong className="text-white">Not a Deterministic Weather Forecast:</strong> Evaluates simulated rainfall stress tests, not the exact minute an atmospheric front arrives.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-amber-400 font-mono font-bold">✕</span>
-                  <div>
-                    <strong className="text-white">Not a Structural Engineering Guarantee:</strong> Does not calculate civil engineering shear stress on bridge piers or asphalt foundation washouts.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-amber-400 font-mono font-bold">✕</span>
-                  <div>
-                    <strong className="text-white">Not a Live CCTV Traffic Feed:</strong> Satellite SAR and models cannot observe individual vehicle positions or mud puddles under dense tree cover.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-amber-400 font-mono font-bold">✕</span>
-                  <div>
-                    <strong className="text-white">Not a Replacement for Ground Command:</strong> Human verification is legally and ethically required before relief convoys enter high-risk floodways.
-                  </div>
-                </li>
+              <ul className="space-y-4 text-[13px] text-slate-300">
+                {[
+                  { h: 'Not a deterministic weather forecast', t: 'Evaluates simulated rainfall stress tests, not the exact minute an atmospheric front arrives.' },
+                  { h: 'Not a structural engineering guarantee', t: 'Does not calculate civil engineering shear stress on bridge piers or asphalt foundation washouts.' },
+                  { h: 'Not a live CCTV traffic feed', t: 'Satellite SAR and models cannot observe individual vehicle positions or mud puddles under dense tree cover.' },
+                  { h: 'Not a replacement for ground command', t: 'Human verification is legally and ethically required before relief convoys enter high-risk floodways.' },
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span
+                      className="text-amber-300/70 tabular-nums shrink-0 mt-0.5"
+                      style={MONO}
+                    >
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <span className="text-white font-medium">{item.h}.</span>{' '}
+                      <span className="text-slate-400">{item.t}</span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </section>
 
-        {/* SECTION 3: Scientific Evaluation & Calibration Rigor */}
-        <section className="about-scroll-section space-y-6">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-              <TrendingUp className="w-4 h-4" />
-              <span>PROTOCOL A4.07 // SCIENTIFIC CALIBRATION BENCHMARKS</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-              Earth Observation &amp; ML Validation
-            </h2>
-          </div>
+        {/* ── 3. Calibration ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="03 · Calibration Benchmarks"
+            accent="sky"
+            title="Earth observation & ML validation"
+            caption="A perfectly calibrated model tracks the 45° diagonal of its reliability curve. We stay within 2.3% of ground truth."
+          />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Calibration Performance Gauges */}
-            <div className="lg:col-span-7 p-6 rounded-2xl bg-[#0d1424] border border-cyan-500/30 space-y-5 shadow-xl">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-white">Brier Score Evaluation Benchmark (Lower is Better)</span>
-                <span className="text-xs font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800">
-                  -48.3% Error Reduction
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* Benchmark bars */}
+            <div className="lg:col-span-7 rounded-2xl border border-white/[0.08] bg-[#0a0e16]/70 p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] space-y-5">
+              <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+                <div>
+                  <div
+                    className="text-[9px] uppercase tracking-[0.24em] text-slate-500 mb-1"
+                    style={MONO}
+                  >
+                    Brier Score · Lower is better
+                  </div>
+                  <h3 className="text-lg text-white" style={SERIF}>
+                    vs calibration baselines
+                  </h3>
+                </div>
+                <span
+                  className="text-[10px] uppercase tracking-[0.2em] text-emerald-300 px-2.5 py-0.5 rounded-full bg-emerald-500/[0.06] border border-emerald-300/20"
+                  style={MONO}
+                >
+                  −48.3% error
                 </span>
               </div>
 
-              {/* Brier Horizontal Progress Meters */}
               <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-xs font-mono mb-1">
-                    <span className="text-cyan-300 font-bold">Calibrated LightGBM with Monotonic Constraints (ImpactMap AI)</span>
-                    <span className="text-cyan-300 font-bold">0.061</span>
+                {[
+                  { label: 'Calibrated LightGBM · ImpactMap', value: '0.061', width: '48%', bar: 'bg-gradient-to-r from-emerald-300 to-sky-300', accent: 'text-emerald-200' },
+                  { label: 'B1 · Logistic DEM + Distance', value: '0.089', width: '70%', bar: 'bg-slate-400/70', accent: 'text-slate-300' },
+                  { label: 'B0 · Historical Mean', value: '0.118', width: '95%', bar: 'bg-slate-600/70', accent: 'text-slate-400' },
+                ].map((row) => (
+                  <div key={row.label}>
+                    <div className="flex justify-between items-baseline mb-1.5">
+                      <span
+                        className={`text-[10px] uppercase tracking-wider ${row.accent}`}
+                        style={MONO}
+                      >
+                        {row.label}
+                      </span>
+                      <span className={`text-base tabular-nums ${row.accent}`} style={SERIF}>
+                        {row.value}
+                      </span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-slate-900/60 overflow-hidden">
+                      <div
+                        className={`about-meter-fill ${row.bar} h-full rounded-full`}
+                        data-target-width={row.width}
+                        style={{ width: '0%' }}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                    <div
-                      className="about-meter-fill bg-gradient-to-r from-cyan-400 to-emerald-400 h-full rounded-full"
-                      data-target-width="48%"
-                      style={{ width: '0%' }}
-                    />
-                  </div>
-                  <div className="text-[10px] text-slate-400 mt-1">Ground truth verified across 2020-2024 historical Awash flooding</div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-mono mb-1">
-                    <span className="text-slate-400">Baseline B1 (Logistic DEM + Distance to River)</span>
-                    <span className="text-slate-400">0.089</span>
-                  </div>
-                  <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                    <div
-                      className="about-meter-fill bg-slate-500 h-full rounded-full"
-                      data-target-width="70%"
-                      style={{ width: '0%' }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-mono mb-1">
-                    <span className="text-slate-500">Baseline B0 (Historical Climatological Mean)</span>
-                    <span className="text-slate-500">0.118</span>
-                  </div>
-                  <div className="w-full bg-slate-900 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                    <div
-                      className="about-meter-fill bg-slate-700 h-full rounded-full"
-                      data-target-width="95%"
-                      style={{ width: '0%' }}
-                    />
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* Summary Metrics Grid */}
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-800">
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                  <div className="text-[10px] font-mono uppercase text-slate-400">ROC-AUC</div>
-                  <div className="text-xl font-bold font-mono text-cyan-300 mt-0.5">0.924</div>
-                  <div className="text-[9px] text-slate-500">Separation power</div>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                  <div className="text-[10px] font-mono uppercase text-slate-400">Log-Loss</div>
-                  <div className="text-xl font-bold font-mono text-sky-300 mt-0.5">0.198</div>
-                  <div className="text-[9px] text-slate-500">Cross-entropy</div>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                  <div className="text-[10px] font-mono uppercase text-slate-400">ECE</div>
-                  <div className="text-xl font-bold font-mono text-emerald-300 mt-0.5">0.023</div>
-                  <div className="text-[9px] text-slate-500">Expected error</div>
-                </div>
+              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/[0.06]">
+                {[
+                  { label: 'ROC-AUC', value: '0.924', caption: 'Separation', accent: 'text-sky-300' },
+                  { label: 'Log-Loss', value: '0.198', caption: 'Cross-entropy', accent: 'text-amber-300' },
+                  { label: 'ECE', value: '0.023', caption: 'Expected error', accent: 'text-emerald-300' },
+                ].map((m) => (
+                  <div
+                    key={m.label}
+                    className="rounded-xl border border-white/[0.06] bg-black/20 p-3"
+                  >
+                    <div
+                      className="text-[9px] uppercase tracking-[0.22em] text-slate-500 mb-1"
+                      style={MONO}
+                    >
+                      {m.label}
+                    </div>
+                    <div className={`text-2xl ${m.accent} tabular-nums leading-none`} style={SERIF}>
+                      {m.value}
+                    </div>
+                    <div className="text-[10px] text-slate-500 mt-1" style={SANS}>
+                      {m.caption}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Interactive Reliability Diagram SVG Representation */}
-            <div className="lg:col-span-5 p-6 rounded-2xl bg-[#090e18] border border-cyan-500/30 flex flex-col justify-between shadow-xl">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono font-bold text-white uppercase">Reliability Diagram (Calibration Curve)</span>
-                  <span className="text-[10px] font-mono text-cyan-400">10 Bins (N=3,420)</span>
+            {/* Reliability diagram */}
+            <div className="lg:col-span-5 rounded-2xl border border-white/[0.08] bg-[#0a0e16]/70 p-6 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] flex flex-col">
+              <div className="flex items-center justify-between mb-3">
+                <div
+                  className="text-[9px] uppercase tracking-[0.24em] text-sky-300/90"
+                  style={MONO}
+                >
+                  Reliability diagram
                 </div>
-                <p className="text-[11px] text-slate-400 leading-normal mb-4">
-                  A perfectly calibrated model tracks the 45-degree diagonal. ImpactMap AI remains within 2.3% of empirical ground truth frequency across all exposure bins.
-                </p>
+                <span className="text-[10px] text-slate-500" style={MONO}>
+                  10 bins · N=3,420
+                </span>
+              </div>
+              <h4 className="text-base text-white mb-3" style={SERIF}>
+                Calibration curve
+              </h4>
 
-                {/* SVG Calibration Chart */}
-                <div className="relative w-full aspect-square max-h-56 mx-auto bg-slate-950/70 rounded-xl p-3 border border-slate-800">
-                  <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-                    {/* Grid lines */}
-                    <line x1="0" y1="25" x2="100" y2="25" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
-                    <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
-                    <line x1="0" y1="75" x2="100" y2="75" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
-                    <line x1="25" y1="0" x2="25" y2="100" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
-                    <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
-                    <line x1="75" y1="0" x2="75" y2="100" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
+              <div className="relative w-full aspect-square max-h-56 mx-auto rounded-xl bg-black/30 border border-white/[0.06] p-3">
+                <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+                  {[25, 50, 75].map((p) => (
+                    <React.Fragment key={p}>
+                      <line x1="0" y1={p} x2="100" y2={p} stroke="rgba(255,255,255,0.05)" strokeDasharray="2 2" />
+                      <line x1={p} y1="0" x2={p} y2="100" stroke="rgba(255,255,255,0.05)" strokeDasharray="2 2" />
+                    </React.Fragment>
+                  ))}
 
-                    {/* Ideal 45-degree diagonal */}
-                    <line x1="0" y1="100" x2="100" y2="0" stroke="rgba(148, 163, 184, 0.4)" strokeWidth="1" strokeDasharray="3 3" />
+                  <line x1="0" y1="100" x2="100" y2="0" stroke="rgba(148, 163, 184, 0.35)" strokeWidth="1" strokeDasharray="3 3" />
 
-                    {/* ImpactMap Calibrated Curve */}
-                    <polyline
-                      points="0,100 10,91 20,81 30,71 40,60 50,49 60,39 70,28 80,19 90,9 100,0"
-                      fill="none"
-                      stroke="#06b6d4"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
+                  <polyline
+                    points="0,100 10,91 20,81 30,71 40,60 50,49 60,39 70,28 80,19 90,9 100,0"
+                    fill="none"
+                    stroke="#38bdf8"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
 
-                    {/* Baseline Uncalibrated Curve */}
-                    <polyline
-                      points="0,100 10,95 20,88 30,79 40,69 50,55 60,45 70,36 80,29 90,18 100,0"
-                      fill="none"
-                      stroke="#64748b"
-                      strokeWidth="1.5"
-                      strokeDasharray="2 2"
-                    />
+                  <polyline
+                    points="0,100 10,95 20,88 30,79 40,69 50,55 60,45 70,36 80,29 90,18 100,0"
+                    fill="none"
+                    stroke="#64748b"
+                    strokeWidth="1.5"
+                    strokeDasharray="2 2"
+                  />
 
-                    {/* Data Points */}
-                    {[
-                      [0,100], [10,91], [20,81], [30,71], [40,60], [50,49], [60,39], [70,28], [80,19], [90,9], [100,0]
-                    ].map(([cx, cy], i) => (
-                      <circle key={i} cx={cx} cy={cy} r="2" fill="#38bdf8" />
-                    ))}
-                  </svg>
-                </div>
+                  {[[0,100],[10,91],[20,81],[30,71],[40,60],[50,49],[60,39],[70,28],[80,19],[90,9],[100,0]].map(([cx, cy], i) => (
+                    <circle key={i} cx={cx} cy={cy} r="1.8" fill="#38bdf8" />
+                  ))}
+                </svg>
               </div>
 
-              <div className="flex items-center justify-between text-[10px] font-mono pt-3 border-t border-slate-800 text-slate-400">
+              <div
+                className="flex items-center justify-between text-[10px] uppercase tracking-wider text-slate-500 pt-4 mt-auto"
+                style={MONO}
+              >
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                  ImpactMap LightGBM
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-300" /> ImpactMap
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-slate-500" />
-                  Uncalibrated
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-500" /> Uncalibrated
                 </span>
-                <span className="text-slate-500">Diagonal = Ideal</span>
+                <span>Diagonal = Ideal</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SECTION 4: Simulation Engine Operating Assumptions */}
-        <section className="about-scroll-section space-y-6">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-              <Zap className="w-4 h-4" />
-              <span>PROTOCOL A4.03 // ROUTING PARAMETER MATRIX</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-              Simulation Engine Operating Parameters
-            </h2>
+        {/* ── 4. Routing Parameters ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="04 · Routing Matrix"
+            accent="cyan"
+            title="Simulation engine parameters"
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {[
+              { label: 'Motorway', value: '80', accent: 'text-sky-300' },
+              { label: 'Trunk', value: '60', accent: 'text-sky-300' },
+              { label: 'Primary', value: '50', accent: 'text-cyan-300' },
+              { label: 'Secondary', value: '40', accent: 'text-slate-200' },
+              { label: 'Tertiary', value: '30', accent: 'text-slate-200' },
+              { label: 'Unpaved', value: '15', accent: 'text-amber-300' },
+            ].map((row) => (
+              <div
+                key={row.label}
+                className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/70 p-4 backdrop-blur-xl text-center transition-all duration-300 hover:border-white/[0.16] hover:-translate-y-0.5"
+              >
+                <div
+                  className="text-[9px] uppercase tracking-[0.22em] text-slate-500"
+                  style={MONO}
+                >
+                  {row.label}
+                </div>
+                <div className={`text-3xl ${row.accent} tabular-nums leading-none mt-1.5`} style={SERIF}>
+                  {row.value}
+                </div>
+                <div className="text-[9px] uppercase tracking-wider text-slate-500 mt-1" style={MONO}>
+                  km/h nominal
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Motorway</div>
-              <div className="text-2xl font-black text-cyan-400 mt-1">80</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Trunk</div>
-              <div className="text-2xl font-black text-cyan-400 mt-1">60</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Primary</div>
-              <div className="text-2xl font-black text-sky-400 mt-1">50</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Secondary</div>
-              <div className="text-2xl font-black text-slate-300 mt-1">40</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Tertiary</div>
-              <div className="text-2xl font-black text-slate-300 mt-1">30</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] uppercase text-slate-400">Unpaved Track</div>
-              <div className="text-2xl font-black text-amber-400 mt-1">15</div>
-              <div className="text-[9px] text-slate-500">km/h nominal</div>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-xs font-mono text-slate-300 flex flex-wrap items-center justify-between gap-4">
-            <div>• Degraded travel ratio cutoff: <span className="text-cyan-400 font-bold">&gt;2.0×</span> dry weather baseline time</div>
-            <div>• Poor baseline access threshold: <span className="text-amber-400 font-bold">&gt;120 minutes</span> under normal conditions</div>
-            <div>• Closure multiplier default: <span className="text-slate-100 font-bold">k = 1.0</span> (flooded implies impassable)</div>
-          </div>
-        </section>
-
-        {/* SECTION 5: Domain Glossary & Standardized Terms */}
-        <section className="about-scroll-section space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-800 pb-4">
+          <div
+            className="rounded-xl border border-white/[0.07] bg-[#0a0e16]/60 p-4 text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-4"
+            style={MONO}
+          >
             <div>
-              <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-                <BookOpen className="w-4 h-4" />
-                <span>PROTOCOL A4.13 // DOMAIN LEXICON &amp; SPECIFICATION TERMS</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-                Standardized Lexicon
-              </h2>
+              Degraded ratio:{' '}
+              <span className="text-sky-300 tabular-nums" style={SERIF}>
+                &gt; 2.0×
+              </span>{' '}
+              baseline
             </div>
+            <div>
+              Poor baseline:{' '}
+              <span className="text-amber-300 tabular-nums" style={SERIF}>
+                &gt; 120 min
+              </span>
+            </div>
+            <div>
+              Closure default:{' '}
+              <span className="text-white tabular-nums" style={SERIF}>
+                k = 1.0
+              </span>
+            </div>
+          </div>
+        </section>
 
-            {/* Terminal Search Input */}
-            <div className="relative w-full sm:w-72">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        {/* ── 5. Lexicon ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="05 · Domain Lexicon"
+            accent="amber"
+            title="Standardized terminology"
+          />
+
+          {/* Search */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search lexicon..."
-                className="w-full pl-9 pr-3 py-1.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+                placeholder="Search lexicon…"
+                className="w-full h-11 rounded-full border border-white/[0.08] bg-[#0a0e16]/70 pl-10 pr-3 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-white/20 backdrop-blur-xl"
+                style={SANS}
               />
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full border transition-all ${
+                    activeCategory === cat
+                      ? 'bg-white text-slate-900 border-transparent shadow-[0_6px_18px_rgba(255,255,255,0.1)]'
+                      : 'bg-white/[0.03] text-slate-400 border-white/[0.08] hover:text-white hover:border-white/20'
+                  }`}
+                  style={MONO}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Category Filter Chips */}
-          <div className="flex flex-wrap gap-1.5">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setActiveCategory(cat);
-                }}
-                className={`text-[11px] font-mono px-3 py-1 rounded-lg transition-all ${
-                  activeCategory === cat
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Lexicon Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredGlossary.map((g) => (
               <div
                 key={g.term}
-                className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-cyan-500/40 transition-colors space-y-2"
+                className="group rounded-xl border border-white/[0.08] bg-[#0a0e16]/60 p-5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.45)] transition-all duration-300 hover:border-amber-300/30 hover:-translate-y-0.5 space-y-2"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-cyan-300 text-xs font-mono">{g.term}</span>
-                  <span className="text-[9px] font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800 border border-slate-700">
+                <div className="flex items-start justify-between gap-2">
+                  <h4
+                    className="text-lg text-white group-hover:text-amber-100 transition-colors leading-tight"
+                    style={SERIF}
+                  >
+                    {g.term}
+                  </h4>
+                  <span
+                    className="text-[9px] uppercase tracking-[0.2em] text-slate-500 shrink-0 px-2 py-0.5 rounded-full border border-white/[0.08] bg-white/[0.03]"
+                    style={MONO}
+                  >
                     {g.category}
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{g.def}</p>
+                <p className="text-[12px] text-slate-400 leading-relaxed">{g.def}</p>
               </div>
             ))}
             {filteredGlossary.length === 0 && (
-              <div className="col-span-full py-8 text-center text-xs text-slate-500 font-mono">
-                No matching terminology found for query "{searchTerm}".
+              <div
+                className="col-span-full py-10 text-center text-xs text-slate-500 uppercase tracking-wider"
+                style={MONO}
+              >
+                No match for "{searchTerm}"
               </div>
             )}
           </div>
         </section>
 
-        {/* SECTION 6: Known Limitations & Failure Modes */}
-        <section className="about-scroll-section space-y-6">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 text-amber-400 text-xs font-mono font-bold uppercase tracking-wider">
-              <ShieldAlert className="w-4 h-4" />
-              <span>PROTOCOL A4.05 // KNOWN SYSTEM LIMITATIONS &amp; FAILURE MODES</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-              Scientific Caveats &amp; Failure Modes
-            </h2>
-          </div>
+        {/* ── 6. Limitations ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="06 · Known Limitations"
+            accent="rose"
+            title="Scientific caveats & failure modes"
+          />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-[#140e08] border border-amber-500/30 space-y-1.5">
-              <div className="flex items-center justify-between text-amber-400 font-mono text-xs font-bold">
-                <span>[LIM-01] VEHICLE CLEARANCE DIFFERENTIATION</span>
-                <span className="text-[10px]">OPERATIONAL</span>
+            {[
+              { tag: 'LIM-01', scope: 'Operational', title: 'Vehicle clearance differentiation', body: 'A submerged unpaved road may remain traversable for high-clearance 6×6 relief trucks but impassable for standard ambulance vans. Model predicts inundation probability; transport managers must scale with closure factor k.' },
+              { tag: 'LIM-02', scope: 'Radar', title: 'Sensor resolution constraints', body: 'Copernicus Sentinel-1 SAR (10m–30m pixel grid) cannot resolve micro-drainage culverts or raised roadside berms less than 10 meters wide.' },
+              { tag: 'LIM-03', scope: 'Network', title: 'Topological graph completeness', body: 'Secondary rural tracks in Afar and Oromia may have unmapped seasonal junctions in OpenStreetMap. Unmapped dirt paths cannot be traversed by Dijkstra shortest path routines.' },
+              { tag: 'LIM-04', scope: 'Monte Carlo', title: 'Spatial autocorrelation assumption', body: 'Monte Carlo sampling across links is modeled as conditionally independent given upstream rainfall, which may understate contiguous multi-kilometer corridor inundation.' },
+            ].map((lim) => (
+              <div
+                key={lim.tag}
+                className="rounded-2xl border border-rose-300/15 bg-rose-500/[0.03] p-5 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.45)]"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="text-[10px] uppercase tracking-[0.22em] text-rose-300/90"
+                    style={MONO}
+                  >
+                    {lim.tag}
+                  </span>
+                  <span
+                    className="text-[9px] uppercase tracking-[0.2em] text-slate-500 px-2 py-0.5 rounded-full border border-white/[0.07]"
+                    style={MONO}
+                  >
+                    {lim.scope}
+                  </span>
+                </div>
+                <h4 className="text-lg text-white leading-tight mb-2" style={SERIF}>
+                  {lim.title}
+                </h4>
+                <p className="text-[12px] text-slate-400 leading-relaxed">{lim.body}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                A submerged unpaved road may remain traversable for high-clearance 6x6 relief trucks but impassable for standard ambulance vans. Model predicts inundation probability; transport managers must scale with closure factor <em>k</em>.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#140e08] border border-amber-500/30 space-y-1.5">
-              <div className="flex items-center justify-between text-amber-400 font-mono text-xs font-bold">
-                <span>[LIM-02] SENSOR RESOLUTION CONSTRAINTS</span>
-                <span className="text-[10px]">RADAR</span>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Copernicus Sentinel-1 SAR (10m–30m pixel grid) cannot resolve micro-drainage culverts or raised roadside berms less than 10 meters wide.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#140e08] border border-amber-500/30 space-y-1.5">
-              <div className="flex items-center justify-between text-amber-400 font-mono text-xs font-bold">
-                <span>[LIM-03] TOPOLOGICAL GRAPH COMPLETENESS</span>
-                <span className="text-[10px]">NETWORK</span>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Secondary rural tracks in Afar and Oromia may have unmapped seasonal junctions in OpenStreetMap. Unmapped dirt paths cannot be traversed by Dijkstra shortest path routines.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-[#140e08] border border-amber-500/30 space-y-1.5">
-              <div className="flex items-center justify-between text-amber-400 font-mono text-xs font-bold">
-                <span>[LIM-04] SPATIAL AUTOCORRELATION ASSUMPTION</span>
-                <span className="text-[10px]">MONTE CARLO</span>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Monte Carlo sampling across links is modeled as conditionally independent given upstream rainfall, which may understate contiguous multi-kilometer corridor inundation.
-              </p>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* SECTION 7: Data Provenance & Open Data Licenses */}
-        <section className="about-scroll-section space-y-6">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-              <Database className="w-4 h-4" />
-              <span>PROTOCOL A4.10 // DATA CATALOG &amp; PROVENANCE</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-              Data Catalog &amp; Licenses
-            </h2>
-          </div>
+        {/* ── 7. Data Provenance ── */}
+        <section className="about-scroll-section space-y-8">
+          <SectionHeader
+            eyebrow="07 · Data Catalog"
+            accent="emerald"
+            title="Provenance & licenses"
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
-            <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-1">
-              <div className="font-bold text-white">Roads &amp; Facilities</div>
-              <div className="text-cyan-400">OpenStreetMap contributors</div>
-              <div className="text-[10px] text-slate-400">Open Database License (ODbL)</div>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-1">
-              <div className="font-bold text-white">Digital Elevation Model</div>
-              <div className="text-sky-400">Copernicus GLO-30 DEM</div>
-              <div className="text-[10px] text-slate-400">European Space Agency (ESA)</div>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-1">
-              <div className="font-bold text-white">Surface Water Recurrence</div>
-              <div className="text-emerald-400">JRC Global Surface Water</div>
-              <div className="text-[10px] text-slate-400">European Commission Joint Research</div>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-1">
-              <div className="font-bold text-white">Gridded Population</div>
-              <div className="text-amber-400">WorldPop 100m Gridded</div>
-              <div className="text-[10px] text-slate-400">Creative Commons CC-BY 4.0</div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { title: 'Roads & Facilities', source: 'OpenStreetMap contributors', license: 'Open Database License · ODbL', accent: 'text-sky-300' },
+              { title: 'Digital Elevation', source: 'Copernicus GLO-30 DEM', license: 'European Space Agency', accent: 'text-emerald-300' },
+              { title: 'Surface Water', source: 'JRC Global Surface Water', license: 'EC Joint Research Centre', accent: 'text-cyan-300' },
+              { title: 'Gridded Population', source: 'WorldPop · 100m', license: 'Creative Commons CC-BY 4.0', accent: 'text-amber-300' },
+            ].map((d) => (
+              <div
+                key={d.title}
+                className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/60 p-4 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.16] hover:-translate-y-0.5"
+              >
+                <div className="text-base text-white mb-1" style={SERIF}>
+                  {d.title}
+                </div>
+                <div className={`text-[12px] ${d.accent} mb-1`} style={SANS}>
+                  {d.source}
+                </div>
+                <div
+                  className="text-[10px] uppercase tracking-wider text-slate-500"
+                  style={MONO}
+                >
+                  {d.license}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* SECTION 8: Developer REST API Contract */}
+        {/* ── 8. API ── */}
         <section className="about-scroll-section space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div className="flex items-end justify-between flex-wrap gap-3 pb-5 border-b border-white/[0.06]">
             <div>
-              <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
-                <Terminal className="w-4 h-4" />
-                <span>PROTOCOL A4.15 // DEVELOPER INTEGRATION CONTRACT</span>
+              <div
+                className="flex items-center gap-1.5 mb-2 text-cyan-300/90"
+                style={MONO}
+              >
+                <span className="w-1 h-1 rounded-full bg-cyan-300 animate-pulse" />
+                <span className="text-[10px] uppercase tracking-[0.3em]">
+                  08 · Developer Contract
+                </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-                Developer REST API
+              <h2 className="text-3xl sm:text-4xl text-white leading-tight tracking-tight" style={SERIF}>
+                REST API endpoints
               </h2>
             </div>
 
             <button
               onClick={handleCopyCurl}
-              className="flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all shadow-[0_0_12px_rgba(6,182,212,0.3)]"
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-slate-900 transition-all duration-300 hover:scale-105 hover:bg-amber-50 active:scale-95"
+              style={SANS}
             >
-              {copiedCurl ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedCurl ? 'Copied to Clipboard' : 'Copy cURL'}</span>
+              {copiedCurl ? (
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+              ) : (
+                <Copy className="w-3.5 h-3.5 text-amber-600 transition-transform group-hover:rotate-6" />
+              )}
+              <span>{copiedCurl ? 'Copied' : 'Copy cURL'}</span>
             </button>
           </div>
 
-          <div className="bg-[#03060c] p-4 rounded-2xl border border-slate-800 overflow-x-auto text-xs font-mono text-cyan-300">
-            <pre>{curlExample}</pre>
+          <div className="rounded-2xl border border-white/[0.08] bg-black/50 p-5 overflow-x-auto backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)]">
+            <pre
+              className="text-[11px] leading-relaxed text-cyan-200/90"
+              style={MONO}
+            >
+              {curlExample}
+            </pre>
           </div>
-          <div className="text-xs font-mono text-slate-400">
-            OpenAPI 3.1 schema specification: <span className="text-cyan-400">contracts/openapi.yaml</span>
+          <div
+            className="text-[10px] uppercase tracking-[0.22em] text-slate-500 flex items-center gap-2"
+            style={MONO}
+          >
+            <Terminal className="w-3 h-3 text-slate-500" />
+            <span>OpenAPI 3.1 spec · contracts/openapi.yaml</span>
           </div>
         </section>
       </main>
 
-      {/* 5. Institutional Crisis Intelligence Footer */}
-      <footer className="mt-16 border-t border-slate-800 bg-[#05070c] py-8 px-4 sm:px-8 text-center text-xs text-slate-400 space-y-2 font-mono">
-        <p className="text-slate-300 font-semibold">
-          ImpactMap AI is a clinical &amp; humanitarian decision-support aid. Not a deterministic weather forecast.
-        </p>
-        <p className="text-[11px] text-slate-500">
-          Developed for disaster response coordination in the Awash River Basin · Ground-truth validated against Copernicus Sentinel-1 Synthetic Aperture Radar
-        </p>
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/[0.06] px-4 sm:px-6 py-12 text-center">
+        <div className="mx-auto max-w-4xl space-y-4">
+          <p className="text-sm text-slate-300" style={SANS}>
+            ImpactMap AI is a clinical & humanitarian decision-support aid. Not a deterministic weather forecast.
+          </p>
+          <p
+            className="text-[10px] uppercase tracking-[0.22em] text-slate-500"
+            style={MONO}
+          >
+            Awash River Basin · Ground-truth validated against Copernicus Sentinel-1 SAR
+          </p>
+        </div>
       </footer>
     </div>
   );

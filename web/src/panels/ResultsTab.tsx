@@ -3,9 +3,7 @@ import {
   Users,
   AlertTriangle,
   Hospital,
-  ArrowUpDown,
   Search,
-  Filter,
   ChevronDown,
   ChevronUp,
   ShieldAlert,
@@ -28,22 +26,71 @@ import { use3dTilt } from '../lib/use3dTilt';
 import { SitRepModal } from '../components/SitRepModal';
 import { useTranslation } from 'react-i18next';
 
-const TiltSummaryCard: React.FC<{
-  title: string;
-  icon: React.ReactNode;
-  titleColor: string;
-  value: string;
-  subtitle: string;
-}> = ({ title, icon, titleColor, value, subtitle }) => {
-  const cardRef = use3dTilt<HTMLDivElement>({ maxTilt: 6, scale: 1.02, glare: true });
-  return (
-    <div ref={cardRef} className="glass-panel p-3.5 rounded-xl border border-white/10 card-3d-tilt">
-      <div className={`flex items-center gap-1.5 text-xs ${titleColor} font-medium mb-1`}>
-        {icon}
-        <span>{title}</span>
+const SERIF: React.CSSProperties = { fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 };
+const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
+const SANS: React.CSSProperties = { fontFamily: "'DM Sans', sans-serif" };
+
+const SectionKicker: React.FC<{ eyebrow: string; title: string; meta?: React.ReactNode }> = ({
+  eyebrow,
+  title,
+  meta,
+}) => (
+  <div className="flex items-end justify-between gap-3 mb-4">
+    <div className="min-w-0">
+      <div
+        className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.28em] text-sky-300/90 mb-1.5"
+        style={MONO}
+      >
+        <span className="w-1 h-1 rounded-full bg-sky-300" />
+        <span>{eyebrow}</span>
       </div>
-      <div className="text-lg font-extrabold text-white font-mono">{value}</div>
-      <div className="text-[10px] text-slate-400 font-mono mt-0.5">{subtitle}</div>
+      <h2
+        className="text-[22px] text-white leading-tight"
+        style={SERIF}
+      >
+        {title}
+      </h2>
+    </div>
+    {meta && (
+      <div
+        className="text-[10px] uppercase tracking-[0.22em] text-slate-500 shrink-0 pb-1"
+        style={MONO}
+      >
+        {meta}
+      </div>
+    )}
+  </div>
+);
+
+// Landing-style metric card: mono UPPERCASE kicker → serif number → DM Sans caption
+const MetricCard: React.FC<{
+  eyebrow: string;
+  icon: React.ReactNode;
+  accent: 'rose' | 'amber' | 'sky';
+  value: string;
+  caption: string;
+}> = ({ eyebrow, icon, accent, value, caption }) => {
+  const cardRef = use3dTilt<HTMLDivElement>({ maxTilt: 5, scale: 1.015, glare: true });
+  const accentText =
+    accent === 'rose' ? 'text-rose-300' : accent === 'amber' ? 'text-amber-300' : 'text-sky-300';
+
+  return (
+    <div
+      ref={cardRef}
+      className="group relative rounded-xl border border-white/[0.08] bg-[#0a0e16]/80 p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/[0.18] hover:-translate-y-0.5 card-3d-tilt"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <span className={`text-[10px] uppercase tracking-[0.22em] ${accentText}`} style={MONO}>
+          {eyebrow}
+        </span>
+        <span className="opacity-60 group-hover:opacity-100 transition-opacity">{icon}</span>
+      </div>
+      <div className="text-3xl text-white leading-none tabular-nums" style={SERIF}>
+        {value}
+      </div>
+      <div className="text-[11px] text-slate-500 mt-2 leading-snug" style={SANS}>
+        {caption}
+      </div>
     </div>
   );
 };
@@ -130,7 +177,6 @@ export const ResultsTab: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Filtered and Sorted Ranking List
   const filteredRanking = useMemo(() => {
     if (!resultSummary?.ranking) return [];
 
@@ -157,10 +203,13 @@ export const ResultsTab: React.FC = () => {
 
   if (!currentCacheKey || (!resultSummary && !isLoading)) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center glass-panel rounded-2xl border border-white/10 mt-6">
-        <Hospital className="w-10 h-10 text-slate-500 mb-3" />
-        <h3 className="text-base font-bold text-white mb-1">No Active Simulation</h3>
-        <p className="text-xs text-slate-400 max-w-xs mb-4">
+      <div
+        className="flex flex-col items-center justify-center p-10 text-center rounded-2xl border border-white/[0.08] bg-[#0a0e16]/70 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] mt-6"
+        style={SANS}
+      >
+        <Hospital className="w-10 h-10 text-slate-600 mb-4" />
+        <h3 className="text-xl text-white mb-2" style={SERIF}>No Active Simulation</h3>
+        <p className="text-[12px] text-slate-500 max-w-xs leading-relaxed">
           Select a baseline from the Scenario tab or execute a custom rainfall event to view healthcare access impacts.
         </p>
       </div>
@@ -170,18 +219,24 @@ export const ResultsTab: React.FC = () => {
   const totals = resultSummary?.region_totals;
 
   return (
-    <div className="space-y-6 pb-12">
-      {/* What-If Before-and-After Comparison Card (Work Division A4.10 Contract) */}
+    <div className="space-y-10 pb-10" style={SANS}>
+      {/* ── What-If Diff Card ── */}
       {baseCacheKey && baseSummary && (
-        <div className="p-4 rounded-2xl glass-panel-elevated border border-cyan-500/40 bg-[#091524] space-y-3 shadow-[0_0_24px_rgba(6,182,212,0.2)] animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex items-center justify-between">
+        <section className="rounded-2xl border border-sky-300/25 bg-sky-500/[0.04] p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)] space-y-3 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-bold text-white uppercase tracking-wider">
-                What-If Scenario Active
+              <Sparkles className="w-3.5 h-3.5 text-sky-300" />
+              <span
+                className="text-[10px] uppercase tracking-[0.28em] text-sky-200"
+                style={MONO}
+              >
+                What-If Overlay Active
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300">
-                {whatIf.forced_closed.length + whatIf.forced_open.length} Overrides
+              <span
+                className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-slate-300"
+                style={MONO}
+              >
+                {whatIf.forced_closed.length + whatIf.forced_open.length} overrides
               </span>
             </div>
 
@@ -190,77 +245,68 @@ export const ResultsTab: React.FC = () => {
                 setCurrentCacheKey(baseCacheKey);
                 setBaseCacheKey(null);
               }}
-              className="text-[11px] font-mono text-cyan-300 hover:text-white underline underline-offset-2 flex items-center gap-1 transition-colors"
+              className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-slate-400 hover:text-white transition-colors"
+              style={MONO}
               title="Revert to original pre-intervention scenario"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>Back to original</span>
+              <span>Reset</span>
             </button>
           </div>
 
-          {/* Before & After Delta Metrics */}
-          <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
-            <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-              <div className="text-[10px] text-slate-400 uppercase font-mono">Cut Off Population</div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-slate-400 line-through font-mono text-[11px]">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-xl bg-black/20 border border-white/[0.05] p-3">
+              <div className="text-[9px] uppercase tracking-[0.22em] text-sky-300/70 mb-1.5" style={MONO}>
+                Cut-Off Population
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-slate-500 line-through text-[11px] tabular-nums" style={MONO}>
                   {formatPeople(baseSummary.region_totals?.people_cut_off?.mean || 0, false)}
                 </span>
-                <span className="text-white font-bold font-mono">
+                <span className="text-xl text-white tabular-nums" style={SERIF}>
                   {formatPeople(totals?.people_cut_off?.mean || 0, false)}
                 </span>
               </div>
               {totals && baseSummary?.region_totals && (
                 <div
-                  className={`text-[10px] font-mono font-bold flex items-center gap-1 ${
+                  className={`text-[10px] mt-1 ${
                     totals.people_cut_off.mean - baseSummary.region_totals.people_cut_off.mean <= 0
-                      ? 'text-emerald-400'
-                      : 'text-rose-400'
+                      ? 'text-emerald-300'
+                      : 'text-rose-300'
                   }`}
+                  style={MONO}
                 >
-                  {totals.people_cut_off.mean - baseSummary.region_totals.people_cut_off.mean <= 0
-                    ? '↓ '
-                    : '↑ '}
-                  {Math.abs(
-                    Math.round(
-                      totals.people_cut_off.mean - baseSummary.region_totals.people_cut_off.mean
-                    )
-                  ).toLocaleString()}{' '}
-                  people
+                  {totals.people_cut_off.mean - baseSummary.region_totals.people_cut_off.mean <= 0 ? '↓ ' : '↑ '}
+                  {Math.abs(Math.round(totals.people_cut_off.mean - baseSummary.region_totals.people_cut_off.mean)).toLocaleString()} people
                 </div>
               )}
             </div>
 
-            <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-              <div className="text-[10px] text-slate-400 uppercase font-mono">Isolated Facilities</div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-slate-400 line-through font-mono text-[11px]">
+            <div className="rounded-xl bg-black/20 border border-white/[0.05] p-3">
+              <div className="text-[9px] uppercase tracking-[0.22em] text-sky-300/70 mb-1.5" style={MONO}>
+                Isolated Facilities
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-slate-500 line-through text-[11px] tabular-nums" style={MONO}>
                   {baseSummary.region_totals?.facilities_isolated_expected?.toFixed(1) || '0'}
                 </span>
-                <span className="text-white font-bold font-mono">
+                <span className="text-xl text-white tabular-nums" style={SERIF}>
                   {totals?.facilities_isolated_expected?.toFixed(1) || '0'}
                 </span>
               </div>
               {totals && baseSummary?.region_totals && (
                 <div
-                  className={`text-[10px] font-mono font-bold flex items-center gap-1 ${
+                  className={`text-[10px] mt-1 ${
                     totals.facilities_isolated_expected -
                       baseSummary.region_totals.facilities_isolated_expected <=
                     0
-                      ? 'text-emerald-400'
-                      : 'text-rose-400'
+                      ? 'text-emerald-300'
+                      : 'text-rose-300'
                   }`}
+                  style={MONO}
                 >
-                  {totals.facilities_isolated_expected -
-                    baseSummary.region_totals.facilities_isolated_expected <=
-                  0
-                    ? '↓ '
-                    : '↑ '}
-                  {Math.abs(
-                    totals.facilities_isolated_expected -
-                      baseSummary.region_totals.facilities_isolated_expected
-                  ).toFixed(1)}{' '}
-                  facilities
+                  {totals.facilities_isolated_expected - baseSummary.region_totals.facilities_isolated_expected <= 0 ? '↓ ' : '↑ '}
+                  {Math.abs(totals.facilities_isolated_expected - baseSummary.region_totals.facilities_isolated_expected).toFixed(1)} fac
                 </div>
               )}
             </div>
@@ -271,118 +317,117 @@ export const ResultsTab: React.FC = () => {
               setComparePair({ a: baseCacheKey, b: currentCacheKey });
               setActiveTab('compare');
             }}
-            className="w-full py-1.5 px-3 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+            className="group w-full inline-flex items-center justify-center gap-2 min-h-[40px] rounded-full border border-white/[0.1] bg-white/[0.04] text-[11px] font-medium text-slate-200 transition-all hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
           >
-            <GitCompare className="w-3.5 h-3.5 text-cyan-400" />
+            <GitCompare className="w-3.5 h-3.5 text-sky-300" />
             <span>{t('results.compare_diff')}</span>
           </button>
-        </div>
+        </section>
       )}
 
-      {/* 1. Summary Cards with 3D Tilt */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-        <TiltSummaryCard
-          title={t('results.cut_off_population')}
-          icon={<Users className="w-3.5 h-3.5 text-rose-400" />}
-          titleColor="text-rose-300"
-          value={totals?.people_cut_off?.mean ? formatPeople(totals.people_cut_off.mean, false) : '0'}
-          subtitle={`[${totals?.people_cut_off?.p10 ? Math.round(totals.people_cut_off.p10).toLocaleString() : '0'} – ${totals?.people_cut_off?.p90 ? Math.round(totals.people_cut_off.p90).toLocaleString() : '0'}]`}
+      {/* ── Summary Metrics ── */}
+      <section>
+        <SectionKicker
+          eyebrow="01 · Regional Totals"
+          title="Impact Snapshot"
+          meta="P10–P90 band"
         />
 
-        <TiltSummaryCard
-          title={t('results.degraded_access')}
-          icon={<AlertTriangle className="w-3.5 h-3.5 text-amber-400" />}
-          titleColor="text-amber-300"
-          value={totals?.people_degraded?.mean ? formatPeople(totals.people_degraded.mean, false) : '0'}
-          subtitle={`[${totals?.people_degraded?.p10 ? Math.round(totals.people_degraded.p10).toLocaleString() : '0'} – ${totals?.people_degraded?.p90 ? Math.round(totals.people_degraded.p90).toLocaleString() : '0'}]`}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <MetricCard
+            eyebrow="Cut-Off Population"
+            icon={<Users className="w-3.5 h-3.5 text-rose-300" />}
+            accent="rose"
+            value={totals?.people_cut_off?.mean ? formatPeople(totals.people_cut_off.mean, false) : '0'}
+            caption={`${totals?.people_cut_off?.p10 ? Math.round(totals.people_cut_off.p10).toLocaleString() : '0'} – ${totals?.people_cut_off?.p90 ? Math.round(totals.people_cut_off.p90).toLocaleString() : '0'} range`}
+          />
+          <MetricCard
+            eyebrow="Degraded Access"
+            icon={<AlertTriangle className="w-3.5 h-3.5 text-amber-300" />}
+            accent="amber"
+            value={totals?.people_degraded?.mean ? formatPeople(totals.people_degraded.mean, false) : '0'}
+            caption={`${totals?.people_degraded?.p10 ? Math.round(totals.people_degraded.p10).toLocaleString() : '0'} – ${totals?.people_degraded?.p90 ? Math.round(totals.people_degraded.p90).toLocaleString() : '0'} range`}
+          />
+          <MetricCard
+            eyebrow="Isolated Facilities"
+            icon={<Hospital className="w-3.5 h-3.5 text-sky-300" />}
+            accent="sky"
+            value={totals?.facilities_isolated_expected ? totals.facilities_isolated_expected.toFixed(1) : '0.0'}
+            caption={t('results.expected_value')}
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-5">
+          <div className="flex items-start gap-1.5 text-[11px] text-slate-500 leading-snug">
+            <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+            <span className="italic">
+              {t('contracts.access_loss_label')}. {t('contracts.disclaimer')}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              onClick={() => setSitRepOpen(true)}
+              className="group inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[11px] font-semibold text-slate-900 shadow-[0_6px_18px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:bg-amber-50 active:scale-95"
+              title="Open Official UN-OCHA / EDRMC Situation Report Briefing"
+            >
+              <FileText className="w-3 h-3 text-amber-600 transition-transform group-hover:rotate-6" />
+              <span>{t('results.export_sitrep')}</span>
+            </button>
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.03] px-3 py-1.5 text-[11px] text-slate-200 hover:border-white/25 hover:bg-white/[0.08] transition-all"
+              style={MONO}
+              title="Download Executive SitRep priority table as CSV"
+            >
+              <Download className="w-3 h-3" />
+              <span>CSV</span>
+            </button>
+            <button
+              onClick={handleExportGeoJSON}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.03] px-3 py-1.5 text-[11px] text-slate-300 hover:border-white/25 hover:bg-white/[0.08] transition-all"
+              style={MONO}
+              title="Download prioritized road segments as GeoJSON"
+            >
+              <FileText className="w-3 h-3" />
+              <span>GeoJSON</span>
+            </button>
+            <button
+              onClick={() => setSitRepOpen(true)}
+              className="inline-flex items-center justify-center min-h-[32px] min-w-[32px] rounded-full border border-white/[0.1] bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/25 transition-all"
+              title="Print operational briefing sheet"
+            >
+              <Printer className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Facility Ranking ── */}
+      <section>
+        <SectionKicker
+          eyebrow="02 · Priority Ranking"
+          title={t('results.ranking_title')}
+          meta={`${filteredRanking.length} ${t('results.facilities_count')}`}
         />
 
-        <TiltSummaryCard
-          title={t('results.isolated_facilities')}
-          icon={<Hospital className="w-3.5 h-3.5 text-sky-400" />}
-          titleColor="text-sky-300"
-          value={totals?.facilities_isolated_expected ? totals.facilities_isolated_expected.toFixed(1) : '0.0'}
-          subtitle={t('results.expected_value')}
-        />
-      </div>
-
-      {/* Mandatory Disclaimer Line & Executive Export Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
-        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-sans">
-          <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-          <span className="italic">
-            {t('contracts.access_loss_label')}. {t('contracts.disclaimer')}
-          </span>
-        </div>
-
-        {/* 1-Click Executive Data Exports & SitRep Modal */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            onClick={() => {
-              setSitRepOpen(true);
-            }}
-            className="flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 border border-cyan-400/40 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)] font-semibold"
-            title="Open Official UN-OCHA / EDRMC Situation Report Briefing"
-          >
-            <FileText className="w-3.5 h-3.5 text-cyan-300" />
-            <span>{t('results.export_sitrep')}</span>
-          </button>
-          <button
-            onClick={handleExportCSV}
-            className="flex items-center gap-1 text-[11px] font-mono px-2 py-1 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition-all shadow-sm"
-            title="Download Executive SitRep priority table as CSV"
-          >
-            <Download className="w-3 h-3" />
-            <span>CSV</span>
-          </button>
-          <button
-            onClick={handleExportGeoJSON}
-            className="flex items-center gap-1 text-[11px] font-mono px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all shadow-sm"
-            title="Download prioritized road segments as GeoJSON"
-          >
-            <FileText className="w-3 h-3" />
-            <span>GeoJSON</span>
-          </button>
-          <button
-            onClick={() => {
-              setSitRepOpen(true);
-            }}
-            className="flex items-center gap-1 text-[11px] font-mono px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-slate-200 border border-white/10 transition-all shadow-sm"
-            title="Print operational briefing sheet"
-          >
-            <Printer className="w-3 h-3" />
-          </button>
-        </div>
-      </div>
-
-      {/* 2. Facility Priority Ranking Table */}
-      <div>
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-white">
-            {t('results.ranking_title')}
-          </h2>
-          <span className="text-[11px] font-mono text-slate-400">
-            {filteredRanking.length} {t('results.facilities_count')}
-          </span>
-        </div>
-
-        {/* Search & Level Filters */}
         <div className="flex items-center gap-2 mb-3">
           <div className="relative flex-1">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder={t('results.search_placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900/90 border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder:text-slate-500"
+              className="w-full h-10 rounded-full border border-white/[0.08] bg-black/30 pl-9 pr-3 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-white/20"
             />
           </div>
 
           <select
             value={levelFilter}
             onChange={(e) => setLevelFilter(e.target.value as any)}
-            className="bg-slate-900 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-slate-300"
+            className="h-10 rounded-full border border-white/[0.08] bg-black/30 px-3 text-[11px] text-slate-300 focus:outline-none focus:border-white/20"
+            style={MONO}
           >
             <option value="all">{t('results.level_all')}</option>
             <option value="hospital">{t('results.level_hospital')}</option>
@@ -391,14 +436,12 @@ export const ResultsTab: React.FC = () => {
           </select>
         </div>
 
-        {/* Interaction Hint */}
-        <p className="text-[11px] text-cyan-400/90 mb-2.5 flex items-center gap-1.5 font-medium">
-          <span>🎯</span>
-          <span>Click any facility below to fly the map to it and inspect its road route:</span>
+        <p className="text-[11px] text-amber-300/80 mb-3 flex items-center gap-1.5" style={MONO}>
+          <span className="inline-block w-1 h-1 rounded-full bg-amber-300" />
+          <span className="uppercase tracking-[0.18em]">Click a row to fly the map to the facility</span>
         </p>
 
-        {/* Ranking List */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {filteredRanking.map((fac: any) => {
             const isSelected = fac.facility_id === selectedFacilityId;
 
@@ -406,23 +449,29 @@ export const ResultsTab: React.FC = () => {
               <div
                 key={fac.facility_id}
                 onClick={() => setSelectedFacilityId(fac.facility_id)}
-                className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                className={`group p-3.5 rounded-xl border backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.4)] transition-all duration-300 cursor-pointer ${
                   isSelected
-                    ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.25)]'
-                    : 'glass-panel hover:glass-panel-elevated border-white/10'
+                    ? 'bg-sky-500/[0.05] border-sky-300/35 shadow-[0_12px_32px_rgba(56,189,248,0.1)]'
+                    : 'bg-[#0a0e16]/70 border-white/[0.07] hover:border-white/[0.16] hover:-translate-y-0.5'
                 }`}
               >
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-slate-800 border border-white/10 text-[11px] font-mono font-bold text-slate-300 flex items-center justify-center shrink-0">
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <span
+                      className="text-2xl text-white leading-none tabular-nums shrink-0 w-7 text-right"
+                      style={SERIF}
+                    >
                       {fac.rank}
                     </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-white hover:text-cyan-300 transition-colors">
+                    <div className="min-w-0">
+                      <h4 className="text-sm text-white group-hover:text-sky-100 transition-colors leading-tight" style={SERIF}>
                         {fac.name}
                       </h4>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[10px] font-mono uppercase text-sky-400">
+                      <div className="flex items-center gap-2 mt-1">
+                        <span
+                          className="text-[9px] uppercase tracking-[0.2em] text-sky-300"
+                          style={MONO}
+                        >
                           {fac.level.replace('_', ' ')}
                         </span>
                         <QualityFlag
@@ -436,8 +485,7 @@ export const ResultsTab: React.FC = () => {
                   <RankDelta delta={fac.rank_delta} />
                 </div>
 
-                {/* Probability & Impact Metric */}
-                <div className="grid grid-cols-2 gap-3 pt-2 border-t border-white/5">
+                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-white/[0.05]">
                   <ProbabilityBar
                     prob={fac.p_isolation}
                     p10={fac.p10}
@@ -446,26 +494,35 @@ export const ResultsTab: React.FC = () => {
                   />
 
                   <div className="text-right">
-                    <div className="text-[10px] text-slate-400" title="Total population in the surrounding woredas relying on this facility">
+                    <div
+                      className="text-[9px] uppercase tracking-[0.22em] text-slate-500 mb-1"
+                      style={MONO}
+                      title="Total population in the surrounding woredas relying on this facility"
+                    >
                       Catchment Serviced
                     </div>
-                    <div className="text-xs font-bold font-mono text-slate-200">
-                      {fac.people_affected_est
-                        ? Math.round(fac.people_affected_est).toLocaleString()
-                        : '0'}{' '}
-                      <span className="text-[10px] text-slate-400 font-normal">pop</span>
+                    <div className="flex items-baseline justify-end gap-1">
+                      <span className="text-base text-white tabular-nums" style={SERIF}>
+                        {fac.people_affected_est
+                          ? Math.round(fac.people_affected_est).toLocaleString()
+                          : '0'}
+                      </span>
+                      <span className="text-[9px] uppercase tracking-wider text-slate-500" style={MONO}>
+                        pop
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Score & Raw Components Breakdown (Work Division A4.5 Contract) */}
-                <div className="pt-2 mt-2 border-t border-white/5 flex items-center justify-between text-[11px] font-mono">
-                  <div className="flex items-center gap-1.5 text-slate-400">
-                    <span>Priority Score:</span>
-                    <span className="font-bold text-cyan-300">
+                <div className="pt-3 mt-3 border-t border-white/[0.05] flex items-center justify-between">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-[9px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+                      Priority
+                    </span>
+                    <span className="text-lg text-white tabular-nums" style={SERIF}>
                       {fac.priority_score ? fac.priority_score.toFixed(1) : (fac.p_isolation * 100).toFixed(0)}
                     </span>
-                    <span className="text-[10px] text-slate-500">/ 100</span>
+                    <span className="text-[10px] text-slate-500" style={MONO}>/100</span>
                   </div>
 
                   <button
@@ -473,35 +530,45 @@ export const ResultsTab: React.FC = () => {
                       e.stopPropagation();
                       setExpandedFacilityId(expandedFacilityId === fac.facility_id ? null : fac.facility_id);
                     }}
-                    className="text-[10px] text-slate-400 hover:text-cyan-300 flex items-center gap-1 underline underline-offset-2"
+                    className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-slate-500 hover:text-sky-300 transition-colors"
+                    style={MONO}
                   >
-                    <span>{expandedFacilityId === fac.facility_id ? 'Hide' : 'Raw Components'}</span>
+                    <span>{expandedFacilityId === fac.facility_id ? 'Hide' : 'Breakdown'}</span>
                     <Info className="w-3 h-3" />
                   </button>
                 </div>
 
                 {expandedFacilityId === fac.facility_id && (
-                  <div className="mt-2 p-2 rounded-lg bg-black/40 border border-white/5 text-[10px] font-mono space-y-1 animate-in fade-in duration-150">
-                    <div className="flex justify-between text-slate-300">
-                      <span>• Isolation Risk (P):</span>
-                      <span className="text-cyan-400">{(fac.p_isolation * 100).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex justify-between text-slate-300">
-                      <span>• Catchment Population:</span>
-                      <span className="text-slate-200">{Math.round(fac.people_affected_est || 0).toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-slate-300">
-                      <span>• Expected Cut-Off (P × Pop):</span>
-                      <span className="text-rose-400 font-bold">
-                        ~{Math.round((fac.p_isolation || 0) * (fac.people_affected_est || 0)).toLocaleString()} people
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-slate-300">
-                      <span>• Baseline Travel:</span>
-                      <span className="text-amber-400">{formatMinutes(fac.baseline_minutes || 0)}</span>
-                    </div>
-                    <p className="text-[9px] text-slate-500 italic pt-0.5">
-                      Score is calculated relative to Awash Basin pilot distribution.
+                  <div className="mt-3 p-3 rounded-xl bg-black/30 border border-white/[0.05] space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                    {[
+                      {
+                        label: 'Isolation Risk',
+                        value: `${(fac.p_isolation * 100).toFixed(1)}%`,
+                        tone: 'text-sky-300',
+                      },
+                      {
+                        label: 'Catchment Pop',
+                        value: Math.round(fac.people_affected_est || 0).toLocaleString(),
+                        tone: 'text-slate-200',
+                      },
+                      {
+                        label: 'Expected Cut-Off',
+                        value: `~${Math.round((fac.p_isolation || 0) * (fac.people_affected_est || 0)).toLocaleString()}`,
+                        tone: 'text-rose-300',
+                      },
+                      {
+                        label: 'Baseline Travel',
+                        value: formatMinutes(fac.baseline_minutes || 0),
+                        tone: 'text-amber-300',
+                      },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center justify-between text-[11px]" style={MONO}>
+                        <span className="uppercase tracking-wider text-slate-500">{row.label}</span>
+                        <span className={row.tone}>{row.value}</span>
+                      </div>
+                    ))}
+                    <p className="text-[9px] text-slate-600 italic pt-1 uppercase tracking-wider" style={MONO}>
+                      Scored vs Awash Basin pilot distribution
                     </p>
                   </div>
                 )}
@@ -509,24 +576,38 @@ export const ResultsTab: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* 3. Top Communities Affected (Collapsible Section) */}
+      {/* ── Communities ── */}
       {resultSummary?.top_communities && resultSummary.top_communities.length > 0 && (
-        <div className="border-t border-white/10 pt-4">
+        <section className="border-t border-white/[0.06] pt-5">
           <button
             onClick={() => setCommunitiesOpen(!communitiesOpen)}
-            className="flex items-center justify-between w-full text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
+            className="group flex items-center justify-between w-full text-left"
           >
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-cyan-400" />
-              <span>Top Cut-Off Settlements ({resultSummary.top_communities.length})</span>
+              <MapPin className="w-3.5 h-3.5 text-sky-300" />
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-sky-300/80" style={MONO}>
+                  03 · Settlements
+                </div>
+                <div className="text-base text-white group-hover:text-sky-100 transition-colors" style={SERIF}>
+                  Top Cut-Off Settlements
+                  <span className="text-slate-500 ml-2 text-sm" style={MONO}>
+                    ({resultSummary.top_communities.length})
+                  </span>
+                </div>
+              </div>
             </div>
-            {communitiesOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {communitiesOpen ? (
+              <ChevronUp className="w-4 h-4 text-slate-400" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-slate-400" />
+            )}
           </button>
 
           {communitiesOpen && (
-            <div className="space-y-2 mt-3">
+            <div className="space-y-2 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
               {resultSummary.top_communities.map((c: any) => {
                 const isSelected = selectedCommunityId === c.community_id;
                 return (
@@ -539,26 +620,32 @@ export const ResultsTab: React.FC = () => {
                         setSelectedCommunityId(c.community_id);
                       }
                     }}
-                    className={`p-2.5 rounded-lg border flex items-center justify-between text-xs cursor-pointer transition-all ${
+                    className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all duration-300 ${
                       isSelected
-                        ? 'border-cyan-400 bg-cyan-950/40 shadow-[0_0_15px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/50'
-                        : 'glass-panel border-white/10 hover:border-white/20 hover:bg-white/[0.04]'
+                        ? 'bg-sky-500/[0.05] border-sky-300/40'
+                        : 'bg-[#0a0e16]/60 border-white/[0.07] hover:border-white/[0.16]'
                     }`}
                   >
                     <div>
-                      <div className={`font-bold ${isSelected ? 'text-cyan-200' : 'text-white'}`}>
+                      <div
+                        className={`text-sm ${isSelected ? 'text-sky-100' : 'text-white'}`}
+                        style={SERIF}
+                      >
                         {c.name}
                       </div>
-                      <div className="text-[10px] text-slate-400 font-mono">
+                      <div className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-wider" style={MONO}>
                         {Math.round(c.people_est).toLocaleString()} people · Base {c.baseline_minutes?.toFixed(1)} min
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-mono font-bold text-rose-400">
-                        {(c.p_cut_off * 100).toFixed(0)}% cut off
+                      <div className="text-lg text-rose-300 tabular-nums leading-none" style={SERIF}>
+                        {(c.p_cut_off * 100).toFixed(0)}%
+                      </div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-500 mt-0.5" style={MONO}>
+                        cut off
                       </div>
                       {c.p_degraded > 0 && (
-                        <div className="text-[10px] font-mono text-amber-400">
+                        <div className="text-[10px] text-amber-300 mt-0.5" style={MONO}>
                           {(c.p_degraded * 100).toFixed(0)}% degraded
                         </div>
                       )}
@@ -568,10 +655,9 @@ export const ResultsTab: React.FC = () => {
               })}
             </div>
           )}
-        </div>
+        </section>
       )}
 
-      {/* Official Executive SitRep Modal */}
       <SitRepModal
         isOpen={sitRepOpen}
         onClose={() => setSitRepOpen(false)}

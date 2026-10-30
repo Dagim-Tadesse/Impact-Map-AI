@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { GitCompare, ArrowRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useCompareQuery, useLibraryQuery } from '../api/hooks';
 import { useAppStore } from '../state/useAppStore';
 import { useTranslation } from 'react-i18next';
+
+const SERIF: React.CSSProperties = { fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 };
+const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
+const SANS: React.CSSProperties = { fontFamily: "'DM Sans', sans-serif" };
 
 export const CompareTab: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +30,6 @@ export const CompareTab: React.FC = () => {
 
   const { data: compareData, isLoading } = useCompareQuery(scenarioA, scenarioB);
 
-  // Dynamic scenario options
   const scenarioOptions = [
     { value: 'baseline-dry', label: 'Baseline (Dry Weather)' },
     ...(libraryScenarios || [])
@@ -40,223 +43,224 @@ export const CompareTab: React.FC = () => {
       : []),
   ];
 
+  const DeltaMetric: React.FC<{
+    label: string;
+    delta: number;
+    valueA: number;
+    valueB: number;
+    suffix: string;
+    formatter: (v: number) => string;
+    worseWhenPositive?: boolean;
+  }> = ({ label, delta, valueA, valueB, suffix, formatter, worseWhenPositive = true }) => {
+    const positive = delta > 0;
+    const neutral = delta === 0;
+    const bad = positive === worseWhenPositive;
+    const deltaColor = neutral
+      ? 'text-slate-500'
+      : bad
+      ? 'text-rose-300'
+      : 'text-emerald-300';
+
+    return (
+      <div className="py-4 first:pt-0 border-t border-white/[0.05] first:border-t-0 space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[11px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+            {label}
+          </span>
+          <span className={`text-base tabular-nums ${deltaColor}`} style={SERIF}>
+            {delta > 0 ? '+' : ''}
+            {formatter(delta)}
+            <span className="text-[10px] text-slate-500 ml-1 uppercase tracking-wider" style={MONO}>
+              {suffix}
+            </span>
+          </span>
+        </div>
+
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-3">
+            <div className="text-[9px] uppercase tracking-[0.22em] text-slate-500 mb-1" style={MONO}>
+              Scenario A
+            </div>
+            <div className="text-xl text-slate-200 tabular-nums" style={SERIF}>
+              {formatter(valueA)}
+            </div>
+          </div>
+
+          <ArrowRight className="w-4 h-4 text-slate-600" />
+
+          <div className="rounded-xl bg-rose-500/[0.05] border border-rose-300/25 p-3">
+            <div className="text-[9px] uppercase tracking-[0.22em] text-rose-300/80 mb-1" style={MONO}>
+              Scenario B
+            </div>
+            <div className="text-xl text-rose-100 tabular-nums" style={SERIF}>
+              {formatter(valueB)}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="space-y-6 pb-12">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <GitCompare className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-white">
+    <div className="space-y-8 pb-10" style={SANS}>
+      <div>
+        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.28em] text-rose-300/90 mb-1.5" style={MONO}>
+          <span className="w-1 h-1 rounded-full bg-rose-300" />
+          <span>Differential · A vs B</span>
+        </div>
+        <div className="flex items-end justify-between gap-3">
+          <h2 className="text-[22px] text-white leading-tight" style={SERIF}>
             {t('compare.title')}
           </h2>
-        </div>
-        <span className="text-[10px] font-mono text-slate-400">{t('compare.subtitle')}</span>
-      </div>
-
-      {/* Selectors for A and B */}
-      <div className="grid grid-cols-2 gap-3 glass-panel p-4 rounded-2xl border border-white/10">
-        <div>
-          <label className="text-[11px] font-mono uppercase text-slate-400 block mb-1">
-            {t('compare.scenario_a')}
-          </label>
-          <select
-            value={scenarioA}
-            onChange={(e) => setScenarioA(e.target.value)}
-            className="w-full bg-slate-900 border border-white/10 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400"
-          >
-            {scenarioOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="text-[11px] font-mono uppercase text-cyan-400 block mb-1">
-            {t('compare.scenario_b')}
-          </label>
-          <select
-            value={scenarioB}
-            onChange={(e) => setScenarioB(e.target.value)}
-            className="w-full bg-slate-900 border border-cyan-500/30 rounded-xl p-2.5 text-xs text-cyan-200 focus:outline-none focus:border-cyan-400"
-          >
-            {scenarioOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500 pb-1" style={MONO}>
+            {t('compare.subtitle')}
+          </span>
         </div>
       </div>
 
-      {/* Differential Region Totals Table */}
+      {/* Scenario selectors */}
+      <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/70 p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)]">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.22em] text-slate-500 block mb-2" style={MONO}>
+              {t('compare.scenario_a')}
+            </label>
+            <select
+              value={scenarioA}
+              onChange={(e) => setScenarioA(e.target.value)}
+              className="w-full h-11 rounded-full border border-white/[0.08] bg-black/30 px-3.5 text-[11px] text-slate-200 focus:outline-none focus:border-white/20"
+              style={SANS}
+            >
+              {scenarioOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.22em] text-rose-300/90 block mb-2" style={MONO}>
+              {t('compare.scenario_b')}
+            </label>
+            <select
+              value={scenarioB}
+              onChange={(e) => setScenarioB(e.target.value)}
+              className="w-full h-11 rounded-full border border-rose-300/25 bg-rose-500/[0.05] px-3.5 text-[11px] text-rose-100 focus:outline-none focus:border-rose-300/50"
+              style={SANS}
+            >
+              {scenarioOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
       {compareData ? (
-        <div className="space-y-4">
-          {/* Quick Map Synchronizer */}
-          <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/60 border border-slate-700/60 text-xs">
-            <span className="text-slate-400 font-mono text-[11px]">{t('compare.active_map')}</span>
-            <div className="flex items-center gap-2">
+        <>
+          {/* Map sync */}
+          <div className="flex items-center justify-between gap-3 rounded-full border border-white/[0.08] bg-[#0a0e16]/70 pl-4 pr-2 py-1.5 backdrop-blur-xl">
+            <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+              {t('compare.active_map')}
+            </span>
+            <div className="flex items-center gap-1.5">
               <button
-                onClick={() => {
-                  setCurrentCacheKey(scenarioA);
-                }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                onClick={() => setCurrentCacheKey(scenarioA)}
+                className={`min-h-[32px] rounded-full px-3 text-[11px] transition-all ${
                   currentCacheKey === scenarioA
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'
+                    ? 'bg-white text-slate-900 shadow-[0_4px_12px_rgba(255,255,255,0.14)]'
+                    : 'bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:bg-white/[0.08]'
                 }`}
+                style={MONO}
               >
                 Map A
               </button>
               <button
-                onClick={() => {
-                  setCurrentCacheKey(scenarioB);
-                }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                onClick={() => setCurrentCacheKey(scenarioB)}
+                className={`min-h-[32px] rounded-full px-3 text-[11px] transition-all ${
                   currentCacheKey === scenarioB
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'
+                    ? 'bg-rose-300 text-slate-900 shadow-[0_4px_12px_rgba(251,113,133,0.3)]'
+                    : 'bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:bg-white/[0.08]'
                 }`}
+                style={MONO}
               >
                 Map B
               </button>
             </div>
           </div>
 
-          <div className="glass-panel rounded-xl overflow-hidden border border-white/10">
-            <div className="px-3.5 py-2.5 bg-white/[0.02] border-b border-white/10 text-xs font-bold text-white uppercase tracking-wider flex items-center justify-between">
-              <span>Regional Differential Matrix</span>
-              <span className="text-[10px] font-mono text-cyan-400">Δ = B - A</span>
+          {/* Differential matrix */}
+          <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/70 overflow-hidden backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-rose-300/90" style={MONO}>
+                  Regional Matrix
+                </div>
+                <div className="text-base text-white mt-0.5" style={SERIF}>
+                  Side-by-Side Deltas
+                </div>
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+                Δ = B − A
+              </span>
             </div>
 
-            <div className="p-3.5 space-y-4 text-xs">
-              {/* Metric 1: People Cut Off */}
-              <div className="space-y-1.5 pb-3 border-b border-white/5">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300 font-medium">Cut Off Population</span>
-                  <span
-                    className={`font-mono font-bold ${
-                      compareData.people_cut_off_delta > 0
-                        ? 'text-rose-400'
-                        : compareData.people_cut_off_delta < 0
-                        ? 'text-emerald-400'
-                        : 'text-slate-400'
-                    }`}
-                  >
-                    {compareData.people_cut_off_delta > 0 ? '+' : ''}
-                    {Math.round(compareData.people_cut_off_delta).toLocaleString()} people
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
-                  <div className="bg-white/[0.02] p-1.5 rounded-lg">
-                    <div className="text-[9px] text-slate-400">Scenario A</div>
-                    <div className="font-bold text-slate-200">
-                      {Math.round(compareData.region_totals_a?.people_cut_off?.mean || 0).toLocaleString()}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center text-slate-500 text-xs">
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                  <div className="bg-cyan-950/30 border border-cyan-500/20 p-1.5 rounded-lg">
-                    <div className="text-[9px] text-cyan-400">Scenario B</div>
-                    <div className="font-bold text-cyan-200">
-                      {Math.round(compareData.region_totals_b?.people_cut_off?.mean || 0).toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Metric 2: People Degraded */}
-              <div className="space-y-1.5 pb-3 border-b border-white/5">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300 font-medium">Degraded Access (&gt;2x Time)</span>
-                  <span
-                    className={`font-mono font-bold ${
-                      (compareData.region_totals_b?.people_degraded?.mean || 0) -
-                        (compareData.region_totals_a?.people_degraded?.mean || 0) >
-                      0
-                        ? 'text-amber-400'
-                        : 'text-emerald-400'
-                    }`}
-                  >
-                    {(
-                      (compareData.region_totals_b?.people_degraded?.mean || 0) -
-                      (compareData.region_totals_a?.people_degraded?.mean || 0)
-                    ).toFixed(0)}{' '}
-                    people
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
-                  <div className="bg-white/[0.02] p-1.5 rounded-lg">
-                    <div className="text-[9px] text-slate-400">Scenario A</div>
-                    <div className="font-bold text-slate-200">
-                      {Math.round(compareData.region_totals_a?.people_degraded?.mean || 0).toLocaleString()}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center text-slate-500 text-xs">
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                  <div className="bg-cyan-950/30 border border-cyan-500/20 p-1.5 rounded-lg">
-                    <div className="text-[9px] text-cyan-400">Scenario B</div>
-                    <div className="font-bold text-cyan-200">
-                      {Math.round(compareData.region_totals_b?.people_degraded?.mean || 0).toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Metric 3: Facilities Isolated */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300 font-medium">Isolated Facilities (Expected)</span>
-                  <span
-                    className={`font-mono font-bold ${
-                      (compareData.region_totals_b?.facilities_isolated_expected || 0) -
-                        (compareData.region_totals_a?.facilities_isolated_expected || 0) >
-                      0
-                        ? 'text-rose-400'
-                        : 'text-emerald-400'
-                    }`}
-                  >
-                    {(
-                      (compareData.region_totals_b?.facilities_isolated_expected || 0) -
-                      (compareData.region_totals_a?.facilities_isolated_expected || 0)
-                    ).toFixed(1)}{' '}
-                    fac
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
-                  <div className="bg-white/[0.02] p-1.5 rounded-lg">
-                    <div className="text-[9px] text-slate-400">Scenario A</div>
-                    <div className="font-bold text-slate-200">
-                      {(compareData.region_totals_a?.facilities_isolated_expected || 0).toFixed(1)}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center text-slate-500 text-xs">
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                  <div className="bg-cyan-950/30 border border-cyan-500/20 p-1.5 rounded-lg">
-                    <div className="text-[9px] text-cyan-400">Scenario B</div>
-                    <div className="font-bold text-cyan-200">
-                      {(compareData.region_totals_b?.facilities_isolated_expected || 0).toFixed(1)}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="px-4">
+              <DeltaMetric
+                label="Cut-Off Population"
+                delta={compareData.people_cut_off_delta}
+                valueA={compareData.region_totals_a?.people_cut_off?.mean || 0}
+                valueB={compareData.region_totals_b?.people_cut_off?.mean || 0}
+                suffix="people"
+                formatter={(v) => Math.round(v).toLocaleString()}
+              />
+              <DeltaMetric
+                label="Degraded Access (>2× time)"
+                delta={
+                  (compareData.region_totals_b?.people_degraded?.mean || 0) -
+                  (compareData.region_totals_a?.people_degraded?.mean || 0)
+                }
+                valueA={compareData.region_totals_a?.people_degraded?.mean || 0}
+                valueB={compareData.region_totals_b?.people_degraded?.mean || 0}
+                suffix="people"
+                formatter={(v) => Math.round(v).toLocaleString()}
+              />
+              <DeltaMetric
+                label="Isolated Facilities (Expected)"
+                delta={
+                  (compareData.region_totals_b?.facilities_isolated_expected || 0) -
+                  (compareData.region_totals_a?.facilities_isolated_expected || 0)
+                }
+                valueA={compareData.region_totals_a?.facilities_isolated_expected || 0}
+                valueB={compareData.region_totals_b?.facilities_isolated_expected || 0}
+                suffix="fac"
+                formatter={(v) => v.toFixed(1)}
+              />
+              <div className="h-4" />
             </div>
           </div>
 
-          {/* Rank Shifts List */}
+          {/* Rank Shifts */}
           {compareData.rank_changes && compareData.rank_changes.length > 0 && (
-            <div className="glass-panel rounded-xl p-3.5 border border-white/10">
-              <div className="flex items-center justify-between mb-2.5">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white">
-                  Facility Priority Rank Shifts
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400">Click to Inspect</span>
+            <div className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/70 p-4 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5)]">
+              <div className="flex items-end justify-between mb-3">
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.28em] text-rose-300/90" style={MONO}>
+                    Rank Shifts
+                  </div>
+                  <h3 className="text-base text-white mt-0.5" style={SERIF}>
+                    Facility Reordering
+                  </h3>
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.22em] text-slate-500" style={MONO}>
+                  Click to inspect
+                </span>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {compareData.rank_changes.map((rc: any) => (
                   <button
                     key={rc.facility_id}
@@ -264,25 +268,25 @@ export const CompareTab: React.FC = () => {
                       setSelectedFacilityId(rc.facility_id);
                       setDrawerOpen('facility');
                     }}
-                    className="w-full flex items-center justify-between text-xs p-2 rounded-lg bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 hover:border-cyan-500/30 transition-all text-left group"
+                    className="group w-full flex items-center justify-between gap-3 rounded-xl bg-white/[0.02] border border-white/[0.05] px-3 py-2.5 hover:bg-white/[0.06] hover:border-white/[0.14] transition-all text-left"
                   >
-                    <div className="font-medium text-slate-200 group-hover:text-cyan-300 transition-colors">
+                    <div className="text-xs text-slate-200 group-hover:text-rose-100 transition-colors truncate" style={SERIF}>
                       {rc.facility_id}
                     </div>
-                    <div className="flex items-center gap-2 font-mono text-[11px]">
-                      <span className="text-slate-400">Rank {rc.rank_a}</span>
-                      <ArrowRight className="w-3 h-3 text-slate-500" />
-                      <span className="text-cyan-300 font-bold">Rank {rc.rank_b}</span>
+                    <div className="flex items-center gap-2 shrink-0" style={MONO}>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider">R{rc.rank_a}</span>
+                      <ArrowRight className="w-3 h-3 text-slate-600" />
+                      <span className="text-[11px] text-rose-200 uppercase tracking-wider">R{rc.rank_b}</span>
                       <span
-                        className={`font-semibold ml-1.5 ${
+                        className={`text-[10px] uppercase tracking-wider ml-1 ${
                           rc.rank_b < rc.rank_a
-                            ? 'text-rose-400'
+                            ? 'text-rose-300'
                             : rc.rank_b > rc.rank_a
-                            ? 'text-emerald-400'
-                            : 'text-slate-400'
+                            ? 'text-emerald-300'
+                            : 'text-slate-500'
                         }`}
                       >
-                        {rc.rank_b < rc.rank_a ? `↑ +${rc.rank_a - rc.rank_b} (worse)` : `↓ ${rc.rank_a - rc.rank_b}`}
+                        {rc.rank_b < rc.rank_a ? `+${rc.rank_a - rc.rank_b} worse` : `${rc.rank_a - rc.rank_b} better`}
                       </span>
                     </div>
                   </button>
@@ -290,10 +294,13 @@ export const CompareTab: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
+        </>
       ) : (
-        <div className="text-center p-6 text-xs text-slate-400 glass-panel rounded-xl">
-          Loading comparison between {scenarioA} and {scenarioB}...
+        <div
+          className="text-center p-6 text-xs text-slate-500 rounded-xl border border-white/[0.07] bg-[#0a0e16]/70 backdrop-blur-xl"
+          style={MONO}
+        >
+          Loading comparison · {scenarioA} ↔ {scenarioB}
         </div>
       )}
     </div>

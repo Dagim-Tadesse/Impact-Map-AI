@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import gsap from 'gsap';
 import {
   Sliders,
   BarChart3,
@@ -35,6 +36,9 @@ interface ExplorerPageProps {
 
 type MobileSheetPosition = 'peek' | 'half' | 'full';
 
+const EXPLORER_BG_IMAGE =
+  'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1920&q=80';
+
 export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHome }) => {
   const { t } = useTranslation();
   const {
@@ -58,6 +62,9 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
   const [showMobileLegend, setShowMobileLegend] = useState(false);
   const [showJudgeModal, setShowJudgeModal] = useState(false);
   const [showJudgeTour, setShowJudgeTour] = useState(false);
+
+  const shellRef = useRef<HTMLDivElement>(null);
+  const panelBodyRef = useRef<HTMLDivElement>(null);
 
   // Global Keyboard Navigation (1-4 tabs, Space cascade, M 3D view, Esc, ? Judge HUD)
   useEffect(() => {
@@ -130,6 +137,34 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
     setSelectedCommunityId,
   ]);
 
+  // Entrance choreography — brief, non-scroll, reduced-motion aware
+  useEffect(() => {
+    if (!shellRef.current) return;
+    const reduced = typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    const nodes = shellRef.current.querySelectorAll<HTMLElement>('[data-mount]');
+    if (!nodes.length) return;
+    gsap.fromTo(
+      nodes,
+      { opacity: 0, y: 12, filter: 'blur(8px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, stagger: 0.07, ease: 'power3.out' }
+    );
+  }, []);
+
+  // Panel body cross-fade on tab change
+  useEffect(() => {
+    if (!panelBodyRef.current) return;
+    const reduced = typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    gsap.fromTo(
+      panelBodyRef.current,
+      { opacity: 0, y: 6, filter: 'blur(4px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4, ease: 'power2.out' }
+    );
+  }, [activeTab]);
+
   // Touch Swipe Gesture Tracking for Mobile Bottom Sheet
   const touchStartY = useRef<number | null>(null);
 
@@ -163,12 +198,34 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
     });
   };
 
-  const tabs: Array<{ id: ActiveTab; label: string; shortcut: string; icon: React.ReactNode }> = [
-    { id: 'scenario', label: t('tabs.scenario'), shortcut: '1', icon: <Sliders className="w-4 h-4" /> },
-    { id: 'results', label: t('tabs.results'), shortcut: '2', icon: <BarChart3 className="w-4 h-4" /> },
-    { id: 'compare', label: t('tabs.compare'), shortcut: '3', icon: <GitCompare className="w-4 h-4" /> },
-    { id: 'evidence', label: t('tabs.evidence'), shortcut: '4', icon: <Award className="w-4 h-4" /> },
+  const tabs: Array<{
+    id: ActiveTab;
+    label: string;
+    shortcut: string;
+    index: string;
+    icon: React.ReactNode;
+    accent: 'amber' | 'sky' | 'rose' | 'emerald';
+  }> = [
+    { id: 'scenario', label: t('tabs.scenario'), shortcut: '1', index: '01', accent: 'amber', icon: <Sliders className="w-3.5 h-3.5" /> },
+    { id: 'results', label: t('tabs.results'), shortcut: '2', index: '02', accent: 'sky', icon: <BarChart3 className="w-3.5 h-3.5" /> },
+    { id: 'compare', label: t('tabs.compare'), shortcut: '3', index: '03', accent: 'rose', icon: <GitCompare className="w-3.5 h-3.5" /> },
+    { id: 'evidence', label: t('tabs.evidence'), shortcut: '4', index: '04', accent: 'emerald', icon: <Award className="w-3.5 h-3.5" /> },
   ];
+
+  const accentDot: Record<'amber' | 'sky' | 'rose' | 'emerald', string> = {
+    amber: 'bg-amber-300',
+    sky: 'bg-sky-300',
+    rose: 'bg-rose-300',
+    emerald: 'bg-emerald-300',
+  };
+  const accentText: Record<'amber' | 'sky' | 'rose' | 'emerald', string> = {
+    amber: 'text-amber-300',
+    sky: 'text-sky-300',
+    rose: 'text-rose-300',
+    emerald: 'text-emerald-300',
+  };
+
+  const activeTabMeta = tabs.find((tab) => tab.id === activeTab) || tabs[0];
 
   const cycleMobileSheet = () => {
     if (mobileSheetPos === 'peek') setMobileSheetPos('half');
@@ -177,21 +234,55 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col bg-[#07090e]">
-      {/* 1. 3D Particle Backdrop */}
+    <div
+      ref={shellRef}
+      className="relative w-screen h-screen overflow-hidden flex flex-col bg-[#060a14] text-slate-200"
+    >
+      {/* 0. Continuous atmospheric backdrop — matches landing (pointer-events-none) */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src={EXPLORER_BG_IMAGE}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover object-center opacity-[0.14] scale-105"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at 18% 10%, rgba(251,191,36,0.06), transparent 55%), radial-gradient(ellipse at 82% 68%, rgba(56,189,248,0.05), transparent 60%), radial-gradient(circle at 50% 100%, rgba(244,63,94,0.025), transparent 55%)',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060a14]/70 via-[#060a14]/55 to-[#060a14]/85" />
+      </div>
+
+      {/* 1. 3D Particle Backdrop (behavior preserved) */}
       <ParticleBackdrop
         mode={activeTab === 'evidence' ? 'terrain' : activeTab === 'results' ? 'network' : 'vortex'}
       />
 
-      {/* 2. Top Header Cockpit Island */}
-      <TopBar
-        onOpenAbout={onOpenAbout}
-        onGoHome={onGoHome}
-        onLaunchDemo={handleLaunchPitchDemo}
-        onOpenJudgeModal={() => setShowJudgeModal(true)}
-        onLaunchJudgeTour={() => setShowJudgeTour(true)}
-        onToggleBriefing={() => setHeroExpanded((prev) => !prev)}
-      />
+      {/* 2. Top Header Floating Pill */}
+      <div data-mount className="relative z-40">
+        <TopBar
+          onOpenAbout={onOpenAbout}
+          onGoHome={onGoHome}
+          onLaunchDemo={handleLaunchPitchDemo}
+          onOpenJudgeModal={() => setShowJudgeModal(true)}
+          onLaunchJudgeTour={() => setShowJudgeTour(true)}
+          onToggleBriefing={() => setHeroExpanded((prev) => !prev)}
+        />
+      </div>
 
       {/* Global Resilience Offline Banner */}
       <OfflineBanner />
@@ -205,90 +296,166 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
       />
 
       {/* 4. Main Explorer Canvas */}
-      <div className="relative flex-1 w-full h-[calc(100vh-4.25rem)] flex overflow-hidden">
-        {/* Desktop & Tablet Sidebar (Floating Cockpit Console with Curved Cuts) */}
+      <div className="relative flex-1 w-full h-[calc(100vh-4.25rem)] flex overflow-hidden z-10">
+        {/* Desktop & Tablet Sidebar — paper-thin console */}
         <aside
-          className={`hidden md:flex z-20 my-2 sm:my-2.5 ml-2 sm:ml-3 rounded-3xl overflow-hidden glass-panel border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.65)] flex-col transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] h-[calc(100vh-4.75rem)] ${
-            panelCollapsed ? 'w-16' : 'w-[340px] lg:w-[410px]'
+          data-mount
+          className={`hidden md:flex z-20 my-3 ml-3 rounded-2xl overflow-hidden flex-col transition-[width] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] h-[calc(100vh-5rem)] ${
+            panelCollapsed ? 'w-16' : 'w-[348px] lg:w-[418px]'
           }`}
+          style={{
+            background: 'linear-gradient(180deg, rgba(10,14,22,0.88) 0%, rgba(8,11,18,0.92) 100%)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow:
+              '0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 0 rgba(255,255,255,0.04)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
         >
-          {/* Tabs Bar */}
+          {/* Tabs Bar — landing-style compact pill group */}
           <div
-            className={`flex items-center justify-between ${
-              panelCollapsed ? 'flex-1 min-h-0' : 'shrink-0 border-b border-white/10 p-2 bg-white/[0.02]'
+            className={`${
+              panelCollapsed ? 'flex-1 min-h-0 flex items-center justify-center' : 'shrink-0 px-4 pt-4 pb-3'
             }`}
           >
             {!panelCollapsed ? (
-              <div className="grid grid-cols-4 gap-1 w-full">
-                {tabs.map((t) => {
-                  const isActive = activeTab === t.id;
+              <div className="w-full">
+                {/* Console header: mono tag + section number + active title */}
+                <div className="flex items-start justify-between mb-3">
+                  <div className="min-w-0">
+                    <div
+                      className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.28em] text-slate-500 mb-1"
+                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      <span className={`w-1 h-1 rounded-full ${accentDot[activeTabMeta.accent]} animate-pulse`} />
+                      <span>Mission Console</span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span
+                        className={`text-xs tabular-nums ${accentText[activeTabMeta.accent]}`}
+                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                      >
+                        {activeTabMeta.index}
+                      </span>
+                      <span
+                        className="text-xl text-white leading-none"
+                        style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+                      >
+                        {activeTabMeta.label}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tab pill group */}
+                <div className="flex items-center gap-1 rounded-full border border-white/[0.07] bg-black/30 p-1">
+                  {tabs.map((tab) => {
+                    const isActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`group relative flex-1 min-h-[38px] flex items-center justify-center gap-1.5 rounded-full px-2 text-[11px] font-medium transition-all duration-300 ${
+                          isActive
+                            ? 'bg-white/[0.08] text-white shadow-[0_2px_12px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]'
+                            : 'text-slate-400 hover:text-slate-100'
+                        }`}
+                        title={`${tab.label} · press ${tab.shortcut}`}
+                        style={{ fontFamily: "'DM Sans', sans-serif" }}
+                      >
+                        <span className={isActive ? accentText[tab.accent] : 'text-slate-500 group-hover:text-slate-300'}>
+                          {tab.icon}
+                        </span>
+                        <span className="tracking-tight hidden sm:inline">{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Keyboard shortcut hint row (clean, below pills) */}
+                <div className="flex items-center justify-between mt-2 px-1">
+                  <div
+                    className="flex items-center gap-1 text-[9px] uppercase tracking-[0.22em] text-slate-500"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    <span>Keys</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {tabs.map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id)}
+                          title={tab.label}
+                          className={`h-5 min-w-[20px] px-1 flex items-center justify-center rounded border text-[10px] tabular-nums transition-all ${
+                            isActive
+                              ? `${accentText[tab.accent]} border-white/15 bg-white/[0.05]`
+                              : 'text-slate-500 border-white/[0.06] bg-transparent hover:text-slate-300 hover:border-white/15'
+                          }`}
+                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                        >
+                          {tab.shortcut}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-[60%] w-full flex-col items-center justify-evenly py-4">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.id;
                   return (
                     <button
-                      key={t.id}
+                      key={tab.id}
                       onClick={() => {
-                        setActiveTab(t.id);
+                        setActiveTab(tab.id);
+                        setPanelCollapsed(false);
                       }}
-                      className={`min-h-[46px] flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl text-xs font-semibold transition-all relative group ${
+                      className={`group relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 ${
                         isActive
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-[0_0_16px_rgba(6,182,212,0.25)]'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                          ? `bg-white/[0.08] ${accentText[tab.accent]} border border-white/10 shadow-md`
+                          : 'text-slate-400 hover:text-white'
                       }`}
-                      title={`${t.label} (Press ${t.shortcut})`}
+                      title={`${tab.label} · press ${tab.shortcut}`}
                     >
-                      <span className="mb-0.5">{t.icon}</span>
-                      <span className="text-[11px] tracking-tight">{t.label}</span>
+                      {tab.icon}
                       <span
-                        className={`text-[9px] font-mono px-1 rounded absolute top-1 right-1 transition-opacity ${
-                          isActive
-                            ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 opacity-100'
-                            : 'bg-black/40 text-slate-500 opacity-60 group-hover:opacity-100'
+                        className={`absolute -right-1 -bottom-1 h-4 w-4 flex items-center justify-center rounded-full border border-white/15 bg-[#060a14] text-[9px] tabular-nums ${
+                          isActive ? accentText[tab.accent] : 'text-slate-500'
                         }`}
+                        style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                       >
-                        {t.shortcut}
+                        {tab.shortcut}
                       </span>
                     </button>
                   );
                 })}
               </div>
-            ) : (
-              <div className="flex h-[60%] w-full flex-col items-center justify-evenly">
-                {tabs.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setActiveTab(t.id);
-                      setPanelCollapsed(false);
-                    }}
-                    className={`relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 ${
-                      activeTab === t.id
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-md'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                    title={`${t.label} (Press ${t.shortcut})`}
-                  >
-                    {t.icon}
-                    <span className="absolute -bottom-1 -right-1 text-[8px] font-mono px-1 rounded bg-black/70 border border-white/10 text-slate-500">
-                      {t.shortcut}
-                    </span>
-                  </button>
-                ))}
-              </div>
             )}
           </div>
 
+          {/* Hairline separator */}
+          {!panelCollapsed && (
+            <div className="shrink-0 h-px mx-4 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+          )}
+
           {/* Tab Content Body */}
           {!panelCollapsed && (
-            <div className="flex-1 overflow-y-auto px-4 py-4 custom-scrollbar">
+            <div
+              ref={panelBodyRef}
+              className="flex-1 overflow-y-auto px-5 py-5 custom-scrollbar"
+            >
               {activeTab === 'scenario' && <ScenarioTab />}
               {activeTab === 'results' && <ResultsTab />}
               {activeTab === 'compare' && <CompareTab />}
               {activeTab === 'evidence' && <EvidenceTab />}
             </div>
           )}
-
         </aside>
 
-        {/* Collapse edge handle — glides with the panel width */}
+        {/* Collapse edge handle */}
         <button
           onClick={() => {
             setPanelCollapsed(!panelCollapsed);
@@ -296,19 +463,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
           data-testid="panel-collapse-toggle"
           title={panelCollapsed ? 'Expand Panel' : 'Collapse Panel'}
           aria-label={panelCollapsed ? 'Expand Panel' : 'Collapse Panel'}
-          className={`hidden md:flex absolute top-1/2 -translate-y-1/2 z-30 h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-[#0b1018]/95 backdrop-blur text-slate-300 hover:text-white shadow-[0_4px_16px_rgba(0,0,0,0.5)] transition-[left,transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-110 hover:border-cyan-400/40 active:scale-95 ${
-            panelCollapsed ? 'left-[58px] sm:left-[62px]' : 'left-[334px] sm:left-[338px] lg:left-[408px]'
+          className={`hidden md:flex absolute top-1/2 -translate-y-1/2 z-30 h-7 w-7 items-center justify-center rounded-full border border-white/[0.1] bg-[#0a0e16]/95 backdrop-blur text-slate-300 hover:text-white shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-[left,transform,background-color,border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-110 hover:border-amber-300/40 active:scale-95 ${
+            panelCollapsed ? 'left-[58px] sm:left-[62px]' : 'left-[344px] sm:left-[348px] lg:left-[418px]'
           }`}
         >
           <ChevronLeft
-            className={`w-3.5 h-3.5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            className={`w-3.5 h-3.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
               panelCollapsed ? 'rotate-180' : ''
             }`}
           />
         </button>
 
-        {/* Center Map Stage (Floating Rounded Cockpit with Curved Edge Chamfers) */}
-        <main className="relative flex-1 w-full h-[calc(100vh-4.75rem)] my-2 sm:my-2.5 mr-2 sm:mr-3 ml-2 rounded-3xl overflow-hidden border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
+        {/* Center Map Stage */}
+        <main
+          data-mount
+          className="relative flex-1 w-full h-[calc(100vh-5rem)] my-3 mr-3 ml-2 rounded-2xl overflow-hidden"
+          style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
+          }}
+        >
           <MapView />
 
           {/* Floating Risk Legend (Desktop/Tablet top-left) */}
@@ -324,6 +498,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
                 <button
                   onClick={() => setShowMobileLegend(false)}
                   className="mt-1 w-full py-1.5 min-h-[44px] flex items-center justify-center bg-black/80 text-slate-300 rounded-lg text-xs border border-white/10 active:bg-white/10"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   {t('legend.dismiss')}
                 </button>
@@ -331,10 +506,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
             ) : (
               <button
                 onClick={() => setShowMobileLegend(true)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl glass-panel text-slate-300 hover:text-white border border-white/10 shadow-lg active:scale-95 transition-transform"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full bg-[#0a0e16]/90 text-slate-200 hover:text-white border border-white/10 backdrop-blur-xl shadow-[0_8px_24px_rgba(0,0,0,0.6)] active:scale-95 transition-transform"
                 title="View Map Legend"
               >
-                <Layers className="w-5 h-5 text-cyan-400" />
+                <Layers className="w-5 h-5 text-sky-300" />
               </button>
             )}
           </div>
@@ -352,26 +527,39 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
         {/* Phone 3-Position Bottom Sheet */}
         <div
           data-testid="mobile-bottom-sheet"
-          className={`md:hidden fixed inset-x-0 bottom-0 z-30 glass-panel-elevated rounded-t-3xl border-t border-white/20 transition-all duration-300 flex flex-col ${
+          className={`md:hidden fixed inset-x-0 bottom-0 z-30 rounded-t-3xl border-t border-white/[0.1] backdrop-blur-2xl transition-all duration-500 flex flex-col ${
             mobileSheetPos === 'peek'
               ? 'h-16 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]'
               : mobileSheetPos === 'half'
               ? 'h-[50vh] shadow-[0_-16px_50px_rgba(0,0,0,0.8)]'
               : 'h-[calc(100vh-3.5rem)] shadow-[0_-24px_80px_rgba(0,0,0,0.95)]'
           }`}
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(10,14,22,0.92) 0%, rgba(8,11,18,0.96) 100%)',
+          }}
         >
-          {/* Drag Handle & Position Indicator with Touch Gesture */}
+          {/* Drag Handle */}
           <div
             onTouchStart={handleSheetTouchStart}
             onTouchEnd={handleSheetTouchEnd}
             onClick={cycleMobileSheet}
             className="w-full flex flex-col items-center justify-center py-2.5 shrink-0 cursor-pointer select-none active:bg-white/5"
           >
-            <div className="w-12 h-1.5 bg-white/40 rounded-full mb-1.5" />
-            <div className="flex items-center justify-between w-full px-4 text-xs font-semibold text-slate-200">
-              <span className="flex items-center gap-1.5 text-cyan-300 capitalize">
+            <div className="w-12 h-1.5 bg-white/30 rounded-full mb-1.5" />
+            <div className="flex items-center justify-between w-full px-4 text-xs">
+              <span
+                className="flex items-center gap-1.5 text-amber-300/90"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}
+              >
                 <Sparkles className="w-3.5 h-3.5" />
-                {t(`tabs.${activeTab}`)} {t('tabs.panel_suffix')}
+                <span className="capitalize font-semibold text-slate-100">
+                  {t(`tabs.${activeTab}`)}
+                </span>
+                <span className="text-slate-500">·</span>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                  {t('tabs.panel_suffix')}
+                </span>
               </span>
               <div className="flex items-center gap-1">
                 {(['peek', 'half', 'full'] as MobileSheetPosition[]).map((pos) => (
@@ -381,11 +569,12 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
                       e.stopPropagation();
                       setMobileSheetPos(pos);
                     }}
-                    className={`min-h-[32px] px-2 py-0.5 rounded text-[10px] font-mono uppercase transition-all ${
+                    className={`min-h-[32px] px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider transition-all ${
                       mobileSheetPos === pos
-                        ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50'
+                        ? 'bg-white/[0.08] text-amber-200 border border-white/10'
                         : 'text-slate-500 hover:text-slate-300'
                     }`}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {pos}
                   </button>
@@ -395,24 +584,27 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
           </div>
 
           {/* Mobile Tabs Switcher */}
-          <div className="grid grid-cols-4 gap-1 px-3 py-1 border-y border-white/10 shrink-0 bg-white/[0.02]">
-            {tabs.map((t) => {
-              const isActive = activeTab === t.id;
+          <div className="flex items-center gap-1 mx-3 mb-1 rounded-full border border-white/[0.07] bg-black/30 p-1 shrink-0">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
               return (
                 <button
-                  key={t.id}
+                  key={tab.id}
                   onClick={() => {
-                    setActiveTab(t.id);
+                    setActiveTab(tab.id);
                     if (mobileSheetPos === 'peek') setMobileSheetPos('half');
                   }}
-                  className={`min-h-[44px] flex flex-col items-center justify-center py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`min-h-[40px] flex-1 flex items-center justify-center gap-1 rounded-full px-1.5 py-1.5 text-[11px] font-medium transition-all ${
                     isActive
-                      ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/50'
-                      : 'text-slate-400 active:bg-white/10'
+                      ? 'bg-white/[0.08] text-white shadow-[0_2px_10px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]'
+                      : 'text-slate-400 active:bg-white/5'
                   }`}
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
-                  <span className="mb-0.5">{t.icon}</span>
-                  <span className="text-[10px]">{t.label}</span>
+                  <span className={isActive ? 'text-amber-300' : 'text-slate-500'}>
+                    {tab.icon}
+                  </span>
+                  <span className="text-[10px] tracking-tight">{tab.label}</span>
                 </button>
               );
             })}
@@ -420,7 +612,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
 
           {/* Mobile Sheet Content */}
           {mobileSheetPos !== 'peek' && (
-            <div className="flex-1 overflow-y-auto px-4 py-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto px-5 py-5 custom-scrollbar">
               {activeTab === 'scenario' && <ScenarioTab />}
               {activeTab === 'results' && <ResultsTab />}
               {activeTab === 'compare' && <CompareTab />}

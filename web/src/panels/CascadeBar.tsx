@@ -130,41 +130,64 @@ export const CascadeBar: React.FC = () => {
     changes: [],
   };
 
+  const SERIF: React.CSSProperties = { fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 };
+  const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
+  const SANS: React.CSSProperties = { fontFamily: "'DM Sans', sans-serif" };
+
   return (
     <div className="fixed bottom-20 sm:bottom-6 left-2 right-2 sm:left-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-3xl sm:px-4 z-30 select-none pointer-events-auto">
-      {/* Floating Narration Card Above Bar */}
-      <div className="mb-2 glass-panel-elevated p-3 rounded-xl border border-cyan-500/30 shadow-[0_12px_40px_rgba(0,0,0,0.85)] flex items-start justify-between gap-3 animate-in fade-in slide-in-from-bottom-2 duration-200">
-        <div className="flex items-start gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-mono font-bold text-xs flex items-center justify-center shrink-0">
-            D{cascade.step}
+      {/* Narration Card */}
+      <div
+        className="mb-2 flex items-start justify-between gap-3 rounded-2xl border border-white/[0.08] bg-[#0a0e16]/90 p-3.5 backdrop-blur-xl shadow-[0_18px_60px_rgba(0,0,0,0.75)] animate-in fade-in slide-in-from-bottom-2 duration-200"
+      >
+        <div className="flex items-start gap-3 min-w-0">
+          <div
+            className="w-9 h-9 rounded-xl bg-amber-500/[0.08] border border-amber-300/25 text-amber-200 flex items-center justify-center shrink-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+            style={MONO}
+          >
+            <span className="text-[10px] uppercase tracking-wider">D</span>
+            <span className="text-sm font-bold -ml-0.5">{cascade.step}</span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-white">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span
+                className="text-base text-white leading-tight"
+                style={SERIF}
+              >
                 {activeStepData.day_label}
               </span>
-              <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-800/40">
+              <span
+                className="text-[10px] uppercase tracking-[0.18em] text-sky-300 bg-sky-500/[0.08] px-2 py-0.5 rounded-full border border-sky-400/20"
+                style={MONO}
+              >
                 {activeStepData.rain_cumulative_mm.toFixed(1)} {t('cascade.cumulative')}
               </span>
               {!cascade.playing && cascade.step >= cascade.n_steps && (
-                <span className="text-[10px] font-mono text-emerald-300 bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-700/40">
-                  Full replay complete — {cascade.n_steps}/{cascade.n_steps} days
+                <span
+                  className="text-[10px] uppercase tracking-[0.18em] text-emerald-300 bg-emerald-500/[0.08] px-2 py-0.5 rounded-full border border-emerald-400/20"
+                  style={MONO}
+                >
+                  Complete — {cascade.n_steps}/{cascade.n_steps}
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-300 mt-0.5 leading-snug">
+            <p
+              className="text-[12px] text-slate-400 mt-1 leading-relaxed"
+              style={SANS}
+            >
               {activeStepData.narration}
             </p>
           </div>
         </div>
 
-        {/* Dynamic Facility Rank Shift Chips */}
+        {/* Rank Shift Chips */}
         {activeStepData.changes && activeStepData.changes.length > 0 && (
-          <div className="hidden sm:flex flex-col items-end gap-1 shrink-0 font-mono text-[10px]">
+          <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
             {activeStepData.changes.slice(0, 2).map((ch, i) => (
               <span
                 key={i}
-                className="px-2 py-0.5 rounded bg-rose-950/80 border border-rose-500/40 text-rose-300"
+                className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-rose-500/[0.08] border border-rose-400/25 text-rose-300"
+                style={MONO}
               >
                 {ch.facility_id}: R{ch.rank_before} → R{ch.rank_after}
               </span>
@@ -173,10 +196,12 @@ export const CascadeBar: React.FC = () => {
         )}
       </div>
 
-      {/* Main Cascade Scrub & Controls Bar */}
-      <div className="glass-panel-elevated rounded-2xl p-2.5 sm:p-3 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.9)] flex items-center justify-between gap-3 sm:gap-4">
+      {/* Main Cascade Scrub Bar */}
+      <div
+        className="flex items-center justify-between gap-3 sm:gap-4 rounded-full border border-white/[0.08] bg-[#0a0e16]/90 p-2 pr-3 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.85)]"
+      >
         {/* Play/Pause & Speed */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => {
               if (!cascade.playing && cascade.step >= cascade.n_steps) {
@@ -185,10 +210,14 @@ export const CascadeBar: React.FC = () => {
                 setCascadeState({ playing: !cascade.playing });
               }
             }}
-            className="min-h-[44px] min-w-[44px] rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center font-bold shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all active:scale-95"
+            className="min-h-[40px] min-w-[40px] rounded-full bg-white text-slate-900 flex items-center justify-center shadow-[0_6px_18px_rgba(255,255,255,0.14)] transition-all hover:scale-105 hover:bg-amber-50 active:scale-95"
             title={cascade.playing ? t('cascade.pause') : t('cascade.play')}
           >
-            {cascade.playing ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+            {cascade.playing ? (
+              <Pause className="w-4 h-4 fill-current text-amber-600" />
+            ) : (
+              <Play className="w-4 h-4 fill-current ml-0.5 text-amber-600" />
+            )}
           </button>
 
           <button
@@ -197,16 +226,20 @@ export const CascadeBar: React.FC = () => {
                 cascade.speedMs >= 5000 ? 2000 : cascade.speedMs >= 2000 ? 8000 : 5000;
               setCascadeState({ speedMs: nextSpeed });
             }}
-            className="min-h-[44px] px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-mono text-xs border border-white/10 transition-colors flex items-center justify-center"
+            className="min-h-[36px] px-2.5 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] text-slate-300 text-[11px] hover:border-white/20 hover:bg-white/[0.06] transition-all"
+            style={MONO}
             title="Toggle Playback Speed (seconds per day)"
           >
             {cascade.speedMs / 1000}s
           </button>
         </div>
 
-        {/* Step Slider (1 to N) with Micro-Feedback Audio Ticks */}
-        <div className="flex-1 flex items-center gap-2 sm:gap-3">
-          <span className="text-[11px] sm:text-xs font-mono font-bold text-slate-300 whitespace-nowrap">
+        {/* Step readout + slider + quick jump */}
+        <div className="flex-1 flex items-center gap-2 sm:gap-3 min-w-0">
+          <span
+            className="text-[10px] uppercase tracking-[0.18em] text-slate-500 whitespace-nowrap"
+            style={MONO}
+          >
             {t('cascade.step_prefix')} {cascade.step}/{cascade.n_steps}
           </span>
           <input
@@ -218,10 +251,9 @@ export const CascadeBar: React.FC = () => {
             onChange={(e) => {
               setCascadeState({ step: Number(e.target.value) });
             }}
-            className="w-full accent-cyan-400 cursor-pointer h-3 sm:h-2 bg-slate-800 rounded-lg appearance-none py-2"
+            className="w-full accent-amber-300 cursor-pointer h-2 bg-slate-800/80 rounded-full appearance-none"
           />
 
-          {/* Quick Step Buttons for Zero-Latency Scrubbing & E2E */}
           <div className="flex items-center gap-1 shrink-0">
             {Array.from({ length: cascade.n_steps }, (_, idx) => idx + 1).map((s) => (
               <button
@@ -229,11 +261,12 @@ export const CascadeBar: React.FC = () => {
                 onClick={() => {
                   setCascadeState({ step: s });
                 }}
-                className={`min-h-[28px] min-w-[28px] rounded-lg font-mono text-[11px] transition-all flex items-center justify-center ${
+                className={`min-h-[26px] min-w-[26px] rounded-full text-[11px] transition-all flex items-center justify-center ${
                   cascade.step === s
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
-                    : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
+                    ? 'bg-amber-300/20 text-amber-200 border border-amber-300/40'
+                    : 'bg-white/[0.03] text-slate-500 border border-white/[0.06] hover:text-slate-200 hover:border-white/15'
                 }`}
+                style={MONO}
                 aria-label={`Jump to Step ${s}`}
                 title={`Jump to Step ${s}`}
               >
@@ -243,15 +276,15 @@ export const CascadeBar: React.FC = () => {
           </div>
         </div>
 
-        {/* Exit Cascade */}
+        {/* Exit */}
         <button
           onClick={() => {
             resetCascade();
           }}
-          className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+          className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/20 transition-all"
           title="Exit Cascade Replay"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>
