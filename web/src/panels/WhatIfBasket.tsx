@@ -58,9 +58,9 @@ export const WhatIfBasket: React.FC = () => {
     <div
       className={`fixed ${
         hasRightDrawer
-          ? 'top-16 sm:top-auto sm:bottom-24 left-3 sm:left-auto sm:right-[412px] sm:w-80'
+          ? 'bottom-20 sm:bottom-24 left-3 sm:left-auto right-3 sm:right-4 xl:right-[412px] sm:w-80'
           : 'bottom-20 sm:bottom-24 right-3 sm:right-4 left-3 sm:left-auto sm:w-80'
-      } glass-panel-elevated rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 z-50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-6`}
+      } glass-panel-elevated rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] border border-white/15 z-50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-6`}
     >
       {/* Header */}
       <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10">

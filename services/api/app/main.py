@@ -485,8 +485,13 @@ PRESET_SCENARIOS: Dict[str, Dict[str, Any]] = {
 @app.get("/results/{cache_key}")
 async def get_result_summary(cache_key: str):
     cached = await db.get_cached_result(cache_key)
+    # Evict legacy stale mock records that returned 15750
+    if cached and cached.get("region_totals", {}).get("people_cut_off", {}).get("mean") == 15750.0:
+        cached = None
+
     if cached:
         return cached
+
     if cache_key in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
         summary["execution_mode"] = "precomputed_demo"
@@ -501,6 +506,9 @@ async def get_result_summary(cache_key: str):
 @app.get("/results/{cache_key}/segments")
 async def get_result_segments(cache_key: str):
     cached = await db.get_cached_result(cache_key)
+    if cached and cached.get("region_totals", {}).get("people_cut_off", {}).get("mean") == 15750.0:
+        cached = None
+
     if not cached and cache_key in PRESET_SCENARIOS:
         summary, segments = generate_dynamic_simulation(PRESET_SCENARIOS[cache_key], cache_key)
         summary["execution_mode"] = "precomputed_demo"

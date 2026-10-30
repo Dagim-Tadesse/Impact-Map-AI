@@ -165,6 +165,14 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({ onOpenAbout, onGoHom
     );
   }, [activeTab]);
 
+  // Auto-collapse left console on compressed screens when inspecting a segment or facility
+  useEffect(() => {
+    const hasRightDrawer = Boolean(selectedFacilityId || selectedSegmentId || selectedCommunityId);
+    if (hasRightDrawer && typeof window !== 'undefined' && window.innerWidth < 1280 && !panelCollapsed) {
+      setPanelCollapsed(true);
+    }
+  }, [selectedFacilityId, selectedSegmentId, selectedCommunityId]);
+
   // Touch Swipe Gesture Tracking for Mobile Bottom Sheet
   const touchStartY = useRef<number | null>(null);
 

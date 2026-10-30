@@ -39,6 +39,7 @@ export const MapView: React.FC = () => {
     currentCacheKey,
     is3DView,
     toggle3DView,
+    activeTab,
     setActiveTab,
   } = useAppStore();
 
@@ -924,8 +925,8 @@ export const MapView: React.FC = () => {
         </div>
       </div>
 
-      {/* Floating Real-Time Telemetry HUD Ticker (Bottom Left on Map) */}
-      {resultSummary && (
+      {/* Floating Real-Time Telemetry HUD Ticker (Only show when Results tab is NOT open and no drawer is covering the map) */}
+      {resultSummary && activeTab !== 'results' && !selectedFacilityId && !selectedSegmentId && !selectedCommunityId && (
         <div className="absolute bottom-6 left-4 z-20 max-w-xs sm:max-w-sm glass-panel p-3.5 rounded-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl animate-fade-in flex flex-col gap-2.5">
           <div className="flex items-center justify-between border-b border-white/10 pb-2">
             <div className="flex items-center gap-2">

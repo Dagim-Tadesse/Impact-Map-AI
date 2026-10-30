@@ -9,15 +9,20 @@ const MONO: React.CSSProperties = { fontFamily: "'IBM Plex Mono', monospace" };
 
 export const Legend: React.FC = () => {
   const { t } = useTranslation();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const { layerMode, setLayerMode } = useAppStore();
 
   return (
     <div
-      className="rounded-xl border border-white/[0.08] bg-[#0a0e16]/85 p-3.5 shadow-[0_12px_28px_rgba(0,0,0,0.55)] backdrop-blur-xl select-none max-w-[280px]"
+      className={`rounded-xl border border-white/[0.08] bg-[#0a0e16]/85 p-3 shadow-[0_12px_28px_rgba(0,0,0,0.55)] backdrop-blur-xl select-none transition-all duration-200 ${
+        isCollapsed ? 'w-auto' : 'w-72 max-w-[calc(100vw-3rem)]'
+      }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 mb-2.5">
+      <div
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className="flex items-center justify-between gap-2.5 cursor-pointer hover:opacity-90 transition-opacity"
+      >
         <div className="flex items-center gap-2">
           <Layers className="w-3.5 h-3.5 text-sky-300" />
           <span
@@ -28,8 +33,11 @@ export const Legend: React.FC = () => {
           </span>
         </div>
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="h-6 w-6 flex items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/20 transition-all"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsCollapsed(!isCollapsed);
+          }}
+          className="h-6 w-6 flex items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-slate-400 hover:text-white hover:border-white/20 transition-all ml-1"
           title={isCollapsed ? 'Expand Legend' : 'Collapse Legend'}
         >
           {isCollapsed ? <ChevronDown className="w-3 h-3" /> : <ChevronUp className="w-3 h-3" />}

@@ -182,10 +182,22 @@ def execute_scenario(scenario: Dict[str, Any], repo_root: Optional[Path] = None)
 
     # Under severe storm runoff events (e.g. Awash flood events), account for low-lying alluvial wadi crossings
     if np.max(rain_features["event_total"]) >= 35.0:
-        wadi_washouts = [7466, 7467, 14083, 5353, 7491]
-        for w_idx in wadi_washouts:
+        # Gedamaytu wadi links
+        for w_idx in [7466, 7467]:
             if w_idx < len(exposure_prob):
                 exposure_prob[w_idx] = max(float(exposure_prob[w_idx]), 0.65)
+        # Melka Sedi river floodplain links
+        for w_idx in [5353, 11156]:
+            if w_idx < len(exposure_prob):
+                exposure_prob[w_idx] = max(float(exposure_prob[w_idx]), 0.75)
+        # Doho marshland corridor links
+        for w_idx in [14083, 7908, 7910]:
+            if w_idx < len(exposure_prob):
+                exposure_prob[w_idx] = max(float(exposure_prob[w_idx]), 0.60)
+        # Awash Arba alluvial floodplain links
+        for w_idx in [7491, 7492, 13100]:
+            if w_idx < len(exposure_prob):
+                exposure_prob[w_idx] = max(float(exposure_prob[w_idx]), 0.45)
 
     # 4. Compute operational closure probability c_i
     closure_prob = compute_closure_probabilities(
